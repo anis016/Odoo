@@ -1,0 +1,14 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_product_product,product.product.user,product.model_product_product,insurance_proposal.group_insurance_user,1,1,1,0
+access_insurance_folio,insurance.folio.user,model_insurance_folio,insurance_proposal.group_insurance_user,1,1,1,0
+access_insurance_folio_line,insurance.line.user,model_insurance_folio_line,insurance_proposal.group_insurance_user,1,1,1,0
+access_insurance_order_user,insurance.order.user,sale.model_sale_order,insurance_proposal.group_insurance_user,1,1,1,0
+access_insurance_order_line_user,insurance.order.line.user,sale.model_sale_order_line,insurance_proposal.group_insurance_user,1,1,1,0
+access_insurance_invoice_user,account.invoice.user,account.model_account_invoice,insurance_proposal.group_insurance_user,1,1,1,0
+access_product_category_manager,product.category.manager,product.model_product_category,insurance_proposal.group_insurance_manager,1,1,1,1
+access_product_product_manager,product.product.manager,product.model_product_product,insurance_proposal.group_insurance_manager,1,1,1,1
+access_insurance_folio_manager,insurance.folio.manager,model_insurance_folio,insurance_proposal.group_insurance_manager,1,1,1,1
+access_insurance_folio_line_manager,insurance.line.manager,model_insurance_folio_line,insurance_proposal.group_insurance_manager,1,1,1,1
+access_insurance_order_manager_manager,insurance.order.manager,sale.model_sale_order,insurance_proposal.group_insurance_manager,1,1,1,1
+access_insurance_order_line_manager,insurance.order.line.manager,sale.model_sale_order_line,insurance_proposal.group_insurance_manager,1,1,1,0
+access_insurance_invoice_manager,account.invoice.manager,account.model_account_invoice,insurance_proposal.group_insurance_manager,1,1,1,1

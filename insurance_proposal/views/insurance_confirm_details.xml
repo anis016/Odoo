@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <record id="view_insurance_enter_transfer_details" model="ir.ui.view">
+            <field name="name">Enter transfer details</field>
+            <field name="model">insurance.confirm_details</field>
+            <field name="arch" type="xml">
+                <form string="Transfer details" >
+                    <group string="Final Proposal">
+                    </group>
+                    <group>
+                        <field name="item_ids" nolabel="1">
+                            <tree string="Details" editable="bottom" >
+                                <field name="company_id"/>
+                                <field name="amount"/>
+                            </tree>
+                        </field>
+
+                    </group>
+                    <group string="Service">
+                        <field name="product_id"/>
+                    </group>
+
+                    <footer>
+                        <button name="confirm_details" string="_Apply" type="object" class="oe_highlight"/>
+                        or
+                        <button string="_Cancel" class="oe_link" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+    </data>
+</openerp>

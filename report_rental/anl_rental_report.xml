@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+    	<report
+            id="anl_agreement_report_id"
+            model="hotel.reservation"
+            string="Anl Rental Agreement"
+            report_type="qweb-pdf"
+            name="report_rental.report_anl_agreement"
+            file="report_rental.report_anl_agreement"
+        />
+
+        <report
+            id="anl_rental_report_id"
+            model="hotel.reservation"
+            string="Anl Rental Quotation"
+            report_type="qweb-pdf"
+            name="report_rental.report_anl_quotation"
+            file="report_rental.report_anl_quotation"
+        />
+
+        <report
+            id="anl_invoice_report_id"
+            model="hotel.folio"
+            string="Anl Rental Invoice"
+            report_type="qweb-pdf"
+            name="report_rental.report_anl_invoice"
+            file="report_rental.report_anl_invoice"
+        />
+    </data>
+</openerp>

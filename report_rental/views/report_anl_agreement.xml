@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+
+<template id="report.style" name="style">
+    <style type="text/css">
+        body {
+            color: #000 !important;
+        }
+        .cush {
+            font-size: 22px;
+            color: black;
+            font-weight: 900;
+        }
+        .underline {
+            display: inline-block;
+            padding: 0 10px;
+            width: 50px;
+            border-bottom: 1px dotted #888;
+        }
+        .centered-text {
+            text-align: center;
+        }
+        .cusb {
+            font-size: 18px;
+        }
+        .right-text {
+            text-align: right;
+        }
+        <!-- More of CUSTOM CSS here -->
+    </style>
+</template>
+
+<template id="report_anl_agreement_header">
+    <div class="header">
+        <div class="row">
+            <div class="col-xs-12 text-center">
+                <p class="cush" t-field="o.warehouse_id.name"></p>
+                <p><span t-field="o.warehouse_id.partner_id.street"/> <span t-field="o.warehouse_id.partner_id.street2"/>
+              Tel: <span t-field="o.warehouse_id.partner_id.phone"/> Fax: <span t-field="o.warehouse_id.partner_id.fax"/> <br/>
+              Website: <span t-field="o.warehouse_id.partner_id.website"/> Email: <span t-field="o.warehouse_id.partner_id.email"/> <br/>
+              UEN No.: <span t-field="o.warehouse_id.partner_id.nea_license"/> </p>
+            </div>
+         </div>
+    </div>
+
+    <div class="footer">
+    </div>
+
+</template>
+
+<template id="report_anl_agreement_body">
+    <t t-call="report_rental.report_anl_agreement_header" />
+
+    <t t-call="report.external_layout">
+        <div class="page">
+            <div class="oe_structure"/>
+            <div class="row">
+                <div class="col-xs-6">
+                    <div class="col-xs-offset-5">
+                        <br/>
+                        <span class="cusb right-text">VEH NO.: <span t-field="o.folio_id.room_lines.product_id"/></span>
+                    </div>
+                    RENT TO:
+                </div>
+                <div class="col-xs-6">
+                    <div class="col-xs-offset-6">
+                        <span class="cusb right-text">Rental Agreement</span> <br/>
+                        <span class="cusb right-text">NO. <span t-field="o.reservation_no"/></span> <br/>
+                        Date: <span t-esc="time.strftime('%d/%m/%Y',time.strptime(o.date_order,'%Y-%m-%d %H:%M:%S'))"/> <br/>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <table class="table table-striped table-bordered">
+                    <thead>
+                        <th>PARTICULARS</th>
+                        <th>HIRER</th>
+                        <th>Driver's Particulars:</th>
+                        <td>Passing Date </td>
+                        <td>PassingDate-XXX</td>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>NAME</td>
+                            <td><span t-field="o.partner_id" /> </td>
+                            <td>
+                                <span t-if="o.partner_id.child_ids" >
+                                    <span t-field="o.partner_id.child_ids[0].name"/>
+                                </span>
+
+                                <span t-if="o.partner_id.function" >
+                                    <span t-field="o.partner_id.name"/>
+                                </span>
+                            </td>
+                            <td>Class Of license</td>
+                            <td>Claslicense-XXXX</td>
+                        </tr>
+                        <tr>
+                            <td>ADDRESS</td>
+                            <td><span t-field="o.partner_id.street"  /> <br/>
+                            </td>
+                            <td>
+                                <span t-if="o.partner_id.child_ids" >
+                                    <span t-field="o.partner_id.child_ids[0].street"  /> <br/>
+                                </span>
+                                <span t-if="o.partner_id.function" >
+                                    <span t-field="o.partner_id.street"  />
+                                </span>
+                            </td>
+                            <td>Purpose of Use</td>
+                            <td>purposeofuse-XXXX</td>
+                        </tr>
+                        <tr>
+                            <td><![CDATA[&nbsp;]]></td>
+                            <td><span t-field="o.partner_id.street2" /> <br/>
+                                <span t-field="o.partner_id.zip" />
+                                <span t-field="o.partner_id.city" /> <br/>
+                            </td>
+                            <td>
+                                <span t-if="o.partner_id.child_ids" >
+                                    <span t-field="o.partner_id.child_ids[0].street2" /> <br/>
+                                    <span t-field="o.partner_id.child_ids[0].zip" />
+                                    <span t-field="o.partner_id.child_ids[0].city" /> <br/>
+                                </span>
+                                <span t-if="o.partner_id.function" >
+                                    <span t-field="o.partner_id.street2" /> <br/>
+                                    <span t-field="o.partner_id.zip" />
+                                    <span t-field="o.partner_id.city" /> <br/>
+                                </span>
+                            </td>
+                            <td>Vehicle make &amp; model</td>
+                            <td>makemodel-XXXX</td>
+                        </tr>
+                        <tr>
+                            <td>TEL. NO.</td>
+                            <td><span t-field="o.partner_id.phone" /></td>
+                            <td>
+                                <span t-if="o.partner_id.child_ids" >
+                                    <span t-field="o.partner_id.child_ids[0].phone" />
+                                </span>
+                                <span t-if="o.partner_id.function" >
+                                    <span t-field="o.partner_id.phone"  />
+                                </span>
+                            </td>
+                            <td>Agreed Period</td>
+                            <td>period-XXXX</td>
+                        </tr>
+                        <tr>
+                            <td>PASSPORT/NRIC NO.</td>
+                            <td>Company-PASSPORT/NRIC NO.</td>
+                            <td>
+                                <span t-if="o.partner_id.child_ids" >
+                                    Driver-PASSPORT/NRIC NO.
+                                    <!-- <span t-field="o.partner_id.child_ids[0]." /> -->
+                                </span>
+                                <span t-if="o.partner_id.function" >
+                                    Driver-PASSPORT/NRIC NO.
+                                    <!-- <span t-field="o.partner_id."  /> -->
+                                </span>
+                            </td>
+                            <td>Date And Time OUT:</td>
+                            <td>datetimeout-XXXX</td>
+                        </tr>
+                        <tr>
+                            <td>DATE OF BIRTH</td>
+                            <td>Company-Date of Birth</td>
+                            <td>
+                                <span t-if="o.partner_id.child_ids" >
+                                    Driver-Date of Birth
+                                    <!-- <span t-field="o.partner_id.child_ids[0]." /> -->
+                                </span>
+                                <span t-if="o.partner_id.function" >
+                                    Driver-Date of Birth
+                                    <!-- <span t-field="o.partner_id."  /> -->
+                                </span>
+                            </td>
+                            <td>Date And Time IN:</td>
+                            <td>datetimein-XXXX</td>
+                        </tr>
+                        <tr>
+                            <td>
+                            	<span t-if="o.date_select and o.date_select == 'day'">
+                                	<span t-field="o.date_length" />
+                                </span>
+                                Days @ $
+                                <span t-if="o.date_select and o.date_select == 'day'">
+                                	<span t-field="o.folio_id.amount_total" />
+                                </span>  
+                            </td>
+                            <td>
+                            	$: <span t-if="o.date_select and o.date_select == 'day'">
+                            				<span t-esc="get_dollar(o.folio_id.amount_total)" />
+                            		   </span>
+                            	c: <span t-if="o.date_select and o.date_select == 'day'">
+                            			  <span t-esc="get_cent(o.folio_id.amount_total)" />
+                            		 </span>
+                            </td>
+                            <td>
+                            	Deposits @ $ XXXXXXXXXX
+                            </td>
+                            <td>Balance Payable/Deposit Refundable: </td>
+                            <td>XXXXXXXXXXX </td>
+                        </tr>
+                        <tr>
+                            <td>
+                            	<span t-if="o.date_select and o.date_select == 'week'">
+                                	<span t-field="o.date_length" />
+                                </span>
+                                Weeks @ $
+                                <span t-if="o.date_select and o.date_select == 'week'">
+                                	<span t-field="o.folio_id.amount_total" />
+                                </span>  
+                            </td>
+                            <td>
+                            	$: <span t-if="o.date_select and o.date_select == 'week'">
+                            				<span t-esc="get_dollar(o.folio_id.amount_total)" />
+                            		   </span>
+                            	c: <span t-if="o.date_select and o.date_select == 'week'">
+                            			  <span t-esc="get_cent(o.folio_id.amount_total)" />
+                            		 </span>
+                            </td>
+                            <td>
+                            	Total @ $ XXXXXXXXXX
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span t-if="o.date_select and o.date_select == 'month'">
+                                	<span t-field="o.date_length" />
+                                </span>
+                                Months @ $
+                                <span t-if="o.date_select and o.date_select == 'month'">
+                                	<span t-field="o.folio_id.amount_total" />
+                                </span>  
+                            </td>
+                            <td>
+                            	$: <span t-if="o.date_select and o.date_select == 'month'">
+                            				<span t-esc="get_dollar(o.folio_id.amount_total)" />
+                            		   </span>
+                            	c: <span t-if="o.date_select and o.date_select == 'month'">
+                            			  <span t-esc="get_cent(o.folio_id.amount_total)" />
+                            		 </span>
+                            </td>
+                            <td rowspan="2" >
+                            	Remarks (if any) (note???)
+                            </td>
+                            <td>Refunded/Received Cash/Cheque No.: </td>
+                            <td>XXXXXXXXXXX </td>
+                        </tr>
+                        
+                    </tbody>
+                </table>
+                <div class="row">
+                	<div class="col-xs-offset-8">
+                		<strong>____________________________</strong><br/>
+                        <strong class="text-left">Recipients Signature</strong><br/>
+                	</div>
+                </div>
+            </div>
+            <br/>
+            <div>
+            	<ul>
+            		<li>A &amp; L Leasing PTE LTD shall not be responsible for any loss or expenses if its vehicle breaks down mechanically or accidentally.</li>
+            		<li>Vehicle must be returned in a clean condition or min $100.00 will be charged for maintenance.</li>
+            		<li>Hirer shall be responsible for any losses and expenses if vehicle is towed back after expiration of the agreed period and a $500.00 towing fee will be charged.</li>
+            		<li><b>Please check water &amp; engine oil daily.</b></li>
+            		<li>At all time the vehicle found without sufficient oil and radiator water, the deposit will be forfieted and hirer had to pay the full amount for cots of repair and loss of use.</li>
+            		<li>Engine &amp; gear box oil should be changed before the mileage exceeded. Mileage limit is stated on the wind screen. A fine of $500 may be imposed if failure to do so </li>
+            		<li>Vehicle shall be operated by the hirer and authorised driver named above.</li>
+            		<li>Hirer and his authorised driver jointly and severally declare that the vehicle will not be used for any unlawful purpose is (smuggling cigarettes) which will result in its forfeiture by the relevant authorities. When this happens the hirer guarantor and his authorized driver will to A&amp;L LEASING PTE LTD the full value of the vehicle at the time of the loss inlcuding all hire charges and expenses payable to A&amp;L LEASING PTE LTD.</li>
+            		<li>It is essential that the vehicle be returned to us not later than the date and time stated above. On the expiration of that period all third party or the insurance cover ceases to be effective. The rented vehicle shall be considered lost or stolen of it is not returned within twenty-found(24) hours after the expiry date and time.</li>
+            	</ul>
+            </div>
+            <div>
+            <strong>Insurance Coverage: XXXXXXX </strong>
+            	<ul>
+            		<li>Driver's age <u><b>23</b></u> to <u><b>65</b></u> &amp; Driving Experience above 2 years. Insurance Excess $ XXXXXXXXX </li>
+            		<li>Young &amp; Inexperience Driver age between <u><b>23</b></u> to <u><b>26</b></u> years old and work permit/S pass holder. Insurance Excess Additional S$ XXXXXXX </li>
+            		<li>For drivers aged between <u><b>66</b></u> to <u><b>69</b></u> &amp; with more than 1 year Driving Experience. Insurance Excess Additional S$ XXXXXXXXX </li>
+            		<li>Vehicle driven outside Singapore. Insurance Excess Additional S$ XXXXXXXX Excess Amount had to make in full on the accident reporting date Hirer. Guarantor and Driver shall take full responsibility for any own damage, third party claim and loss of used for any invalid driving experience or age.</li>
+            		<li>The insurance is not covered if the hirer/driver did not report any accident within 24 Hours or insurance excess is not made to A&amp;L Automobile PTE LTD within 7 days.</li>
+            		<li>Upon late payment, 1.5% of interest rate will be imposed. Penalty will be imposed to hirers for early return of vehicles who are on contract basis. Penalty will be charged based on the return date until the contract end date.</li>
+            		<li>Extension of rental must be informed at least 3 working days in advance. For long term but non-contract basis customers return of vehicle must be inform at least 1 month before the return date.</li>
+            		<li>Insurance coverage: Drivers must be above 22 years old. Holding Singapore driving license more than 2 years. Hirers who breach the policy by allowing unqualified drivers to drive the vehicles will be reported to traffic police and will be responsible for all penalties and costs imposed. Fine of $100 will be imposed of we found out any unqualified drivers driving our vehicles. Hirers will needed to be responsible for any repair costs if vehicle damage or breakdown due to human fault.</li>
+            		<li>Please note that replacement vehicle is subject to availability.</li>
+            	</ul>
+            </div>
+            <div>
+            	<div class="col-xs-3">
+            		<strong>____________________</strong><br/>
+                    <strong>Hirer Signature</strong><br/>
+                    <strong>Name: XXXXXXX </strong><br/>
+                    <strong>NRIC: XXXXXXX </strong><br/>
+            	</div>
+            	<div class="col-xs-3">
+            		<strong>____________________</strong><br/>
+                    <strong>Drivers Signature</strong><br/>
+                    <strong>Name: XXXXXXX </strong><br/>
+                    <strong>NRIC: XXXXXXX </strong><br/>
+            	</div>
+            	<div class="col-xs-3">
+            		<strong>____________________</strong><br/>
+                    <strong>Gurantor's Signature</strong><br/>
+                    <strong>Name: XXXXXXX </strong><br/>
+                    <strong>NRIC: XXXXXXX </strong><br/>
+            	</div>
+            	<div class="col-xs-3">
+            		<strong>____________________</strong><br/>
+                    <strong>Attended By/Witness</strong><br/>
+                    <strong>Name: XXXXXXX </strong><br/>
+            	</div>
+            </div>
+        </div>
+    </t>
+</template>
+
+<template id="report_anl_agreement">
+    <t t-call="report.html_container">
+      <t t-foreach="doc_ids" t-as="doc_id">
+        <t t-raw="translate_doc(doc_id, doc_model, 'partner_id.lang', 'report_rental.report_anl_agreement_body')"/>
+      </t>
+    </t>
+</template>
+
+</data>
+</openerp>

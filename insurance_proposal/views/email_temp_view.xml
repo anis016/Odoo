@@ -1,0 +1,72 @@
+<openerp>
+    <data>
+        <!-- EDI related Email Templates menu -->
+        <record model="ir.actions.act_window" id="action_insurance_templates">
+            <field name="name">Email Templates</field>
+            <field name="res_model">email.template</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form,tree</field>
+            <field name="view_id" ref="email_template.email_template_tree" />
+            <field name="search_view_id" ref="email_template.view_email_template_search"/>
+            <field name="context" eval="{'search_default_model_id': ref('insurance_proposal.model_insurance_reservation')}"/>
+        </record>
+    </data>
+
+
+    <data noupdate="0">
+
+        <!--Email template for hotel reservation-->
+        <record id="email_template_insurance_reservation" model="email.template">
+            <field name="name">Proposal-Send by Email</field>
+            <field name="email_from">${(object.warehouse_id.partner_id.email or '')}</field>
+            <field name="subject">Insurance Proposal Detail</field>
+            <field name="email_to">${(object.partner_id.email or '')}</field>
+            <field name="model_id" ref="insurance_proposal.model_insurance_reservation"/>
+            <field name="auto_delete" eval="True"/>
+            <field name="body_html"><![CDATA[
+                <p>Hello <strong>${object.partner_id.name}</strong>,</p>
+                <p>On behalf of the <strong> A & L Automobile </strong>, we would like to express our gratitude to you for choosing our services.
+                   Please find all the details regarding the insurance proposal on Date <strong>${object.date_order}</strong> are listed below:
+                </p>
+                &nbsp;&nbsp;<strong>Details :</strong><br/>
+                <p style="border-left: 1px solid #8e0000; margin-left: 30px;">
+                &nbsp;&nbsp;Name Of Name      : <strong>${object.partner_id.name}</strong><br />
+                &nbsp;&nbsp;Policy Start Date : <strong>${object.policy_start}</strong><br />
+                &nbsp;&nbsp;Policy End Date   : <strong>${object.policy_end}</strong><br />
+                &nbsp;&nbsp;Proposal Number    : <strong>${object.proposal_no}</strong><br />
+                </p>
+                &nbsp;&nbsp;<strong>Insurance Companies Proposal :</strong><br/>
+                <br/>
+                <table border="1" cellpadding="4" style="margin-left: 30px;">
+                        <tr>
+                            <th>Company Name</th>
+                            <th>Amount(in $SGD)</th>
+                        </tr>
+                        %for line in object.reservation_line:
+                            
+                                <tr >
+                                    <td>${line.company_id.company_name}</td>
+                                    <td>${line.amount}</td>
+                                </tr>
+                            
+                        %endfor
+                </table>
+               <br />
+               <p>
+We would appreciate it if you could let us know which company policy you will take.
+We are sure that you will find our services satisfactory.
+               </p>
+               <br />
+<strong>Kind Regards<strong>,<br />
+<br />
+<strong>Vehicle Insurance Management Team <strong><br />
+[<strong>${object.warehouse_id.name}</strong>]<br />
+<strong>${object.warehouse_id.partner_id.street}</strong><br />
+<strong>${object.warehouse_id.partner_id.city}</strong>,<br />
+<strong>${object.warehouse_id.partner_id.country_id.name}</strong>,<br />
+<br />
+<strong>${object.warehouse_id.partner_id.website}</strong> <br />
+             ]]></field>
+        </record>
+    </data>
+</openerp>

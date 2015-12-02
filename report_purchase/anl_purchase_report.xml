@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <report
+            id="anl_sales_quotation_report_id"
+            model="purchase.order"
+            string="Anl Purchase Quotation"
+            report_type="qweb-pdf"
+            name="report_purchase.report_anl_quotation"
+            file="report_purchase.report_anl_quotation"
+        />
+
+        <report
+            id="anl_sales_agreement_report_id"
+            model="purchase.order"
+            string="Anl Purchase Agreement"
+            report_type="qweb-pdf"
+            name="report_purchase.report_anl_agreement"
+            file="report_purchase.report_anl_agreement"
+        />
+
+    </data>
+</openerp>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <report
+            id="anl_sales_quotation_report_id"
+            model="sale.order"
+            string="Anl Sales Quotation"
+            report_type="qweb-pdf"
+            name="report_sales.report_anl_quotation"
+            file="report_sales.report_anl_quotation"
+        />
+
+        <report
+            id="anl_sales_agreement_report_id"
+            model="hotel.reservation"
+            string="Anl Sales Agreement"
+            report_type="qweb-pdf"
+            name="report_sales.report_anl_agreement"
+            file="report_sales.report_anl_agreement"
+        />
+
+        <report
+            id="anl_sales_invoice_report_id"
+            model="account.invoice"
+            string="Anl Sales Invoice"
+            report_type="qweb-pdf"
+            name="report_sales.report_anl_invoice"
+            file="report_sales.report_anl_invoice"
+        />
+
+        <report
+            id="anl_sales_delivery_report_id"
+            model="stock.picking"
+            string="Anl Delivery Order"
+            report_type="qweb-pdf"
+            name="report_sales.report_anl_delivery"
+            file="report_sales.report_anl_delivery"
+        />
+
+    </data>
+</openerp>

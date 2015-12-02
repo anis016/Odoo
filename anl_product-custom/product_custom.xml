@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="view_product_custom_form" model="ir.ui.view">
+            <field name="name">res.product.custom.form.inherit</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@string='Information']" position="before">
+                    <page name="vehicle" string="Vehicle Information">
+                      <group colspan="4">
+                                   <group>
+                                       <field name="vehicle_no"/>
+                                       <field name="model"/>
+                                       <field name="engine_no"/>
+                                       <field name="chassis_no"/>
+                                   </group>
+                                   <group>
+                                       <field name="y_o_m"/>
+                                       <field name="reg_date"/>
+                                       <field name="coe_expiry"/>
+                                   </group>
+                                   <group>
+                                       <field name="parf"/>
+                                       <field name="non_parf"/>
+                                       <field name="company_reg"/>
+                                       <field name="no_of_transfer"/>
+                                       <field name="isvehicle"/>
+                                   </group>
+                               </group>
+                    </page>
+                </xpath>
+
+	        </field>
+
+	    </record>
+
+    </data>
+</openerp>

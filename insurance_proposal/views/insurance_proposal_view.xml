@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!--============================================================
+        Reservation
+        ============================================================ -->
+
+        <!-- Form view of insurance reservation -->
+        <record model="ir.ui.view" id="view_insurance_reservation_form">
+            <field name="name">insurance.reservation.form</field>
+            <field name="model">insurance.reservation</field>
+            <field name="arch" type="xml">
+                <form string="Insurance Proposal" >
+                    <header>
+                        <button name="action_for_insurance" type="object" string="Send by Email" states="draft" class="oe_highlight"/>
+                        <button name="action_for_confirm" string="Confirm" states="draft" type="object" class="oe_highlight"/>
+                        <button name="create_insurance_folio" string="Create Insurance/Invoice" type="object" states="confirm" class="oe_highlight"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <label string="Insurance Proposal No"/>
+                        <h1>
+                            <field name="proposal_no" class="oe_inline"/>
+                        </h1>
+                        <group>
+                            <group colspan="4" col="4">
+                                <field name="date_order" select="1"/>
+                                <field name="warehouse_id" select="1"/>
+                            </group>
+                            <separator/>
+                            <group colspan="4" col="4">
+                                <field name="partner_id" select="1" domain="[('customer','=',True)]"/>
+                                <field name="pricelist_id" col="2" invisible="1"/>
+                                <!-- <field name="partner_order_id" domain="[('parent_id','=',partner_id)]"/><newline/> -->
+                                <field name="partner_invoice_id" domain="[('parent_id','=',partner_id)]"/>
+                                <field name="partner_shipping_id" domain="[('parent_id','=',partner_id)]" invisible="1"/>
+                            </group>
+                            <group colspan="4" col="4">
+                                <field name="policy_start"/>
+                                <field name="date_select"/>
+                                <field name="date_length"/>
+                                <field name="policy_end"/>
+                                <field name="previous_insurer"/>
+                                <field name="ncd_entitlement"/>
+                                <field name="any_claim"/>
+                                <!-- <field name="adults"/>
+                                <field name="children"/> -->
+                            </group>
+                               <field name="dummy" invisible="True"/>
+                        </group>
+                        <separator string="Type and Details of Vehicle" colspan="4"/>
+                            <group colspan="4" col="4">
+                                <field name="coverage"/>
+                                <field name="finance"/>
+                            </group>
+                            <group colspan="4">
+                                <group>
+                                    <field name="vehicle_no"/>
+                                    <field name="vehicle"/>
+                                    <field name="vehicle_make"/>
+                                    <field name="vehicle_model"/>
+                                    <field name="vehicle_type"/>
+                                </group>
+                                <group>
+                                    <field name="parallal_import"/>
+                                    <field name="sum_insured"/>
+                                    <field name="reg_date"/>
+                                    <field name="y_o_m"/>
+                                    <field name="capacity"/>
+                                    <field name="seats"/>
+                                </group>
+                                <group>
+                                    <field name="laden_weight" attrs="{'invisible': [('vehicle', '!=', 'commercial')]}" />
+                                    <field name="unladen_weight" attrs="{'invisible': [('vehicle', '!=', 'commercial')]}"/>
+                                </group>
+                            </group>
+
+                        <notebook>
+                            <page string='Insurance Proposal from Different Companies'>
+                                <field name="reservation_line" colspan="4">
+                                    <form string="Insurance Companies Proposal">
+                                        <separator string="Select Companies &amp; Amount for Proposal"/>
+                                        <label for="company_id" string="Insurance Company"/>
+                                        <field name="company_id" />
+                                        <label for="amount" string="Amount"/>
+                                        <field name="amount" />
+                                    </form>
+                                    <tree string="Insurance Companies Proposal">
+                                        <field name="company_id" string="Insurance Company" />
+                                        <field name="amount"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <!-- <page string='History'>
+                                <field name= 'folio_id' readonly='1'/>
+                            </page> -->
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Tree view of hotel reservation -->
+        <record model="ir.ui.view" id="view_insurance_reservation_tree">
+            <field name="name">insurance.reservation.tree</field>
+            <field name="model">insurance.reservation</field>
+            <field name="arch" type="xml">
+                <tree string="Insurance Proposal" colors="blue:state == 'draft';gray:state == 'done'">
+                    <field name="proposal_no"/>
+                    <field name="partner_id" select="1"/>
+                    <field name="policy_start"/>
+                    <field name="policy_end"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Search view of hotel reservation -->
+        <record model="ir.ui.view" id="view_insurance_reservation_search">
+            <field name="name">insurance.reservation.search</field>
+            <field name="model">insurance.reservation</field>
+            <field name="arch" type="xml">
+                <search string="Insurance Proposal">
+                    <group string='Filters'>
+                        <filter icon="terp-document-new" domain="[('state','=','draft')]" string="Draft Proposal"/>
+                        <filter icon="terp-camera_test" domain="[('state','=','confirm')]" string="Confirm"/>
+                        <filter icon="terp-dialog-close" domain="[('state','=','cancel')]" string="Cancel"/>
+                        <filter icon="terp-check" domain="[('state','=','done')]" string="Done"/>
+                    </group>
+                    <field name="proposal_no"/>
+                    <field name="partner_id" select="1"/>
+                    <field name="policy_start"/>
+                    <field name="policy_end"/>
+                    <field name="state"/>
+                    <newline/>
+                    <group expand="0" string="Group By...">
+                        <filter name="partner_id" string="Customer Name" icon="terp-personal" domain="[]" context="{'group_by':'partner_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!--====================================================
+                                Insurance Company
+        ==================================================== -->
+    <!-- Form view of Insurance Company -->
+    <record model="ir.ui.view" id="view_insurance_company_form">
+            <field name="name">insurance.company.form</field>
+            <field name="model">insurance.company</field>
+            <field name="arch" type="xml">
+                <form string="Insurance Companies" >
+                 <sheet>
+                    <separator string="Insurance Company Details" colspan="4"/>
+                   <group>
+                    <field name="company_name" colspan="1"/>
+                    <field name="company_address" select="1"/>
+                   </group>
+                 </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Tree view of Insurance Company -->
+        <record model="ir.ui.view" id="view_insurance_company_tree">
+            <field name="name">insurance.company.tree</field>
+            <field name="model">insurance.company</field>
+            <field name="arch" type="xml">
+                <tree string="Insurance Companies">
+                    <field name="company_name" colspan="1"/>
+                    <field name="company_address" select="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Action of Insurance Company -->
+        <record model="ir.actions.act_window" id="open_insurance_company_form_tree">
+            <field name="name">Insurance Company</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">insurance.company</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem name="Insurance Company Setup"
+                  id="menu_open_insurance_company_form_tree"
+                  action="open_insurance_company_form_tree"
+                  parent="insurance_configuration_menu"
+                  sequence="7" />
+
+        <!-- Action of hotel reservation -->
+        <record model="ir.actions.act_window" id="action_insurance_reservation_tree_all">
+            <field name="name">Insurance Proposal</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">insurance.reservation</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="insurance_management_menu" name="AnL Insurance Management"/>
+        <menuitem  id="menu_insurance_reservation" name="Insurance Quote" parent="insurance_management_menu" sequence="1"/>
+        <menuitem id="insurance_configuration_menu" name="Configuration" parent="insurance_management_menu" sequence="6"/>
+
+        <menuitem name="Insurance Quotes"
+                  id="menu_action_insurance_reservation_tree_all"
+                  action="action_insurance_reservation_tree_all"
+                  parent="menu_insurance_reservation"
+                  sequence="3" />
+
+    </data>
+</openerp>

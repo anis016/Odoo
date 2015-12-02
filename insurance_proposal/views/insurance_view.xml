@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+
+  	   <!--========================================================
+                               Insurance Folio
+        ========================================================-->
+
+       <!-- Form view of hotel folio  -->
+       <record model="ir.ui.view" id="view_insurance_folio1_form">
+            <field name="name">insurance.folio.form</field>
+            <field name="model">insurance.folio</field>
+            <field name="arch" type="xml">
+                <form string="Insurance">
+                 <header>
+                     <button name="order_confirm" string="Confirm Invoicing" states="draft" icon="gtk-apply" class="oe_highlight"/>
+                     <button name="invoice_recreate" string="Recreate Invoice" states="invoice_except" icon="gtk-redo" class="oe_highlight"/>
+                     <button name="invoice_corrected" string="Invoice Corrected" states="invoice_except" icon="gtk-paste-v" class="oe_highlight"/>
+                     <button name="ship_recreate" string="Recreate Procurement" states="shipping_except" icon="gtk-redo" class="oe_highlight"/>
+                     <button name="ship_corrected" string="Procurement Corrected" states="shipping_except" icon="gtk-paste-v" class="oe_highlight"/>
+                     <button name="manual_invoice" states="manual" string="Create Invoice" icon="gtk-new" class="oe_highlight"/>
+                     <button name="ship_cancel" string="Cancel Invoicing" states="shipping_except" icon="gtk-cancel" class="oe_highlight oe_highlight" />
+                     <button name="action_cancel_draft" states="cancel" string="Set to Draft" type="object" icon="gtk-file" class="oe_highlight"/>
+                     <button name="action_cancel" string="Cancel Invoicing" states="manual,progress" type="object" icon="gtk-cancel" class="oe_highlight"/>
+                     <button name="cancel" string="Cancel Invoicing" states="draft" icon="gtk-cancel" class="oe_highlight"/>
+                     <button name="invoice_cancel" string="Cancel Invoicing" states="invoice_except" icon="gtk-cancel" class="oe_highlight"/>
+                     <field name="state" select="2" widget="statusbar" statusbar_visible="draft,sent,invoiced,done"/>
+                 </header>
+                  <sheet>
+                    <label string="Insurance Number"/>
+                    <h1>
+                     <field name="name" colspan="4"/>
+                    </h1>
+                    <group colspan="4" col="4">
+                        <field name="date_order"/>
+                        <field name="invoiced"/>
+                        <field name="warehouse_id" string="Company"/>
+                    </group>
+                    <notebook colspan="4">
+                        <page string="Details">
+                         <group colspan="4" col="4">
+                            <field name="partner_id"  string="Customer Name" required="1"/>
+                            <field name="partner_invoice_id"  domain="[('parent_id','=',partner_id)]"/>
+                            <field name="pricelist_id"  domain="[('type','=','sale')]" />
+                            <!-- <field name="project_id"/> -->
+                            <field name="partner_shipping_id" domain="[('parent_id','=',partner_id)]" invisible="1"/>
+                         </group>
+                            <newline/>
+                            <group colspan="4" col="4">
+                                <field name="policy_start"/>
+                                <field name="date_select"/>
+                                <field name="date_length"/>
+                                <field name="policy_end"/>
+                                <!-- <field name="duration"/> -->
+                            </group>
+                            <group>
+                                <label for="discount_method"/>
+                                <div>
+                                    <field name="discount_method" class="oe_inline"/>
+                                </div>
+                                 <label for="discount_amount"/>
+                                <div>
+                                    <field name="discount_amount" class="oe_inline"/>
+                                    <label string="%%"
+                                        attrs="{'invisible': [('discount_method', '!=', 'per')]}" class="oe_inline"/>
+
+                                </div>
+                                <field name="deposit" />
+                            </group>
+                            <separator string="Insurance Service" colspan="4"/>
+                            <field name="insurance_lines"  colspan="4" string="Service Line" default_get="{'policy_start': policy_start,'policy_end':policy_end}" nolabel="1">
+                                <form string="Service Line"  >
+                                    <notebook>
+                                        <page string="Service Line">
+                                            <group>
+                                                <field name="policy_start"/>
+                                                <field name="policy_end" />
+                                            <!-- <separator string="Automatic Declaration" colspan="4"/> -->
+                                                <field name="product_uom_qty" context="{'partner_id':parent.partner_id,'quantity':product_uom_qty,'pricelist':parent.pricelist_id,'uom':product_uom}"
+                                                invisible="1" on_change="product_id_change(parent.pricelist_id,product_id,product_uom_qty,product_uom,product_uos_qty,product_uos,name,parent.partner_id, False, False, parent.date_order)"/>
+                                                <field name="product_uom" string="Rent(UOM)" on_change="product_uom_change(parent.pricelist_id,product_id,product_uom_qty,product_uom,product_uos_qty,product_uos,name,parent.partner_id, False, False, parent.date_order)" invisible="1"/>
+                                                <field name="product_id" context="{'partner_id':parent.partner_id,'quantity':product_uom_qty,'pricelist':parent.pricelist_id,'uom':product_uom}"
+                                                colspan="4" select="1" string="Service" on_change="product_id_change(parent.pricelist_id,product_id,product_uom_qty,product_uom,product_uos_qty,product_uos,name,parent.partner_id, False, True, parent.date_order)" />
+                                            </group>
+                                            <separator string="Manual Description"
+                                                colspan="4" />
+                                            <field name="name" colspan="4" select="2" placeholder="---Description---"/>
+                                            <group>
+                                            <field name="price_unit" select="2" string="Price"/>
+                                            <field name="discount" invisible="1" />
+                                            <!-- <field name="discount" string="Discount"/> -->
+                                            <newline/>
+                                            <!-- <field name="tax_id" colspan="4" nolabel="1"/> -->
+                                            <separator string="States" colspan="4"/>
+                                            <field name="state" select="2"/>
+                                            <field name="invoiced" select="2"/>
+                                            </group>
+                                        </page>
+                                        <page string="Extra Info">
+                                            <group>
+                                            <field name="product_uos_qty"/>
+                                            <field name="product_uos"  />
+                                            <field name="address_allotment_id" select="2"/>
+                                            </group>
+                                        </page>
+                                        <page string="History">
+                                            <separator string="Invoice Lines" colspan="4"/>
+                                            <field name="invoice_lines" colspan="4" nolabel="1"/>
+                                        </page>
+                                    </notebook>
+                                </form>
+                                <tree string = "Booking Line">
+                                    <field name="name"/>
+                                    <field name="policy_start"/>
+                                    <field name="policy_end"/>
+                                    <field name="product_id" string="Service"/>
+                                    <!-- <field name="product_uom" string="Rent(UOM)"/> -->
+                                    <field name="price_unit" string="Price"/>
+                                    <field name="price_subtotal"/>
+                                    <field name="state"/>
+                                </tree>
+                            </field>
+
+                            <group colspan="2" class="oe_subtotal_footer oe_right">
+                                <field name="amount_untaxed" sum="Untaxed amount" widget='monetary' />
+                                <field name="discount_amt" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="deposit_amt" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="amount_tax" widget='monetary'/>
+                                   <div class="oe_subtotal_footer_separator oe_inline">
+                                    <label for="amount_total" />
+                                    <button name="button_dummy" string="Compute" states="draft" type="object" icon="terp-sale" class="oe_highlight"/>
+                                   </div>
+                                <field name="amount_total" nolabel="1" sum="Total amount" widget='monetary'/>
+                            </group>
+                           <div class="oe_clear"/>
+                        </page>
+                        <page string="Other data">
+                          <group>
+                            <field name="user_id"/>
+                            <field name="order_policy" invisible="1"/>
+                           <!--  <field name="hotel_policy" attrs="{'readonly':[('state','not in',('draft'))]}"/> -->
+                            <field name="client_order_ref" />
+                            <field name="ins_company" attrs="{'invisible':[('insurance_company','=',False)]}" />
+                            <field name="ins_amount" attrs="{'invisible':[('insurance_company','=',False)]}" />
+                            <field name="ins_company_new"  attrs="{'invisible':[('insurance_company','!=',False)]}" />
+                            <field name="ins_amount_new" attrs="{'invisible':[('insurance_company','!=',False)]}" />
+                            <field name="commision"/>
+                            <field name="insurance_company" invisible="1" />
+                          </group>
+                        </page>
+                        <page string="Make payment">
+                            <separator string="Related invoices" colspan="4"/>
+                            <field name="invoice_ids" colspan="4" nolabel="1"/>
+                        </page>
+                    </notebook>
+                 </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Tree view of hotel folio  -->
+        <record model="ir.ui.view" id="view_insurance_folio1_tree">
+            <field name="name">insurance.folio.tree</field>
+            <field name="model">insurance.folio</field>
+            <field name="arch" type="xml">
+                <tree string="Insurance" colors="blue:state == 'draft';gray:state == 'done'">
+                    <field name="policy_start" />
+                    <field name="policy_end" />
+                    <field name="name" select="1"/>
+                    <field name="partner_id"  select="1"/>
+                    <field name="date_order" select="1"/>
+                    <field name="state"/>
+                    <field name="amount_total" sum="Total amount"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Calendar view of hotel folio  -->
+       <!--  <record model="ir.ui.view" id="hotel_folio_calendar_view">
+            <field name="name">Vehicle Booking Calendar</field>
+            <field name="model">hotel.folio</field>
+            <field name="arch" type="xml">
+                <calendar string="Booking/Invoiced" date_start="policy_start" color="user_id" date_stop="policy_end">
+                    <field name="name"/>
+                    <field name="partner_id"/>
+                    <field name="duration"/>
+                </calendar>
+            </field>
+        </record>
+ -->
+        <!-- Search view of hotel restaurant tables -->
+        <record model="ir.ui.view" id="view_insurance_folio_search">
+            <field name="name">insurance.folio.search</field>
+            <field name="model">insurance.folio</field>
+            <field name="arch" type="xml">
+                <search string="Tables Detail">
+                    <group expand="0" string="Group By">
+                        <filter string="Order Month" domain="[]" context="{'group_by':'date_order'}"/>
+                        <filter name="partner_id" string="Customer" icon="terp-stock_symbol-selection" context="{'group_by':'partner_id'}" />
+                        <filter name="user_id" string="Salesman" icon="terp-stock_symbol-selection" context="{'group_by':'user_id'}" />
+                    </group>
+                </search>
+            </field>
+        </record>
+
+    <!--graph view-->
+
+        <!-- <record id="view_account_invoice_form" model="ir.ui.view">
+            <field name="name">account.invoice.custom.form.inherit</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='date_invoice']" position="before">
+                    <group colspan="2" col="2">
+                        <label for="discount_method"/>
+                        <div>
+                            <field name="discount_method" class="oe_inline"/>
+                        </div>
+                        <label for="discount_amount"/>
+                        <div>
+                            <field name="discount_amount" class="oe_inline"/>
+                            <label string="%%"
+                                attrs="{'invisible': [('discount_method', '!=', 'per')]}" class="oe_inline"/>
+                        </div>
+                    </group>
+                </xpath>
+            </field>
+        </record> -->
+
+
+        <!-- Action for hotel folio  -->
+        <record model="ir.actions.act_window" id="open_insurance_folio1_form_tree_all">
+            <field name="name">Insurance</field>
+            <field name="res_model">insurance.folio</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem  id="menu_all_folio_insurance"
+                   name="Insurance"
+                   parent="insurance_proposal.insurance_management_menu"
+                   sequence="4" />
+
+        <menuitem name="Insurance"
+                  id="menu_open_insurance_folio1_form_tree_all"
+                  action="open_insurance_folio1_form_tree_all"
+                  sequence="5"
+                  parent ="menu_all_folio_insurance"/>
+
+
+    </data>
+</openerp>

@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+
+<template id="report.style" name="style">
+    <style type="text/css">
+        body {
+            color: #000 !important;
+        }
+        .cush {
+            font-size: 22px;
+            color: black;
+            font-weight: 900;
+        }
+        .underline {
+            display: inline-block;
+            padding: 0 10px;
+            width: 50px;
+            border-bottom: 1px dotted #888;
+        }
+        .centered-text {
+            text-align: center;
+        }
+        .cusb {
+            font-size: 18px;
+        }
+        .right-text {
+            text-align: right;
+        }
+        <!-- More of CUSTOM CSS here -->
+    </style>
+</template>
+
+<template id="report_anl_quotation_header">
+    <div class="header">
+        <div class="row">
+            <div class="col-xs-12 text-center">
+                <p class="cush" t-field="o.warehouse_id.name"></p>
+                <p><span t-field="o.warehouse_id.partner_id.street"/> <span t-field="o.warehouse_id.partner_id.street2"/>
+              Tel: <span t-field="o.warehouse_id.partner_id.phone"/> Fax: <span t-field="o.warehouse_id.partner_id.fax"/> <br/>
+              Website: <span t-field="o.warehouse_id.partner_id.website"/> Email: <span t-field="o.warehouse_id.partner_id.email"/> <br/>
+              UEN No.: <span t-field="o.warehouse_id.partner_id.nea_license"/> </p>
+            </div>
+         </div>
+    </div>
+
+    <div class="footer">
+    </div>
+
+</template>
+
+<template id="report_anl_quotation_body">
+    <t t-call="report_rental.report_anl_quotation_header" />
+
+    <t t-call="report.external_layout">
+        <div class="page">
+            <div class="oe_structure"/>
+            <div class="row">
+              <div class="col-xs-6">
+              </div>
+              <div class="col-xs-6">
+                <span class="cusb right-text">Rental Quotation</span>
+              </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-8">
+                <table style=" padding: 20px;height: 250px;width: 100%;">
+                	<thead>
+                		<tr style="margin: 0px 25px 0px 13px;padding-bottom: 6px;display: block;">
+                			<th>Hirer: </th>
+                			<td><span t-field="o.partner_id"/></td>
+                        </tr>
+                        <tr style="margin: 0px 25px 0px 13px;padding-bottom: 6px;display: block;">
+                             <th>Address: </th>
+                             <td><div t-field="o.partner_id"
+                                      t-field-options='{"widget": "contact", "fields": ["address", "zip", "city", "country"], "no_marker": true}'/></td>
+                        </tr>
+                        <tr style="margin: 0px 25px 0px 13px;padding-bottom: 6px;display: block;">
+                             <th>Tel/Fax: </th>
+                             <td><span t-field="o.partner_id.phone"/> / <span t-field="o.partner_id.fax"/></td>
+                         </tr>
+                         <tr style="margin: 0px 25px 0px 13px;padding-bottom: 6px;display: block;">
+                             <th>Email: </th>
+                             <td><span t-field="o.partner_id.email"/></td>
+                         </tr>
+                         <tr style="margin: 0px 25px 2px 13px;padding-bottom: 6px;display: block;">
+                             <th>Attn:</th>
+                             <td>
+                             	<span t-if="o.partner_id.child_ids" >
+                                	<span t-field="o.partner_id.child_ids[0].name"/>
+                                </span>
+
+                                <span t-if="o.partner_id.function" >
+                                     <span t-field="o.partner_id.name"/>
+                                </span>
+                             </td>
+                         </tr>
+                    </thead>
+                </table>
+                </div>
+                <div class="col-xs-4">
+                    <table style=" padding: 20px;height: 250px;width: 100%;">
+                	<thead>
+                		<tr style="margin: 0px 25px 0px 13px;padding-bottom: 6px;display: block;">
+                			<th>Ref No.: </th>
+                			<td><span t-field="o.reservation_no"/></td>
+                        </tr>
+                        <tr style="margin: 0px 25px 0px 13px;padding-bottom: 6px;display: block;">
+                             <th>Date: </th>
+                             <td><span t-esc="time.strftime('%d/%m/%Y',time.strptime(o.date_order,'%Y-%m-%d %H:%M:%S'))"/></td>
+                        </tr>
+                        <tr style="margin: 0px 25px 0px 13px;padding-bottom: 6px;display: block;">
+                        	<th>Page: </th>
+                        	<td> <span class="page"/> </td>
+                        </tr>
+                    </thead>
+                </table>
+                </div>
+            </div>
+            <div class="row">
+            	<table style=" padding: 20px;height: 250px;width: 100%;">
+                	<tbody>
+                		<p><u>(1) Rental of <span t-field="o.folio_id.room_lines.product_uos_qty"/> Unit of <span t-field="o.folio_id.room_lines.product_id"/> </u> <br/>
+                		RATE: <span t-field="o.folio_id.room_lines.price_unit" t-field-options='{"widget": "monetary", "display_currency": "o.pricelist_id.currency_id"}'/> PER DAY (<span t-field="o.folio_id.duration"/> DAY CONTRACT) <br/> <br/>
+
+                    <b><u>Insurance</u></b><br/>
+                		Insurance Coverage: XXXXXXX <br/><br/>
+
+                		<ul>
+                			<li>All driver's age must be <u>23</u> to <u>63</u> with driving experience minimum <b>2 years and above.</b></li>
+                			<li><b>Compulsory Insurance Claim Excess </b>of Section 2: XXXXXXX</li>
+                			<li>Additional Insurance Excess of XXXXXXX will be imposed for <b><u>work permit # S Pass holder; </u></b>young &amp; inexperienced drivers aged between <b><u>23</u></b> to <b><u>26</u></b> years old. </li>
+                      <li>Drivers aged between <b><u>66</u></b> to <b><u>69</u></b> &amp; with more than 2 year Driving Experience, additional insurance excess XXXXXXX </li>
+                      <li><b>POLICY DOES NOT COVER: </b>Driver with less that 2 years driving experience; aged 22 years old and below; aged 70 years old and above.</li>
+                		</ul>
+
+                    <b><u>Terms &amp; Conditions</u></b><br/>
+                    <ul>
+                      <li>1. Our Company will be liable for all mechanical fault, maintainence, servicing and normal wear &amp; tear of the vechile. Any cost of repair incurred due to accidents, driver's negligence and human nature fault will be charged to the hirrer.</li>
+                      <li>2. 24 hours towing service will be provided. Replacement vehicle will be subjected to availability.</li>
+                      <li>3. The diesel fuel used for the vehicle must be from petrol stations. The hirer shall hold responsibility for any damages to the vehicle, if they are found to use diesel from unauthorized-license supplier.</li>
+                      <li>4. The maximum permitted monthly mileage of the vechile is 10,000km, and charges will be imposed at <b>$0.15/km</b> for usage beyond the limit.</li>
+                      <li>5. In between the rental contract period, hirer is not allowed to terminate the contract. In event where the vehicle is being returned in advance before the end of contract, the hirer shall cover up according to the rightful full rental rate of the contract.</li>
+                      <li>6. All other terms &amp; conditions will be listed in our rental agreement.</li>
+                    </ul>
+
+                    <b><u>Documents Required</u></b><br/>
+                    <ul>
+                      <li>Company's latest ACRA (Not more than a month), Company Authorized Letter, Company Stamp &amp; Driver's Particular</li>
+                    </ul>
+
+                    </p>
+                  </tbody>
+                </table>
+
+              <br/><br/><br/>
+              <p>
+                Note: <br/>
+                <ul>
+                  <li>(1) Above quotation is only valid for 14 days from the stated date.</li>
+                  <li>(2) Minimum of 1 month rental payment is to be made upon the rental commencement day.</li>
+                </ul>
+              </p> <br/>
+
+              Preferred Vehicle collection date: _________________________________ (kindly indicate upon confirmation) <br/>
+              Period of Rental: ______________________________ Purpose of use: ______________________________ <br/>
+
+            </div>
+            <br/> <br/>
+
+            <div class="row">
+              <div class="col-xs-6">
+                <div>
+                  <strong>____________________________</strong><br/>
+                  <strong class="text-left">Authorised Signature</strong><br/>
+                </div>
+              </div>
+              <div class="col-xs-6">
+                <div>
+                  <strong>____________________________</strong><br/>
+                  <strong class="text-left">Confirmed &amp; Accepted By</strong><br/>
+                </div>
+              </div>
+            </div>
+        </div>
+    </t>
+</template>
+
+<template id="report_anl_quotation">
+    <t t-call="report.html_container">
+      <t t-foreach="doc_ids" t-as="doc_id">
+        <t t-raw="translate_doc(doc_id, doc_model, 'partner_id.lang', 'report_rental.report_anl_quotation_body')"/>
+      </t>
+    </t>
+</template>
+
+</data>
+</openerp>

@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+
+<template id="report.style" name="style">
+    <style type="text/css">
+        body {
+            color: #000 !important;
+        }
+        .cush {
+            background-color: black;
+            font-color: white;
+            font-size: 22px;
+        }
+        <!-- More of CUSTOM CSS here -->
+    </style>
+</template>
+
+<template id="report_anl_quotation_header">
+    <div class="header">
+        <div class="row">
+            <div class="col-xs-6">
+                <p class="cush">A&amp;L AUTOMOBILE</p>
+            </div>
+            <div class="col-xs-6 text-right">
+                <p class="cush" style="font-size:23px;">QUOTATION</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <span t-field="o.company_id.name"/>
+                <div t-field="o.company_id.partner_id"
+                     t-field-options='{"widget": "contact", "fields": ["address", "zip", "phone", "fax"], "no_marker": true}'/>
+                <p>Website: <span t-field="o.company_id.website"/> <br/> Email: <span t-field="o.company_id.email"/> </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <div class="text-center" style="border-top: 1px solid black;">
+            <br/>
+            <ul class="list-inline">
+                <li>Page:</li>
+                <li><span class="page"/></li>
+                <li>/</li>
+                <li><span class="topage"/></li>
+            </ul>
+        </div>
+    </div>
+</template>
+
+<template id="report_anl_quotation_body">
+    <t t-call="report_purchase.report_anl_quotation_header" />
+
+    <t t-call="report.external_layout">
+        <div class="page">
+            <div class="oe_structure"/>
+
+            <div class="row">
+                <div class="col-xs-12">
+                    <span t-field="o.company_id.name"/>
+                    <div t-field="o.company_id.partner_id"
+                         t-field-options='{"widget": "contact", "fields": ["address", "zip", "phone", "fax"], "no_marker": true}'/>
+                    <p>Website: <span t-field="o.company_id.website"/> <br/> Email: <span t-field="o.company_id.email"/> </p>
+                </div>
+            </div>
+            <br/>
+            <div class="row">
+                <div class="col-xs-8">
+                    <span t-field="o.partner_id.name"/>
+                    <div t-field="o.partner_id"
+                         t-field-options='{"widget": "contact", "fields": ["address", "zip", "phone", "fax"], "no_marker": true}'/>
+                </div>
+                <div class="col-xs-4">
+                    <strong>Date: </strong> <span t-field="o.date_order"/> <br/>
+                    <strong>QUOTATION NO: </strong> <span t-field="o.name"/> <br/>
+                </div>
+            </div>
+            <br/>
+            <p>
+                Thank you for your inquiry dated: <span t-esc="time.strftime('%d/%m/%Y')"/> <br/>
+                We are pleased to quote you the following: <br/>
+            </p>
+            <br/>
+
+            <table class="table table-condensed">
+                <thead>
+                    <tr>
+                        <th><strong>ITEM</strong></th>
+                        <th class="text-left"><strong>QUANTITY</strong></th>
+                        <th class="text-left"><strong>DESCRIPTION</strong></th>
+                        <th class="text-center"><strong>UNIT PRICE</strong></th>
+                        <th class="text-right"><strong>DELIVERY DATE</strong></th>
+                    </tr>
+                </thead>
+                <tbody class="sale_tbody">
+                    <tr t-foreach="o.order_line" t-as="order_line">
+                        <td>
+                            <span t-esc="str(order_line_index+1)"/>
+                        </td>
+                        <td class="text-left">
+                            <span t-field="order_line.product_qty"/>
+                            <span groups="product.group_uom" t-field="order_line.product_uom"/>
+                        </td>
+                        <td class="text-left">
+                            <span t-field="order_line.name"/>
+                        </td>
+                        <td class="text-center">
+                            <span t-field-options='{"widget": "monetary", "display_currency": "o.pricelist_id.currency_id"}'
+                                  t-field="order_line.price_unit" />
+                        </td>
+                        <td class="text-right">
+                            <span t-field="order_line.date_planned"/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <br/>
+            <p>
+                We will be happy to supply any further information you may need and trust that you call on us to fill your order, <br/>
+                which will receive our prompt and careful attention.
+            </p>
+
+            <br/>
+            <br/>
+
+            <div class="row">
+                <div class="col-xs-8">
+                    <div>
+                        <strong>____________________________</strong><br/>
+                        <strong class="text-center">Authorised Signature</strong><br/>
+                    </div>
+                </div>
+                <div class="col-xs-4">
+                    <strong>________________________________</strong><br/>
+                    <strong class="text-center">Confirmed &amp; Accepted By </strong><br/>
+                </div>
+            </div>
+
+        </div>
+    </t>
+</template>
+
+<template id="report_anl_quotation">
+    <t t-call="report.html_container">
+      <t t-foreach="doc_ids" t-as="doc_id">
+        <t t-raw="translate_doc(doc_id, doc_model, 'partner_id.lang', 'report_purchase.report_anl_quotation_body')"/>
+      </t>
+    </t>
+</template>
+
+</data>
+</openerp>

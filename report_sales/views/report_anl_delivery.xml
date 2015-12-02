@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+
+<template id="report.style" name="style">
+    <style type="text/css">
+        body {
+            color: #000 !important;
+        }
+        .cush {
+            font-size: 22px;
+            color: black;
+        }
+        .underline {
+            display: inline-block;
+            padding: 0 10px;
+            width: 50px;
+            border-bottom: 1px dotted #888;
+        }
+        .centered-text {
+            text-align: center;
+        }
+        .right-text {
+            text-align: right;
+        }
+        .thick-header {
+            font-size: 16px;
+            font-weight: bold;
+        }
+        <!-- More of CUSTOM CSS here -->
+    </style>
+</template>
+
+<template id="report_anl_delivery_header">
+    <div class="header">
+        <div class="row">
+            <div class="col-xs-12 text-center">
+                <p class="cush">A&amp;L AUTOMOBILE PTE LTD</p>
+                <p><span t-field="o.company_id.street"/> <span t-field="o.company_id.street2"/>
+                   TEL: <span t-field="o.company_id.phone"/> FAX: <span t-field="o.company_id.fax"/> <br/>
+                   UEN NO.: <span t-field="o.company_id.vat"/> </p>
+            </div>
+        </div>
+        <div class="row zero_min_height">
+            <div class="col-xs-12">
+                <div style="border-bottom: 1px solid black;"/>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <div class="text-center" style="border-top: 1px solid black;">
+            <br/>
+            <ul class="list-inline">
+                <li>Page:</li>
+                <li><span class="page"/></li>
+                <li>/</li>
+                <li><span class="topage"/></li>
+            </ul>
+        </div>
+    </div>
+</template>
+
+<template id="report_anl_delivery_body">
+    <t t-call="report_sales.report_anl_delivery_header" />
+    <t t-call="report.external_layout">
+        <div class="page">
+            <div class="oe_structure"/>
+            <p class="cush centered-text" style="text-decoration:underline;">DELIVERY ORDER</p> <br/>
+
+            <div class="row">
+                <div class="col-xs-7">
+                    <div>
+                        <strong><span t-esc="time.strftime('%d/%m/%Y')"></span></strong><br/>
+                    </div>
+                    <br/><br/><br/><br/><br/>
+                    <div>
+                        <strong class="thick-header">BILL TO: </strong> <span t-field="o.partner_id.name"/>
+                        <div t-field="o.partner_id"
+                             t-field-options='{"widget": "contact", "fields": ["address", "name", "phone", "fax"], "no_marker": true}'/>
+                    </div>
+                </div>
+                <div class="col-xs-5">
+                    <div>
+                        <strong>DO NO.: <span t-field="o.name"></span></strong><br/>
+                        <strong>YOUR REF NO.: ???? </strong><br/>
+                        <strong>DATE OF DELIVERY:  <span t-field="o.min_date"></span></strong><br/>
+                    </div>
+                    <br/><br/>
+                    <div>
+                        <strong class="thick-header">DELIVERY TO: </strong> <span t-field="o.partner_id.name"/>
+                        <div t-field="o.partner_id"
+                             t-field-options='{"widget": "contact", "fields": ["address", "name", "phone", "fax"], "no_marker": true}'/>
+                    </div>
+                </div>
+            </div>
+
+            <br/><br/>
+
+            <strong>ATTN:</strong> <span t-field="o.partner_id.child_ids[0].name"></span><br/>
+            <strong>Tel: </strong> <span t-field="o.partner_id.child_ids[0].phone"></span> <br/><br/>
+
+            <table class="table table-condensed">
+                <thead>
+                    <tr>
+                        <th><strong>No</strong></th>
+                        <th class="text-right"><strong>Quantity</strong></th>
+                        <th class="text-center"><strong>Description</strong></th>
+                        <th><strong>Remark</strong></th>
+                    </tr>
+                </thead>
+                <tbody class="sale_tbody">
+                    <tr t-foreach="o.move_lines" t-as="pack_operation">
+                        <td>
+                            <span t-esc="str(pack_operation_index+1)"/>
+                        </td>
+                        <td class="text-right">
+                            <span t-field="pack_operation.product_qty"/>
+                            <span t-field="pack_operation.product_uom_id" groups="product.group_uom"/>
+                        </td>
+                        <td class="text-center">
+                            <span t-field="pack_operation.name"/>
+                        </td>
+                        <td>
+                            <strong>DELIVERY ON</strong> <br/>
+                            <span t-field="pack_operation.date"/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <br/>
+            <div class="row">
+                <div class="col-xs-7">
+                    <div>
+                        <p>Issued By <br/> <span t-field="o.company_id.name"></span></p> <br/><br/><br/>
+                        <strong>____________________________</strong><br/>
+                        <strong>Authorised Signature</strong><br/>
+                    </div>
+                </div>
+                <div class="col-xs-5">
+                    <p>Received By <br/> <span t-field="o.partner_id.name"></span></p> <br/><br/><br/>
+                    <strong>____________________________</strong><br/>
+                    <strong>Authorised Signature</strong><br/>
+                </div>
+            </div>
+
+        </div>
+    </t>
+</template>
+
+<template id="report_anl_delivery">
+    <t t-call="report.html_container">
+      <t t-foreach="doc_ids" t-as="doc_id">
+        <t t-raw="translate_doc(doc_id, doc_model, 'partner_id.lang', 'report_sales.report_anl_delivery_body')"/>
+      </t>
+    </t>
+</template>
+
+</data>
+</openerp>

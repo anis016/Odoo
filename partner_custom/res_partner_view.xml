@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="view_partner_warning_form" model="ir.ui.view">
+            <field name="name">res.partner.warning.form.inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <field name="street" position="attributes">
+                    <attribute name="placeholder">Block</attribute>
+                </field>
+                <field name="street2" position="attributes">
+                    <attribute name="placeholder">Street</attribute>
+                </field>
+                <field name="state_id" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="zip" position="attributes">
+                    <attribute name="placeholder">Postal Code</attribute>
+                    <attribute name="style">width: 40amp;</attribute>
+                </field>
+                <field name="zip" position="before">
+                    <field name="mcat_plan_no" placeholder="MCST Plan No" style="width: 40amp;"/>
+                </field>
+                <field name="email" position="after">
+                    <field name="nea_license"/>
+                    <field name="hp_no"/>
+                </field>
+	            <xpath expr="//field[@name='city']" position="before">
+	                <field name="area" placeholder="Unit" style="width: 40%%" attrs="{'readonly': [('use_parent_address','=',True)]}"/>
+	            </xpath>
+	            
+	        </field>
+	        
+	    </record>
+
+    </data>
+</openerp>

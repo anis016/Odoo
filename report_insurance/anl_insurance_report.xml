@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <report
+            id="anl_insurance_report_id"
+            model="insurance.folio"
+            string="Anl Insurance"
+            report_type="qweb-pdf"
+            name="report_insurance.report_anl_insurance"
+            file="report_insurance.report_anl_insurance"
+        />
+    </data>
+</openerp>

@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+
+<template id="report.style" name="style">
+    <style type="text/css">
+        body {
+            color: #000 !important;
+        }
+        .cush {
+            font-size: 22px;
+            color: black;
+        }
+        .underline {
+            display: inline-block;
+            padding: 0 10px;
+            width: 50px;
+            border-bottom: 1px dotted #888;
+        }
+        .centered-text {
+            text-align: center;
+        }
+        .
+        <!-- More of CUSTOM CSS here -->
+    </style>
+</template>
+
+<template id="report_anl_agreement_header">
+    <div class="header">
+        <div class="row">
+            <div class="col-xs-12 text-center">
+                <p class="cush">A&amp;L AUTOMOBILE</p>
+                <p><span t-field="o.company_id.street"/> <span t-field="o.company_id.street2"/> <br/>
+                   <span t-field="o.company_id.phone"/> <span t-field="o.company_id.fax"/> </p>
+                <p class="cush">PURCHASE AGREEMENT</p>
+            </div>
+        </div>
+        <div class="row zero_min_height">
+            <div class="col-xs-12">
+                <div style="border-bottom: 1px solid black;"/>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <div class="text-center" style="border-top: 1px solid black;">
+            <br/>
+            <ul class="list-inline">
+                <li>Page:</li>
+                <li><span class="page"/></li>
+                <li>/</li>
+                <li><span class="topage"/></li>
+            </ul>
+        </div>
+    </div>
+</template>
+
+<template id="report_anl_agreement_body">
+    <t t-call="report_purchase.report_anl_agreement_header" />
+    <t t-call="report.external_layout">
+        <div class="page">
+            <div class="oe_structure"/>
+            <br/>
+            <div class="row">
+                <div class="col-xs-12 text-right">
+                    <strong style="font-size: 18px">AGREEMENT NO.: <span t-field="o.name"/> </strong> <br/> <br/>
+                </div>
+            </div>
+            <div>
+                <p> An agreement made this on <span class="underline centered-text" t-esc="time.strftime('%d')" ></span> Day of <span class="underline centered-text" t-esc="time.strftime('%m')" ></span>  <span class="underline centered-text" t-esc="time.strftime('%Y')" ></span> between:- </p>
+            </div>
+
+            <div>
+                <strong style="font-size: 15px">BUYER</strong> <br/>
+                <p>Name/Co. Name: <strong><span t-field="o.company_id.name"/></strong> NRIC No/Reg No: <strong><span t-field="o.company_id.vat"/></strong> <br/>
+                Address: <strong><span t-field="o.company_id.street"/> <span t-field="o.company_id.street2"/></strong> <br/>
+                Tel: <strong><span t-field="o.company_id.phone"/></strong> Fax: <strong><span t-field="o.company_id.fax"/></strong> </p>
+            </div>
+            <div>
+                <strong style="font-size: 15px">SELLER</strong> <br/>
+                <p>Name/Co. Name: <strong><span t-field="o.partner_id.name"/></strong> NRIC No/Reg No: <strong><span t-field="o.partner_id.nea_license"/></strong> <br/>
+                Address: <strong><span t-field="o.partner_id.street"/> <span t-field="o.partner_id.street2"/></strong> <br/>
+                Tel: <strong><span t-field="o.partner_id.phone"/></strong> Fax: <strong><span t-field="o.partner_id.fax"/></strong> </p>
+            </div>
+
+            <div>
+                <p> Whereby it is hereby agreed the following: <br/></p>
+
+                <tr t-foreach="o.order_line" t-as="l">
+                    <p> A) The seller agreed to sell and the buyer agreed to purchase: <br/>
+                        <div class="row">
+                            <div class="col-xs-3">
+                                <span>Vehicle No: <span t-field="l.product_id.product_tmpl_id.vehicle_no"/> </span> <br/>
+                                <span>Parf: <span t-field="l.product_id.product_tmpl_id.parf"/> </span> <br/>
+                                <span>Engine No: <span t-field="l.product_id.product_tmpl_id.engine_no"/> </span> <br/>
+                                <span>Y.O.M: <span t-field="l.product_id.product_tmpl_id.y_o_m"/> </span> <br/>
+                            </div>
+                            <div class="col-xs-4">
+                                <span>Model: <span t-field="l.product_id.product_tmpl_id.model"/> </span> <br/>
+                                <span>Non Parf: <span t-field="l.product_id.product_tmpl_id.non_parf"/> </span> <br/>
+                                <span>Chassis No: <span t-field="l.product_id.product_tmpl_id.chassis_no"/> </span> <br/>
+                                <span>Reg. Date: <span t-field="l.product_id.product_tmpl_id.reg_date"/> </span> <br/>
+                            </div>
+                            <div class="col-xs-5">
+                                <span>Tax: <span t-field="l.taxes_id"/> </span> <br/>
+                                <span>Company Registered: <span t-field="l.product_id.product_tmpl_id.company_reg"/> </span> <br/>
+                                <br/>
+                                <span>No of Transfer: <span t-field="l.product_id.product_tmpl_id.no_of_transfer"/> </span> <br/>
+                            </div>
+                        </div>
+                        <div>
+                            <span>C.O.E Expiry Date: <span t-field="l.product_id.product_tmpl_id.coe_expiry"/> </span> <br/>
+                            <span>In Consideration of <strong t-field-options='{"widget": "monetary", "display_currency": "o.pricelist_id.currency_id"}' /> <strong>xxxxx</strong> free from all encumbrances.</span> <br/>
+                        </div>
+                        <br/> </p>
+                    <div>
+                        <p> B)The buyer shall pay a deposit of <strong t-field-options='{"widget": "monetary", "display_currency": "o.pricelist_id.currency_id"}' /> <strong>xxxxx</strong> and the balance purchase shall be payable on or before in default where of the deposit paid will be forfeited.
+                        <br/> </p>
+                    </div>
+                    <div>
+                        <p> C)Vehicle shall be hand over on or before <strong>xxxxx</strong> in default where of your're required to bear for all consequences and compensation.
+                        <br/> </p>
+                    </div>
+                    <div>
+                        <p> D) The buyer shall be responsible for the safe custody of the vehicle and assume all liabilities. <br/>
+                            (e.g.: Accident, summons, traffic offences) from the date when vehicle is delivery to him/her. <br/>
+
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <span>Selling Price: <strong t-field-options='{"widget": "monetary", "display_currency": "o.pricelist_id.currency_id"}' /> <span t-field="o.amount_untaxed"/> </span> <br/>
+                                    <span>Full Settle: <strong t-field-options='{"widget": "monetary", "display_currency": "o.pricelist_id.currency_id"}' /> <span t-field="o.amount_total"/> </span> <br/>
+                                    <span>Balance Payment: xxxxx </span> <br/>
+                                </div>
+                                <div class="col-xs-6">
+                                    <span>Date of Handover: <span t-esc="time.strftime('%d %B %Y',time.strptime(o.date_order,'%Y-%m-%d %H:%M:%S'))"/> </span><br/>
+                                    <span>Time: <span t-esc="time.strftime('%I:%M:%S %p',time.strptime(o.date_order,'%Y-%m-%d %H:%M:%S'))"/> </span> <br/>
+                                </div>
+                            </div>
+                            <br/> </p>
+                    </div>
+
+                    <div>
+                        <br/>
+                        <p> <strong><b><u>Terms and Condition</u></b></strong><br/>
+                            <ul>
+                                <li>In case of Breach of agreement by seller, the seller has to compensate the buyer twice the amount of deposit paid by the Buyer.</li>
+                                <li>However, If the "Buyer" fails to fulfill the agreement to buy, take delivery or settle all balance payment to the "Seller". The Seller shall have the right to forfeit the above deposit by the Buyer.</li>
+                            </ul>
+                        <br/> </p>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <br/>
+                            <p>_____________________________ <br/>
+                            Signature of Buyer: <br/>
+                            Name: <span t-field="o.picking_type_id.warehouse_id.company_id.name"></span> <br/>
+                            NRIC NO: <span t-field="o.picking_type_id.warehouse_id.company_id.vat"></span> <br/>
+                            Tel: <span t-field="o.picking_type_id.warehouse_id.company_id.phone"></span><br/> </p>
+
+                        </div>
+                        <div class="col-xs-6">
+                            <br/><br/>
+                            <p>_____________________________ <br/>
+                            Signature of Seller: <br/>
+                            Name: <span t-field="o.partner_id.child_ids[0].name"></span> <br/>
+                            NRIC NO: <span t-field="o.partner_id.nea_license"></span> <br/>
+                            Tel: <span t-field="o.partner_id.child_ids[0].mobile"></span> <br/> </p>
+                        </div>
+                    </div>
+
+                </tr>
+
+
+
+            </div>
+        </div>
+    </t>
+</template>
+
+<template id="report_anl_agreement">
+    <t t-call="report.html_container">
+      <t t-foreach="doc_ids" t-as="doc_id">
+        <t t-raw="translate_doc(doc_id, doc_model, 'partner_id.lang', 'report_purchase.report_anl_agreement_body')"/>
+      </t>
+    </t>
+</template>
+
+</data>
+</openerp>
