@@ -34,7 +34,7 @@
     "website": ["http://www.austrums.com.sg"],
     "depends" : ["hotel", "stock", "report_extended",'mail','email_template',],
     "demo" : [
-        "views/hotel_reservation_data.xml",
+#        "views/hotel_reservation_data.xml",
     ],
     "data" : [
         "security/ir.model.access.csv",
