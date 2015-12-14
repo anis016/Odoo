@@ -104,9 +104,9 @@ class hotel_room(models.Model):
     road_tax_due = fields.Date(String="Road Tax Due date")
     inspect_due_date = fields.Date(String="Inspection Due date")
     mileage = fields.Char(String="Mileage")
-    
+
     attachment = fields.Selection([('box', 'Box'), ('open', 'Open'),('canopy', 'Canopy')], 'Vehicle Attachment',default='box')
-    deck = fields.Selection([('high', 'High'), ('low', 'Low')], 'Vehicle Deck',default='High')
+    deck = fields.Selection([('high', 'High'), ('low', 'Low')], 'Vehicle Deck', default='high')
 
     @api.multi
     def set_room_status_occupied(self):
@@ -115,6 +115,49 @@ class hotel_room(models.Model):
     @api.multi
     def set_room_status_available(self):
         return self.write({'status': 'available'})
+    
+    @api.multi
+    def write(self, vals):
+        if vals and self._context:
+            record = super(hotel_room, self).write(vals)
+            print "Yeah Something found!"
+            
+            product_tmpl_obj = self.product_tmpl_id
+            
+            for key in vals:
+                if key in self.product_tmpl_id:
+                    product_tmpl_obj[key] = vals[key]
+            return record
+
+    @api.model
+    def create(self, vals, check=True):
+        record = super(hotel_room, self).create(vals)
+        product_tmpl_obj = record.product_tmpl_id
+        
+        #update the template objects
+        product_tmpl_obj['vehicle_no'] = record.vehicle_no
+        product_tmpl_obj['model'] = record.model
+        product_tmpl_obj['engine_no'] = record.engine_no
+        product_tmpl_obj['chassis_no'] = record.chassis_no
+        product_tmpl_obj['y_o_m'] = record.y_o_m
+        product_tmpl_obj['reg_date'] = record.reg_date
+        product_tmpl_obj['coe_expiry'] = record.coe_expiry
+        product_tmpl_obj['parf'] = record.parf
+        product_tmpl_obj['non_parf'] = record.non_parf
+        product_tmpl_obj['company_reg'] = record.company_reg
+        product_tmpl_obj['no_of_transfer'] = record.no_of_transfer
+        product_tmpl_obj['capacity'] = record.capacity
+        product_tmpl_obj['road_tax_due'] = record.road_tax_due
+        product_tmpl_obj['inspect_due_date'] = record.inspect_due_date
+        product_tmpl_obj['mileage'] = record.mileage
+        product_tmpl_obj['attachment'] = record.attachment
+        product_tmpl_obj['deck'] = record.deck
+        product_tmpl_obj['isvehicle'] = record.isvehicle
+        
+        return record
+        
+     #   obj_product = self.env['product.product'].browse(record.product_id)
+     #   obj_product_templ = self.env['product.template']
 
     # @api.multi
     # def set_room_status_maintain(self):
@@ -160,13 +203,13 @@ class hotel_folio(models.Model):
     service_lines = fields.One2many('hotel.service.line','folio_id', readonly=True, states={'draft': [('readonly', False)], 'sent': [('readonly', False)]}, help="Hotel services detail provide to customer and it will include in main Invoice.")
     hotel_policy = fields.Selection([('prepaid', 'On Booking'), ('manual', 'On Start Date'), ('picking', 'On Return Day')], 'Rent Policy',default='prepaid', help="Rental policy ")
     duration = fields.Float('Duration in Days', help="Number of days which will automatically count from the Start Date and End date. ")
-    
+
     # For the end date calculation
     checkin_date = fields.Datetime('Start Date', required=False, readonly=True, states={'draft':[('readonly', False)]})
     checkout_date = fields.Datetime('End Date', required=False, readonly=True, states={'draft':[('readonly', False)]})
     date_select = fields.Selection([('week', 'Week'), ('day', 'Day'), ('month', 'Month'), ('year', 'Year')], "Date Range Selection", default="day")
     date_length = fields.Integer("Date Length", default=0)
-        
+
     @api.depends('checkin_date', 'date_select', 'date_length')
     def _get_end_date(self):
         start_date = datetime.datetime.strptime(self.checkin_date, "%Y-%m-%d %H:%M:%S").date()
@@ -202,7 +245,7 @@ class hotel_folio(models.Model):
                 calculate_day = 366 * n
             else:
                 calculate_day = 365 * n
-        
+
         checkout_date = start_date + timedelta(days=calculate_day)
         endDate = datetime.datetime.combine(checkout_date, time_trimmed)
         self.checkout_date = endDate

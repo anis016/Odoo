@@ -309,27 +309,27 @@
                               <field name="inspect_due_date"/>
                             </group>
                             <group>
-                                       <field name="vehicle_no"/>
-                                       <field name="model"/>
-                                       <field name="engine_no"/>
-                                       <field name="chassis_no"/>
-                                   </group>
-                                   <group>
-                                       <field name="y_o_m"/>
-                                       <field name="reg_date"/>
-                                       <field name="coe_expiry"/>
-                                       <field name="mileage" />
-                                   </group>
-                                   <group>
-                                       <field name="parf"/>
-                                       <field name="non_parf"/>
-                                       <field name="company_reg"/>
-                                       <field name="no_of_transfer"/>
-                                   </group>
-                                   <group>
-                                   		<field name="attachment" />
-                                   		<field name="deck" />
-                                   </group>
+                              <field name="vehicle_no"/>
+                              <field name="model"/>
+                              <field name="engine_no"/>
+                              <field name="chassis_no"/>
+                            </group>
+                            <group>
+                              <field name="y_o_m"/>
+                              <field name="reg_date"/>
+                              <field name="coe_expiry"/>
+                              <field name="mileage" />
+                            </group>
+                            <group>
+                                <field name="parf"/>
+                                <field name="non_parf"/>
+                                <field name="company_reg"/>
+                                <field name="no_of_transfer"/>
+                            </group>
+                            <group>
+                           		<field name="attachment" />
+                           		<field name="deck" />
+                            </group>
                           </group>
                             <newline/>
                             <!-- <separator colspan='4' string="Supplier Taxes"/>

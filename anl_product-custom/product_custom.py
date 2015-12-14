@@ -25,17 +25,28 @@ class product_custom(osv.Model):
     _inherit = 'product.template'
 
     _columns = {
+
+        # Client End Requirements
         'vehicle_no' : fields.char('Vehicle No ', size=128),
-        'model':fields.char('Model ', size=128),
-        'engine_no':fields.char('Engine No ', size=128),
-        'chassis_no':fields.char("Chassis No ", size=128),
-        'y_o_m':fields.char("Y.O.M ", size=24),
-        'reg_date':fields.date("Reg. Date"),
-        'coe_expiry':fields.date("C.O.E Expiry Date"),
-        'parf':fields.char("Parf", size=128),
-        'non_parf':fields.char("Non Parf", size=128),
-        'company_reg':fields.char("Conpany Registered", size=128),
-        'no_of_transfer':fields.char("No of Transfer", size=24),
+        'model' : fields.char('Model ', size=128),
+        'engine_no' : fields.char('Engine No ', size=128),
+        'chassis_no' : fields.char("Chassis No ", size=128),
+        'y_o_m' : fields.char("Y.O.M ", size=24),
+        'reg_date' : fields.date("Reg. Date"),
+        'coe_expiry' : fields.date("C.O.E Expiry Date"),
+        'parf' : fields.char("Parf", size=128),
+        'non_parf' : fields.char("Non Parf", size=128),
+        'company_reg' : fields.char("Conpany Registered", size=128),
+        'no_of_transfer' : fields.char("No of Transfer", size=24),
+        'capacity': fields.integer("Capacity/Seats"),
+        # New Client requriements
+        'road_tax_due' : fields.date(String="Road Tax Due date"),
+        'inspect_due_date' : fields.date(String="Inspection Due date"),
+        'mileage' : fields.char(String="Mileage"),
+
+        'attachment' : fields.selection([('box', 'Box'), ('open', 'Open'),('canopy', 'Canopy')], 'Vehicle Attachment',default='box'),
+        'deck' : fields.selection([('high', 'High'), ('low', 'Low')], 'Vehicle Deck', default='high'),
+
         'isvehicle':fields.boolean("Add to Vechicle"),
         }
 

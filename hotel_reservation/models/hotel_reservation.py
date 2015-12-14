@@ -347,6 +347,8 @@ class hotel_reservation_line(models.Model):
     name = fields.Char('Name', size=64)
     line_id = fields.Many2one('hotel.reservation')
     reserve = fields.Many2many('hotel.room','hotel_reservation_line_room_rel','room_id','hotel_reservation_line_id', domain="[('isroom','=',True),('categ_id','=',categ_id)]")
+    
+    #notice this line for the room addition.
     categ_id =  fields.Many2one('product.category','Car Type' ,domain="[('isroomtype','=',True)]", change_default=True)
 
     @api.onchange('categ_id')
