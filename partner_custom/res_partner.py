@@ -29,6 +29,11 @@ class res_partner(osv.Model):
         'mcat_plan_no':fields.char('MCST Plan No.', size=128),
         'nea_license':fields.char('NRIC Number', size=128),
         'hp_no':fields.char("H/P", size=24),
+        'd_o_b' :fields.date('Date of Birth'),
+        'driver_license_number' :fields.char("Driver License Number", size=24),
+        'driver_license_pass_date' :fields.date('Driver License Pass Date'),
+        'gender':fields.selection([('male', 'Male'), ('female', 'Female')], 'Gender',default='male'),
+        'marital':fields.selection([('single', 'Single'), ('married', 'Married'), ('widower', 'Widower'), ('divorced', 'Divorced')], 'Marital Status',default='single')
         }
 
     def onchange_address(self, cr, uid, ids, use_parent_address, parent_id, context=None):

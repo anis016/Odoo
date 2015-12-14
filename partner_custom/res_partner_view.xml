@@ -23,16 +23,25 @@
                     <field name="mcat_plan_no" placeholder="MCST Plan No" style="width: 40amp;"/>
                 </field>
                 <field name="email" position="after">
-                    <field name="nea_license"/>
                     <field name="hp_no"/>
                 </field>
-	            <xpath expr="//field[@name='city']" position="before">
-	                <field name="area" placeholder="Unit" style="width: 40%%" attrs="{'readonly': [('use_parent_address','=',True)]}"/>
-	            </xpath>
-	            
-	        </field>
-	        
-	    </record>
+                <field name="website" position="after">
+                    <separator string="Divers Personal Details" attrs="{'invisible': [('is_company', '=', True)]}"/>
+                    <newline/>
+                        <field name="nea_license" attrs="{'invisible': [('is_company', '=', True)]}"/>
+                        <field name="d_o_b" attrs="{'invisible': [('is_company', '=', True)]}"/>
+                        <field name="driver_license_number" attrs="{'invisible': [('is_company', '=', True)]}"/>
+                        <field name="driver_license_pass_date" attrs="{'invisible': [('is_company', '=', True)]}"/>
+                        <field name="gender" attrs="{'invisible': [('is_company', '=', True)]}"/>
+                        <field name="marital" attrs="{'invisible': [('is_company', '=', True)]}"/>
+                </field>
+                <xpath expr="//field[@name='city']" position="before">
+                    <field name="area" placeholder="Unit" style="width: 40%%" attrs="{'readonly': [('use_parent_address','=',True)]}"/>
+                </xpath>
+                
+            </field>
+            
+        </record>
 
     </data>
 </openerp>
