@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<openerp>
+    <data>
+
+        <template id="report.style" name="style">
+             .table-bordered { 
+            	border-collapse: collapse;
+            }.header-font { 
+            	font-size: 22px;
+            	font-weight: bold;
+            }.tablecell-spacing {
+            	border-spacing: 5px;
+            	border-collapse: separate;
+            	width: 100%;
+            }
+            
+            .tablecell-width {
+            	border-radius: 5px;
+            	background: white;
+            	padding: 7px 120px 7px 7px;
+            	margin-left: 10px;
+            }
+            
+            .tablecell-spacing th {
+            	padding: 0;
+            }
+            
+            .total-amount tr td {
+ 				width: 50%;
+    			text-align: left;
+    	    }
+    			   
+            .total-amount tr td strong, .total-amount tr td span {
+    			border: 1px solid;
+    			padding: 3px 12px;
+    			display: block;
+    			margin-right: 10px;
+    			margin-bottom: 10px;
+			}
+			
+			.vehicle {
+ 			   margin-left: 55px;
+			   border-right: 1px solid;
+			   border-bottom: 1px solid;
+			   width: 87%;
+			   padding: 0px 0px 12px 8px;
+			   display: block;
+			}
+			
+			.thumb {
+			   float: left;
+    		   padding: 0px 10px 0px 0px;
+    		}
+    		
+    		.content {
+    		   float: left;
+    		}
+    		
+    		.image-height-width {
+    			max-height: 45px;
+    			max-width: 45px;
+    		}
+			
+			
+            <!-- More of CUSTOM CSS here -->
+        </template>
+
+        <template id="report_minimal_layout" inherit_id="report.minimal_layout">
+            <xpath expr="//head" position="inside">
+                <script src='/report_taxiclub/static/src/js/pagination_hide.js'></script>
+            </xpath>
+
+            <xpath expr="//body" position="attributes">
+                <attribute t-translation="off" name="onload">subst(); pagination_hide();</attribute>
+            </xpath>
+        </template>
+
+        <template id="report_taxiclub_header">
+            <div class="header">
+                <div class="row">
+                    <div class="col-xs-4">
+                        <img src="/report_taxiclub/static/src/img/company_logo.png" style="max-height: 100px; max-width: 200px;" />
+                    </div>
+                    <div class="col-xs-8" style="color:blue;">
+                    	<h1 style="text-align:center;"> <span t-field="o.company_id.name"/> </h1> <br/>
+                        <div class="col-xs-4">
+                            <span>ABN </span> <span>xxxxxxxxxxxxxx</span>
+                            <br/>
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <td style="color:blue" >
+                                        	<span t-field="o.company_id.street" /> <br/>
+                                        	<span t-field="o.company_id.street2" /> <br/>
+                                        	<span t-field="o.company_id.city" />, <![CDATA[&nbsp;]]>
+                                            <span t-field="o.company_id.zip" />
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-xs-5" style="margin-left:-30px;">
+                        	<table>
+                                <tbody>
+                                    <tr>
+                                        <td style="color:blue" >
+                                        	<img src="/report_taxiclub/static/src/img/tel_icon.png" style="max-height: 25px; max-width: 25px;" /> <![CDATA[&nbsp;]]> <span>Tel xxxxxxxxxxx xx</span> <br/>
+                                        	<img src="/report_taxiclub/static/src/img/fax_icon.png" style="max-height: 25px; max-width: 25px;" /> <![CDATA[&nbsp;]]> <span>Fax xxxxxxxxxxx xx</span> <br/>
+                                        	<img src="/report_taxiclub/static/src/img/website_icon.png" style="max-height: 25px; max-width: 25px;" /> <![CDATA[&nbsp;]]> <span>Website xxxxxxxxxxx xx</span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>                            
+                        </div>
+                        <div class="col-xs-3" style="margin-left:-60px;">
+                            <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', o.company_id.name, 600, 100)" style="width:260px;height:70px;text-align:left;" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer">
+                <![CDATA[&nbsp;]]>
+            </div>
+        </template>
+
+        <template id="report_taxiclub_body">
+            <t t-call="report_taxiclub.report_taxiclub_header" />
+            <t t-call="report.external_layout">
+                <div class="page">
+                    <div class="oe_structure" />
+
+                    <div class="row">
+                        <div class="col-xs-7">
+                            <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', o.partner_id.name, 600, 100)" style="width:350px;height:25px;margin-left:20px;margin-bottom:20px" />
+                            <br/>
+                            <span t-if="o.partner_id.child_ids">
+	        					<span style="padding-left:70px;" t-field="o.partner_id.child_ids[0].name"/> /
+	        				</span>
+                            <span t-if="o.partner_id.function">
+	        					<span style="padding-left:70px;" t-field="o.partner_id.name"/> /
+	        				</span>
+                            <span t-field="o.partner_id.name" />
+                            <br/>
+                            <address style="padding-left:70px;" t-field="o.partner_id" t-field-options='{"widget": "contact", "fields": ["address"], "no_marker": true}' />
+                        </div>
+                        <div class="col-xs-5" style="background:#F6651B; padding:15px 6px; margin-left:-15px">
+                            <table class="tablecell-spacing">
+                                <tr>
+                                    <th style="color:white;">Amount Due</th>
+                                    <td class="tablecell-width">AMTXXXX</td>
+                                </tr>
+                                <tr>
+                                    <th style="color:white;">Due date</th>
+                                    <td class="tablecell-width">DUEXXXX</td>
+                                </tr>
+                                <tr>
+                                    <th style="color:white;">Invoice date</th>
+                                    <td class="tablecell-width">InvDateXXXX</td>
+                                </tr>
+                                <tr>
+                                    <th style="color:white;">Invoice</th>
+                                    <td class="tablecell-width">InvoiceXXXX</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <br/>
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <table class="total-amount">
+                                <tr>
+                                    <td><strong>Total Amount unTaxed</strong></td>
+                                    <td class="text-right">
+                                        <span> $ xxxxxxxxxx </span>
+                                        <!-- put the value in the t-field -->
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>GST</strong></td>
+                                    <td class="text-right">
+                                        <span> $ xxxxxxxxxx </span>
+                                        <!-- put the value in the t-field -->
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Grand Total</strong></td>
+                                    <td class="text-right">
+                                        <span> $ xxxxxxxxxx </span>
+                                        <!-- put the value in the t-field -->
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="col-xs-6">
+                            <table class="vehicle">
+                                <tr>
+                                    <td><strong>Vehicle rego</strong></td>
+                                    <td><span>xxxxxxxxxxxxxxxxx</span></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Make/Model</strong></td>
+                                    <td><span>xxxxxxxxxxxxxxxxx</span> / <span>xxxxxxxxxxxxxxxxx</span> </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Year</strong> <span>xxxx</span></td>
+                                    <td style="padding-left:85px;"><strong>Colour</strong> <span>xxxxxxxxxxxxxxxxx</span> </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>VIN</strong></td>
+                                    <td><span>xxxxxxxxxxxxxxxxx</span></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Milage (km)</strong></td>
+                                    <td><span>xxxxxxxxxxxxxxxxx</span></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <br/>
+
+                    <div>
+                        <table class="table table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">Product</th>
+                                    <th class="text-center">Description</th>
+                                    <th class="text-center" width="15%">Unit Price ($)</th>
+                                    <th class="text-center" width="5%">Qty</th>
+                                    <th class="text-center" width="10%">GST</th>
+                                    <th class="text-center" width="100px">Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="o.invoice_line" t-as="l">
+                                    <td class="text-center">
+                                        <span t-field="l.product_id" />
+                                    </td>
+                                    <td class="text-center">
+                                        <span t-field="l.name" />
+                                    </td>
+                                    <td class="text-center">
+                                        <span t-field="l.price_unit" />
+                                    </td>
+                                    <td class="text-center">
+                                        <span t-field="l.quantity" />
+                                        <span t-field="l.uos_id" groups="product.group_uom" />
+                                    </td>
+                                    <td class="text-center">
+                                        <span t-esc="', '.join(map(lambda x: x.name, l.invoice_line_tax_id))" />
+                                    </td>
+                                    <td class="text-right">
+                                        <span t-field="l.price_subtotal" t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}' />
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <table style="border:1px solid; width:100%;">
+                    	<tr style="height:100px; width:100%; display:block; padding: 5px 10px;">
+                    		<td>
+                    			<strong>Notes</strong> <br/>
+                                <span t-field="o.comment" />
+                    		</td>
+                    	</tr>
+                    	<tr style="height:200px; width:100%; display:block; padding: 5px 10px;">
+                    		<td>
+                    			<strong>Payments (Credit)</strong>
+                    		</td>
+                    	</tr>
+                    </table>
+                    <br/>
+                    <div>
+                    	<h3 style="padding-left: 30px;">Your payment options</h3> <br/>
+                        <div class="col-xs-4">
+                            <div style="overflow: hidden; margin-bottom: 60px;">
+                            	<div class="thumb">
+                            		<img src="/report_taxiclub/static/src/img/payperson_icon.png" class="image-height-width" />
+                            	</div>
+                            	<div class="content">
+                            		<p> <b>In Person </b> <br/>
+                            			   Come to our office </p>
+                            	</div>
+                            </div>
+                            <div>
+                            	<div class="thumb">
+                            		<img src="/report_taxiclub/static/src/img/paybank_icon.png" class="image-height-width" />
+                            	</div>
+                            	<div class="content">
+                            		<p>
+                            			<span style="font-weight: 700; font-size: 16px;">Bank ETF</span> <br/>
+										    Bank name: <span> xxxxxxxxxxxxx </span> <br/>
+	                              		    BSB: <span> xxxxxxxxxxxxx </span><br/>
+	                              		    Account number <span>xxxxxxxxxxxxx</span> <br/>
+	                              		    Account name<span>xxxxxxxxxxxxx</span>
+	                              	</p>
+                            	</div>
+                            </div>
+                        </div>
+                        <div class="col-xs-4">
+                        	<div class="thumb">
+                        		<img src="/report_taxiclub/static/src/img/paybill_icon.png" class="image-height-width" />
+                        	</div>
+                            <div class="content" style="width: 200px;">
+                               	<span> <span style="font-weight: 700; font-size: 16px;">BPAY</span> <br/>
+									<div style="border:1px solid; padding:4px; width: 200px;">
+										Biller Code: <br/>
+										Ref No:
+									</div>
+           							<br/>
+           							<b>Telephone and internet banking</b> <br/>
+           							<p>Call your bank or financial institution to make
+           							   this payment from your cheque, savings or credit
+           							   card account. <br/> More info: <b>www.bpay.com.au</b></p>
+           							<img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', o.partner_id.name, 600, 100)" style="width:300px;height:25px;margin-left:-45px;"/> <br/>
+           						</span>
+                            </div>
+                        </div>
+                        <div class="col-xs-4">
+                        	<div style="overflow: hidden; margin-bottom: 60px;">
+	                        	<div class="thumb">
+	                        		<img src="/report_taxiclub/static/src/img/payphone_icon.png" class="image-height-width" />
+	                        	</div>
+	                        	<div class="content" style="width: 200px;">
+	                               	<span> <b>Phone</b>
+	                               		<br/> MasterCard or VISA <br/>
+	                               			  Merchant Fees of 2.5% may apply
+	       							</span>
+	                        	</div>
+                        	</div>
+                        	<div>
+                        		<div class="thumb">
+                        			<img src="/report_taxiclub/static/src/img/paycheck_icon.png" class="image-height-width" />
+                        		</div>
+                        		<div class="content">
+                               		<span> <span style="font-weight: 700; font-size: 16px;">Cheque <br/>
+                               			  Money Order </span> 
+       								</span>
+                        		</div>
+                        	</div>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </template>
+
+        <template id="report_taxi_club_mgmt">
+            <t t-call="report.html_container">
+                <t t-foreach="doc_ids" t-as="doc_id">
+                    <t t-raw="translate_doc(doc_id, doc_model, 'partner_id.lang', 'report_taxiclub.report_taxiclub_body')" />
+                </t>
+            </t>
+        </template>
+    </data>
+</openerp>
