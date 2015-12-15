@@ -7,11 +7,6 @@
         body {
             color: #000 !important;
         }
-        .cush {
-            background-color: black;
-            font-color: white;
-            font-size: 22px;
-        }
         <!-- More of CUSTOM CSS here -->
     </style>
 </template>
@@ -19,33 +14,17 @@
 <template id="report_anl_quotation_header">
     <div class="header">
         <div class="row">
+        	<br/><br/><br/><br/>
             <div class="col-xs-6">
-                <p class="cush">A&amp;L AUTOMOBILE</p>
+                <p style="color:white; background:#111; padding:5px; font-size:25px; width:400px;">A&amp;L AUTOMOBILE</p>
             </div>
             <div class="col-xs-6 text-right">
-                <p class="cush" style="font-size:23px;">QUOTATION</p>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-xs-12">
-                <span t-field="o.company_id.name"/>
-                <div t-field="o.company_id.partner_id"
-                     t-field-options='{"widget": "contact", "fields": ["address", "zip", "phone", "fax"], "no_marker": true}'/>
-                <p>Website: <span t-field="o.company_id.website"/> <br/> Email: <span t-field="o.company_id.email"/> </p>
+                <p style="font-size:30px;">QUOTATION</p>
             </div>
         </div>
     </div>
 
     <div class="footer">
-        <div class="text-center" style="border-top: 1px solid black;">
-            <br/>
-            <ul class="list-inline">
-                <li>Page:</li>
-                <li><span class="page"/></li>
-                <li>/</li>
-                <li><span class="topage"/></li>
-            </ul>
-        </div>
     </div>
 </template>
 
@@ -55,25 +34,45 @@
     <t t-call="report.external_layout">
         <div class="page">
             <div class="oe_structure"/>
-
+			
+			<div class="row">
+				<div class="col-xs-12">
+                	<span t-field="o.company_id.name"/>
+                	<div t-field="o.company_id.partner_id"
+                	     t-field-options='{"widget": "contact", "fields": ["address", "zip", "phone", "fax"], "no_marker": true}'/>
+                	<p>Website: <span t-field="o.company_id.website"/> Email: <span t-field="o.company_id.email"/> </p>
+        	</div>
+        	</div>
             <div class="row">
-                <div class="col-xs-12">
-                    <span t-field="o.company_id.name"/>
-                    <div t-field="o.company_id.partner_id"
-                         t-field-options='{"widget": "contact", "fields": ["address", "zip", "phone", "fax"], "no_marker": true}'/>
-                    <p>Website: <span t-field="o.company_id.website"/> <br/> Email: <span t-field="o.company_id.email"/> </p>
-                </div>
-            </div>
-            <br/>
-            <div class="row">
-                <div class="col-xs-8">
+                <div class="col-xs-6" style="border: 2px solid; width: 400px;">
                     <span t-field="o.partner_id.name"/>
                     <div t-field="o.partner_id"
                          t-field-options='{"widget": "contact", "fields": ["address", "zip", "phone", "fax"], "no_marker": true}'/>
                 </div>
-                <div class="col-xs-4">
-                    <strong>Date: </strong> <span t-field="o.date_order"/> <br/>
-                    <strong>QUOTATION NO: </strong> <span t-field="o.name"/> <br/>
+                <div class="col-xs-6" style="padding-left:170px;">
+                	<div style="clear:both; overflow:hidden;">
+						<div style="width:120px; float:left;">Date</div>
+                    	<div style="float:left;">:
+                    		 <span t-esc="time.strftime('%d/%m/%Y',time.strptime(o.date_order,'%Y-%m-%d %H:%M:%S'))"/>
+                        </div>
+					</div>
+                    <div style="clear:both; overflow:hidden;">
+						<div style="width:120px; float:left;">QUOTATION NO</div>
+                    	<div style="float:left;">:
+                    		 <span t-field="o.name"/>
+                        </div>
+					</div>
+					<div style="clear:both; overflow:hidden;">
+						<div style="width:120px; float:left;">Delivery</div>
+                    	<div style="float:left;">:
+                    		<span t-if="o.shipped == False" >
+                                <span>Not Delivered</span>
+                            </span>
+                            <span t-if="o.shipped == True" >
+                                <span>Delivered</span>
+                            </span>
+                        </div>
+					</div>
                 </div>
             </div>
             <br/>
@@ -83,7 +82,7 @@
             </p>
             <br/>
 
-            <table class="table table-condensed">
+            <table class="table table-condensed table-bordered">
                 <thead>
                     <tr>
                         <th><strong>ITEM</strong></th>
