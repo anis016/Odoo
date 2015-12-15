@@ -13,6 +13,7 @@
         .cusb {
             font-color: white;
             font-size: 18px;
+            text-align: center;
         }
     <!-- More of CUSTOM CSS here -->
     </style>
@@ -24,7 +25,6 @@
                 <p class="cush">A&amp;L AUTOMOBILE PTE LTD</p>
                 <div t-field="o.warehouse_id.partner_id"
                      t-field-options='{"widget": "contact", "fields": ["address", "zip", "phone", "fax", "vat"], "no_marker": true}'/>
-                <p class="cusb">PAYMENT NOTICE</p>
             </div>
     </div>
 
@@ -50,47 +50,81 @@
     <t t-call="report.external_layout">
         <div class="page">
             <div class="oe_structure"/>
+            
+            <p class="cusb"> <b>PAYMENT NOTICE</b></p>
+            
             <br/><br/>
             <div class="row">
-                <div class="col-xs-8">
-                    <table style=" padding: 20px;height: 250px;width: 100%;">
-                        <thead>
-                            <tr style="margin: 0px 25px 0px 13px;padding-bottom: 6px;display: block;">
-                                <th>Insured: </th>
-                                <td><span t-field="o.partner_id"/></td>
-                            </tr>
-                            <tr style="margin: 0px 25px 39px 13px;padding-bottom: 6px;display: block;">
-                                <th>Address: </th>
-                                <td><div t-field="o.partner_id"
-                                         t-field-options='{"widget": "contact", "fields": ["address", "zip", "phone", "fax"], "no_marker": true}'/></td>
-                            </tr>
-                            <tr style="margin: 0px 25px 2px 13px;padding-bottom: 6px;display: block;">
-                                <th>Attn:</th>
-                                <td>
-                                    <span t-if="o.partner_id.child_ids" >
-                                        <span t-field="o.partner_id.child_ids[0].name"/>
-                                    </span>
+                <div class="col-xs-7">
+                    <div style="clear:both; overflow:hidden;">
+                    	<div style="width:100px; float:left;">Insured</div>
+                    	<div style="width:300px; float:left;">:
+                    		 <b><span t-field="o.partner_id"/></b>
+                        </div>
+                    </div>
+                    <div style="clear:both; overflow:hidden;">
+                    	<div style="width:100px; float:left;">Address</div>
+                    	<div style="width:300px; float:left;">:
+                    		 <span t-field="o.partner_id.street"/> <br/>
+                    		 <span t-if="o.partner_id.street2" >
+                    		 	<span t-field="o.partner_id.street2"/> <br/>
+                    		 </span>
+                    		 <span t-if="o.partner_id.city" >
+                    		 	<span t-field="o.partner_id.city"/> <br/>
+                    		 </span>
+                    		 <span t-if="o.partner_id.country_id" >
+                    		 	<span t-field="o.partner_id.country_id"/>, 
+                    		 </span>
+                    		 <span t-if="o.partner_id.zip" >
+                    		 	<span t-field="o.partner_id.zip"/> 
+                    		 </span>
+						</div>
+					</div>
+					<br/><br/>
+					<div style="clear:both; overflow:hidden;">
+						<div style="width:100px; float:left;">Attn</div>
+						<div style="width:300px; float:left;">:
+                    		 <span t-if="o.partner_id.child_ids" >
+                                 <span t-field="o.partner_id.child_ids[0].name"/>
+                             </span>
 
-                                    <span t-if="o.partner_id.function" >
-                                        <span t-field="o.partner_id.name"/>
-                                    </span>
-                                </td>
-                            </tr>
-                            <tr style="margin: 0px 25px 0px 13px;padding-bottom: 6px;display: block;">
-                                <th>Contact No.: </th>
-                                <td><span t-field="o.partner_id.mobile"/></td>
-                            </tr>
-                            <tr style="margin: 0px 25px 0px 13px;padding-bottom: 6px;display: block;">
-                                <th>Fax No.: </th>
-                                <td><span t-field="o.partner_id.fax"/></td>
-                            </tr>
-                        </thead>
-                    </table>
+                             <span t-if="o.partner_id.function" >
+                                 <span t-field="o.partner_id.name"/>
+                             </span>
+                        </div>
+					</div>
+					<div style="clear:both; overflow:hidden;">
+						<div style="width:100px; float:left;">Contact No.</div>
+                    	<div style="width:300px; float:left;">:
+                    		 <span t-field="o.partner_id.mobile"/>
+                        </div>
+					</div>
+					<div style="clear:both; overflow:hidden;">
+						<div style="width:100px; float:left;">Fax No.</div>
+                    	<div style="width:300px; float:left;">:
+                    		 <span t-field="o.partner_id.fax"/>
+                        </div>
+					</div>
                 </div>
-                <div class="col-xs-4">
-                    <strong>Date: </strong> <span t-esc="time.strftime('%d/%m/%Y',time.strptime(o.date_order,'%Y-%m-%d %H:%M:%S'))"/> <br/>
-                    <strong>Source: </strong> <span t-field="o.name"/> <br/>
-                    <strong>Ref no.: </strong> <span t-field="o.client_order_ref"/> <br/>
+                <div class="col-xs-5" style="padding-left: 170px;">
+                    <div style="clear:both; overflow:hidden;">
+						<div style="width:50px; float:left;">Date</div>
+                    	<div style="float:left;">:
+                    		 <span t-esc="time.strftime('%d/%m/%Y',time.strptime(o.date_order,'%Y-%m-%d %H:%M:%S'))"/>
+                        </div>
+					</div>
+                    <div style="clear:both; overflow:hidden;">
+						<div style="width:50px; float:left;">Source</div>
+                    	<div style="float:left;">:
+                    		 <span t-field="o.name"/>
+                        </div>
+					</div>
+					<div style="clear:both; overflow:hidden;">
+						<div style="width:50px; float:left;">Ref no.</div>
+                    	<div style="float:left;">:
+                    		 <span t-field="o.client_order_ref"/>
+                        </div>
+					</div>
                 </div>
             </div>
             <br/><br/>
@@ -117,13 +151,20 @@
                                 <span>Period : </span> <span t-esc="time.strftime('%d/%m/%Y',time.strptime(o.policy_start,'%Y-%m-%d'))"/> ~ <span t-esc="time.strftime('%d/%m/%Y',time.strptime(o.policy_end,'%Y-%m-%d'))"/> <br/>
                                 <span>NCD : </span> XXXXXXXXXXX <br/> <br/>
                                 <span>LESS DISCOUNT</span>
+                                <span t-if="o.deposit > 0.0" >
+                                 	<br/> <span>Deposit</span>
+                             	</span>
                             </td>
                             <td class="text-left">
                                 <span t-field="o.amount_untaxed"
                                 t-field-options='{"widget": "monetary", "display_currency": "o.pricelist_id.currency_id"}'/>
                                 <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/>
-                                <span t-field="o.discount_amt"
-                                t-field-options='{"widget": "monetary", "display_currency": "o.pricelist_id.currency_id"}'/>
+                                ( <span t-field="o.discount_amt"
+                                t-field-options='{"widget": "monetary", "display_currency": "o.pricelist_id.currency_id"}'/> )
+                                <span t-if="o.deposit > 0.0" >
+                                	<br/> <span t-field="o.deposit"
+		                                  t-field-options='{"widget": "monetary", "display_currency": "o.pricelist_id.currency_id"}'/>
+		                        </span>
                             </td>
                         </tr>
                         <tr>
