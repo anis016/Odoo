@@ -40,14 +40,14 @@ class product_custom(osv.Model):
         'no_of_transfer' : fields.char("No of Transfer", size=24),
         'capacity': fields.integer("Capacity/Seats"),
         # New Client requriements
-        'road_tax_due' : fields.date(String="Road Tax Due date"),
-        'inspect_due_date' : fields.date(String="Inspection Due date"),
+        'ro_due' : fields.date(String="Road Tax date"),
+        'ins_date' : fields.date(String="Inspection date"),
         'mileage' : fields.char(String="Mileage"),
 
         'attachment' : fields.selection([('box', 'Box'), ('open', 'Open'),('canopy', 'Canopy')], 'Vehicle Attachment',default='box'),
         'deck' : fields.selection([('high', 'High'), ('low', 'Low')], 'Vehicle Deck', default='high'),
 
-        'isvehicle':fields.boolean("Add to Vechicle"),
+        'isvehicle':fields.boolean("Vehicle", default=False),
         }
 
     # def onchange_address(self, cr, uid, ids, use_parent_address, parent_id, context=None):

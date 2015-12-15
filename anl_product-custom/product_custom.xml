@@ -6,13 +6,13 @@
             <field name="model">product.template</field>
             <field name="inherit_id" ref="product.product_template_form_view"/>
             <field name="arch" type="xml">
-                <xpath expr="//page[@string='Information']" position="before">
-                    <page name="vehicle" string="Vehicle Information">
+                <xpath expr="/form/sheet/notebook/page[@string='Information']" position="before">
+                    <page string="Vehicle Information" attrs="{'invisible':[('isvehicle','=',False)]}">
                       <group colspan="4">
                           <group>
                             <field name="capacity"/>
-                            <field name="road_tax_due"/>
-                            <field name="inspect_due_date"/>
+                            <field name="ro_due" string="Road Tax due date"/>
+                            <field name="ins_date" string="Inspect. due date"/>
                           </group>
                           <group>
                             <field name="vehicle_no"/>
@@ -35,6 +35,7 @@
                           <group>
                             <field name="attachment" />
                             <field name="deck" />
+                            <field name="isvehicle" invisible="1"/>
                           </group>
                         </group>
                     </page>

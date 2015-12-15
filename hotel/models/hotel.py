@@ -152,7 +152,7 @@ class hotel_room(models.Model):
         product_tmpl_obj['mileage'] = record.mileage
         product_tmpl_obj['attachment'] = record.attachment
         product_tmpl_obj['deck'] = record.deck
-        product_tmpl_obj['isvehicle'] = record.isvehicle
+        product_tmpl_obj['isvehicle'] = True
         
         return record
         
