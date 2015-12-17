@@ -14,13 +14,21 @@
         .underline {
             display: inline-block;
             padding: 0 10px;
-            width: 50px;
+            width: 180px;
             border-bottom: 1px dotted #888;
         }
+        
         .centered-text {
             text-align: center;
         }
-        .
+        
+        .underline-body {
+            display: inline-block;
+            padding: 0 10px;
+            width: 100px;
+            border-bottom: 1px dotted #888;
+            text-align: center;
+        }
         <!-- More of CUSTOM CSS here -->
     </style>
 </template>
@@ -43,15 +51,6 @@
     </div>
 
     <div class="footer">
-        <div class="text-center" style="border-top: 1px solid black;">
-            <br/>
-            <ul class="list-inline">
-                <li>Page:</li>
-                <li><span class="page"/></li>
-                <li>/</li>
-                <li><span class="topage"/></li>
-            </ul>
-        </div>
     </div>
 </template>
 
@@ -60,7 +59,6 @@
     <t t-call="report.external_layout">
         <div class="page">
             <div class="oe_structure"/>
-            <br/>
             <div class="row">
                 <div class="col-xs-12 text-right">
                     <strong style="font-size: 18px">AGREEMENT NO.: <span t-field="o.name"/> </strong> <br/> <br/>
@@ -70,19 +68,35 @@
                 <p> An agreement made this on <span class="underline centered-text" t-esc="time.strftime('%d')" ></span> Day of <span class="underline centered-text" t-esc="time.strftime('%m')" ></span>  <span class="underline centered-text" t-esc="time.strftime('%Y')" ></span> between:- </p>
             </div>
 
-            <div>
-                <strong style="font-size: 15px">BUYER</strong> <br/>
-                <p>Name/Co. Name: <strong><span t-field="o.company_id.name"/></strong> NRIC No/Reg No: <strong><span t-field="o.company_id.vat"/></strong> <br/>
-                Address: <strong><span t-field="o.company_id.street"/> <span t-field="o.company_id.street2"/></strong> <br/>
-                Tel: <strong><span t-field="o.company_id.phone"/></strong> Fax: <strong><span t-field="o.company_id.fax"/></strong> </p>
+            <div class="row">
+            	<h5 style="margin-left:18px; font-weight: bold; text-decoration:underline">BUYER</h5>
+            	<div class="col-xs-8">
+            		<span>Name/Co. Name: <strong style="text-align:center; display: inline-block; width: 75%; border-bottom: 1px dotted #888;"><span t-field="o.company_id.name"/></strong></span><br/>
+            		<span>Address: <strong style="text-align:center; display: inline-block; width: 85%; border-bottom: 1px dotted #888;"><span t-field="o.company_id.street"/> <span t-field="o.company_id.street2"/></strong></span><br/>
+            		<span>Tel: <strong style="text-align:center; display: inline-block; width: 91%; border-bottom: 1px dotted #888;"><span t-field="o.company_id.phone"/></strong></span>
+            	</div>
+                <div class="col-xs-4">
+                	<span>NRIC No/Reg No: <strong style="text-align:center; display: inline-block; width: 47%; border-bottom: 1px dotted #888;"><span t-field="o.company_id.vat"/></strong></span><br/>
+                	<br/>
+                	<span>Fax: <strong style="text-align:center; display: inline-block; width: 81%; border-bottom: 1px dotted #888;"><span t-field="o.company_id.fax"/></strong></span>
+                </div>
             </div>
-            <div>
-                <strong style="font-size: 15px">SELLER</strong> <br/>
-                <p>Name/Co. Name: <strong><span t-field="o.partner_id.name"/></strong> NRIC No/Reg No: <strong><span t-field="o.partner_id.nea_license"/></strong> <br/>
-                Address: <strong><span t-field="o.partner_id.street"/> <span t-field="o.partner_id.street2"/></strong> <br/>
-                Tel: <strong><span t-field="o.partner_id.phone"/></strong> Fax: <strong><span t-field="o.partner_id.fax"/></strong> </p>
+                        
+            <div class="row">
+            	<h5 style="margin-left:18px; font-weight: bold; text-decoration:underline">SELLER</h5>
+            	<div class="col-xs-8">
+            		<span>Name/Co. Name: <strong style="text-align:center; display: inline-block; width: 75%; border-bottom: 1px dotted #888;"><span t-field="o.partner_id.name"/></strong></span><br/>
+            		<span>Address: <strong style="text-align:center; display: inline-block; width: 85%; border-bottom: 1px dotted #888;"><span t-field="o.partner_id.street"/> <span t-field="o.partner_id.street2"/></strong></span><br/>
+            		<span>Tel: <strong style="text-align:center; display: inline-block; width: 91%; border-bottom: 1px dotted #888;"><span t-field="o.partner_id.phone"/></strong></span>
+            	</div>
+                <div class="col-xs-4">
+                	<span>NRIC No/Reg No: <strong style="text-align:center; display: inline-block; width: 47%; border-bottom: 1px dotted #888;"><span t-field="o.partner_id.nea_license"/></strong></span><br/>
+                	<br/>
+                	<span>Fax: <strong style="text-align:center; display: inline-block; width: 81%; border-bottom: 1px dotted #888;"><span t-field="o.partner_id.fax"/></strong></span>
+                </div>
             </div>
-
+            
+            <br/>
             <div>
                 <p> Whereby it is hereby agreed the following: <br/></p>
 
@@ -90,35 +104,35 @@
                     <p> A) The seller agreed to sell and the buyer agreed to purchase: <br/>
                         <div class="row">
                             <div class="col-xs-3">
-                                <span>Vehicle No: <span t-field="l.product_id.product_tmpl_id.vehicle_no"/> </span> <br/>
-                                <span>Parf: <span t-field="l.product_id.product_tmpl_id.parf"/> </span> <br/>
-                                <span>Engine No: <span t-field="l.product_id.product_tmpl_id.engine_no"/> </span> <br/>
-                                <span>Y.O.M: <span t-field="l.product_id.product_tmpl_id.y_o_m"/> </span> <br/>
+                                <span>Vehicle No: <span class="underline-body" t-field="l.product_id.product_tmpl_id.vehicle_no"/> </span> <br/>
+                                <span>Parf: <span class="underline-body" t-field="l.product_id.product_tmpl_id.parf"/> </span> <br/>
+                                <span>Engine No: <span class="underline-body" t-field="l.product_id.product_tmpl_id.engine_no"/> </span> <br/>
+                                <span>Y.O.M: <span class="underline-body" t-field="l.product_id.product_tmpl_id.y_o_m"/> </span> <br/>
                             </div>
                             <div class="col-xs-4">
-                                <span>Model: <span t-field="l.product_id.product_tmpl_id.model"/> </span> <br/>
-                                <span>Non Parf: <span t-field="l.product_id.product_tmpl_id.non_parf"/> </span> <br/>
-                                <span>Chassis No: <span t-field="l.product_id.product_tmpl_id.chassis_no"/> </span> <br/>
-                                <span>Reg. Date: <span t-field="l.product_id.product_tmpl_id.reg_date"/> </span> <br/>
+                                <span>Model: <span class="underline-body" t-field="l.product_id.product_tmpl_id.model"/> </span> <br/>
+                                <span>Non Parf: <span class="underline-body" t-field="l.product_id.product_tmpl_id.non_parf"/> </span> <br/>
+                                <span>Chassis No: <span class="underline-body" t-field="l.product_id.product_tmpl_id.chassis_no"/> </span> <br/>
+                                <span>Reg. Date: <span class="underline-body" t-field="l.product_id.product_tmpl_id.reg_date"/> </span> <br/>
                             </div>
                             <div class="col-xs-5">
-                                <span>Tax: <span t-field="l.taxes_id"/> </span> <br/>
-                                <span>Company Registered: <span t-field="l.product_id.product_tmpl_id.company_reg"/> </span> <br/>
+                                <span>Tax: <span class="underline-body" t-field="l.taxes_id"/> </span> <br/>
+                                <span>Company Registered: <span class="underline-body" t-field="l.product_id.product_tmpl_id.company_reg"/> </span> <br/>
                                 <br/>
-                                <span>No of Transfer: <span t-field="l.product_id.product_tmpl_id.no_of_transfer"/> </span> <br/>
+                                <span>No of Transfer: <span class="underline-body" t-field="l.product_id.product_tmpl_id.no_of_transfer"/> </span> <br/>
                             </div>
                         </div>
                         <div>
-                            <span>C.O.E Expiry Date: <span t-field="l.product_id.product_tmpl_id.coe_expiry"/> </span> <br/>
-                            <span>In Consideration of <strong t-field-options='{"widget": "monetary", "display_currency": "o.pricelist_id.currency_id"}' /> <strong>xxxxx</strong> free from all encumbrances.</span> <br/>
+                            <span>C.O.E Expiry Date: <span class="underline-body" t-field="l.product_id.product_tmpl_id.coe_expiry"/> </span> <br/>
+                            <span>In Consideration of <strong t-field-options='{"widget": "monetary", "display_currency": "o.pricelist_id.currency_id"}' /> <strong class="underline-body">xxxxx</strong> free from all encumbrances.</span> <br/>
                         </div>
                         <br/> </p>
                     <div>
-                        <p> B)The buyer shall pay a deposit of <strong t-field-options='{"widget": "monetary", "display_currency": "o.pricelist_id.currency_id"}' /> <strong>xxxxx</strong> and the balance purchase shall be payable on or before in default where of the deposit paid will be forfeited.
+                        <p> B)The buyer shall pay a deposit of <strong t-field-options='{"widget": "monetary", "display_currency": "o.pricelist_id.currency_id"}' /> <strong class="underline-body" t-field="o.deposit" /> and the balance purchase shall be payable on or before in default where of the deposit paid will be forfeited.
                         <br/> </p>
                     </div>
                     <div>
-                        <p> C)Vehicle shall be hand over on or before <strong>xxxxx</strong> in default where of your're required to bear for all consequences and compensation.
+                        <p> C)Vehicle shall be hand over on or before <strong class="underline-body">xxxxx</strong> in default where of your're required to bear for all consequences and compensation.
                         <br/> </p>
                     </div>
                     <div>
@@ -127,13 +141,13 @@
 
                             <div class="row">
                                 <div class="col-xs-6">
-                                    <span>Selling Price: <strong t-field-options='{"widget": "monetary", "display_currency": "o.pricelist_id.currency_id"}' /> <span t-field="o.amount_untaxed"/> </span> <br/>
-                                    <span>Full Settle: <strong t-field-options='{"widget": "monetary", "display_currency": "o.pricelist_id.currency_id"}' /> <span t-field="o.amount_total"/> </span> <br/>
+                                    <span>Selling Price: <strong t-field-options='{"widget": "monetary", "display_currency": "o.pricelist_id.currency_id"}' /> <span class="underline-body" t-field="o.amount_untaxed"/> </span> <br/>
+                                    <span>Full Settle: <strong t-field-options='{"widget": "monetary", "display_currency": "o.pricelist_id.currency_id"}' /> <span class="underline-body" t-field="o.amount_total"/> </span> <br/>
                                     <span>Balance Payment: xxxxx </span> <br/>
                                 </div>
                                 <div class="col-xs-6">
-                                    <span>Date of Handover: <span t-esc="time.strftime('%d %B %Y',time.strptime(o.date_order,'%Y-%m-%d %H:%M:%S'))"/> </span><br/>
-                                    <span>Time: <span t-esc="time.strftime('%I:%M:%S %p',time.strptime(o.date_order,'%Y-%m-%d %H:%M:%S'))"/> </span> <br/>
+                                    <span>Date of Handover: <span style="text-align:center; display: inline-block; width: 50%; border-bottom: 1px dotted #888;" t-esc="time.strftime('%d %B %Y',time.strptime(o.date_order,'%Y-%m-%d %H:%M:%S'))"/> </span><br/>
+                                    <span>Time: <span class="underline-body" t-esc="time.strftime('%I:%M:%S %p',time.strptime(o.date_order,'%Y-%m-%d %H:%M:%S'))"/> </span> <br/>
                                 </div>
                             </div>
                             <br/> </p>
@@ -160,7 +174,7 @@
 
                         </div>
                         <div class="col-xs-6">
-                            <br/><br/>
+                            <br/>
                             <p>_____________________________ <br/>
                             Signature of Seller: <br/>
                             Name: <span t-field="o.partner_id.child_ids[0].name"></span> <br/>
