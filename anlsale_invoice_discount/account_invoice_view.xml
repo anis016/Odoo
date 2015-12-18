@@ -7,21 +7,24 @@
             <field name="model">account.invoice</field>
             <field name="inherit_id" ref="account.invoice_form"/>
             <field name="arch" type="xml">
-                <field name="date_invoice" position="after">
-                        <label for="discount_method"/>
-                        <div>
-                            <field name="discount_method" class="oe_inline"/>
-                        </div>
-                         <label for="discount_amount"/>
-                        <div>
-                            <field name="discount_amount" class="oe_inline"/>
-                            <label string="%%"
-                                attrs="{'invisible': [('discount_method', '!=', 'per')]}" class="oe_inline"/>
-                         </div>
-                         <div>
-                         	<field name="deposit" class="oe_inline"/>
-                         </div>
-                </field>
+            	<xpath expr="//field[@name='date_invoice']" position="after">
+            		<label for="discount_method"/>
+                    <div>
+                    	<field name="discount_method" class="oe_inline"/>
+                    </div>
+                    <label for="discount_amount"/>
+                    <div>
+                    	<field name="discount_amount" class="oe_inline"/>
+                    	<label string="%%"
+                               attrs="{'invisible': [('discount_method', '!=', 'per')]}" class="oe_inline"/>
+                    </div>
+                    <label for="deposit"/>
+                    <div>
+                    	<field name="deposit" class="oe_inline"/>
+                    </div>
+            	</xpath>
+                <!-- <field name="date_invoice" position="after">
+                </field> -->
                 <field name="amount_untaxed" position="after">
                      <field name="discount_amt" widget="monetary" options="{'currency_field': 'currency_id'}"/>
                      <field name="deposit_amt" widget="monetary" options="{'currency_field': 'currency_id'}"/>
