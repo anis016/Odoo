@@ -44,6 +44,9 @@
                                 <field name="children"/> -->
                             </group>
                                <field name="dummy" invisible="True"/>
+                            <group>
+                            	<field name="deposit" />
+                            </group>
                         </group>
                         <notebook>
                             <page string='Vehicle Reservation Line'>
@@ -65,6 +68,9 @@
                                 <field name= 'folio_id' readonly='1'/>
                             </page>
                         </notebook>
+                        <group>
+                        	<field name="note" />
+                        </group>
                     </sheet>
                 </form>
             </field>

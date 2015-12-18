@@ -34,10 +34,10 @@
 <template id="report_anl_invoice_header">
     <div class="header">
         <div class="row">
-            <div class="col-xs-12 text-left">
+            <div class="col-xs-12" style="margin-left:-14px;">
                 <p class="cush">A&amp;L AUTOMOBILE PTE LTD</p>
-                <p><span t-field="o.warehouse_id.partner_id.street"/> <span t-field="o.warehouse_id.partner_id.street2"/>
-              Tel: <span t-field="o.warehouse_id.partner_id.phone"/> Fax: <span t-field="o.warehouse_id.partner_id.fax"/> <br/>
+                <p><span t-field="o.warehouse_id.partner_id.street"/> <span t-field="o.warehouse_id.partner_id.street2"/> <br/>
+              Tel: <span t-field="o.warehouse_id.partner_id.phone"/> Fax: <span t-field="o.warehouse_id.partner_id.fax"/> 
                 </p>
             </div>
          </div>
@@ -56,10 +56,10 @@
             <div class="oe_structure"/>
             <div class="row">
                 <div class="col-xs-6">
-                	<span>M/S: <span t-field="o.partner_id "/> </span>
+                	<span style="margin-left:-14px;" >M/S: <span t-field="o.partner_id.name"/> </span>
 				</div>
                 <div class="col-xs-6">
-                	<div class="col-xs-offset-4">
+                	<div class="col-xs-offset-4" style="54.333333%">
                 		<span class="cusb">INVOICE</span> <br/>
                 		<span class="cusb">INVO NO: <span t-field="o.invoice_ids.number"/></span> <br/>
                 		<span class="cusb">Date: <span t-esc="time.strftime('%d %b %Y',time.strptime(o.invoice_ids.date_invoice,'%Y-%m-%d'))"/></span> <br/>
@@ -114,27 +114,20 @@
                 	<div class="col-xs-5 pull-right">
                     	<table class="table table-striped table-bordered">
                         	<tr class="border-black">
-                            	<td width="105px" ><strong>Sub Total</strong></td>
-                            	<td class="text-right" width="95px">
+                            	<td width="100px" ><strong>Total</strong></td>
+                            	<td class="text-right" width="105px">
                                 	<span t-field="o.invoice_ids.amount_untaxed"
-                                	      t-field-options='{"widget": "monetary", "display_currency": "o.pricelist_id.currency_id"}'/>
-                            	</td>
-                        	</tr>
-                        	<tr>
-                            	<td>Vat &amp; Tax </td>
-                            	<td class="text-right">
-                            	    <span t-field="o.invoice_ids.amount_tax"
                                 	      t-field-options='{"widget": "monetary", "display_currency": "o.pricelist_id.currency_id"}'/>
                             	</td>
                         	</tr>
                         	<tr>
                             	<td>Deposit</td>
                             	<td class="text-right">
-	                                XXXXXXXXXXXXXXXXX
+	                                <span t-field="o.deposit_amt" /> 
     	                        </td>
         	                </tr>
             	            <tr class="border-black">
-                	            <td><strong>Total</strong></td>
+                	            <td><strong>Grand Total</strong></td>
                     	        <td class="text-right">
                         	        <span t-field="o.invoice_ids.amount_total"
                             	          t-field-options='{"widget": "monetary", "display_currency": "o.pricelist_id.currency_id"}'/>
@@ -171,7 +164,6 @@
             		</div>	
             	</div>
             </div>
-            <br/>
             <div>
             	<ul>
             		<li><b>A &amp; L AUTOMOBILE PTE LTD</b> shall not be responsible for any loss or expenses if its vehicle breaks down mechanically or accidentally.</li>
@@ -196,7 +188,6 @@
             		<li>The insurance is not covered if the hirer/driver did not report any accident within 24 Hours or insurance excess is not made to A&amp;L Automobile PTE LTD within 7 days.</li>
             	</ul>
             </div>
-            <br/>
             <br/>
             <div>
             	<div class="col-xs-4">

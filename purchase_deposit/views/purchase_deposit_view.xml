@@ -12,6 +12,9 @@
                         <field name="deposit" class="oe_inline"/>
                     </div>
                 </xpath>
+                <xpath expr="//field[@name='date_order']" position="after">
+                	<field name="handover_date" />
+                </xpath>
                 <field name="amount_tax" position="before">
                      <field name="deposit_amt" widget="monetary" options="{'currency_field': 'currency_id'}"/>
                 </field>

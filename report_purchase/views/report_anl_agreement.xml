@@ -143,11 +143,11 @@
                                 <div class="col-xs-6">
                                     <span>Selling Price: <strong t-field-options='{"widget": "monetary", "display_currency": "o.pricelist_id.currency_id"}' /> <span class="underline-body" t-field="o.amount_untaxed"/> </span> <br/>
                                     <span>Full Settle: <strong t-field-options='{"widget": "monetary", "display_currency": "o.pricelist_id.currency_id"}' /> <span class="underline-body" t-field="o.amount_total"/> </span> <br/>
-                                    <span>Balance Payment: xxxxx </span> <br/>
+                                    <span>Balance Payment: <strong t-field-options='{"widget": "monetary", "display_currency": "o.pricelist_id.currency_id"}' /> <span class="underline-body"/> xxxx </span> <br/>
                                 </div>
                                 <div class="col-xs-6">
-                                    <span>Date of Handover: <span style="text-align:center; display: inline-block; width: 50%; border-bottom: 1px dotted #888;" t-esc="time.strftime('%d %B %Y',time.strptime(o.date_order,'%Y-%m-%d %H:%M:%S'))"/> </span><br/>
-                                    <span>Time: <span class="underline-body" t-esc="time.strftime('%I:%M:%S %p',time.strptime(o.date_order,'%Y-%m-%d %H:%M:%S'))"/> </span> <br/>
+                                    <span>Date of Handover: <span style="text-align:center; display: inline-block; width: 50%; border-bottom: 1px dotted #888;" t-esc="time.strftime('%d %B %Y',time.strptime(o.handover_date,'%Y-%m-%d %H:%M:%S'))"/> </span><br/>
+                                    <span>Time: <span class="underline-body" t-esc="time.strftime('%I:%M:%S %p',time.strptime(o.handover_date,'%Y-%m-%d %H:%M:%S'))"/> </span> <br/>
                                 </div>
                             </div>
                             <br/> </p>

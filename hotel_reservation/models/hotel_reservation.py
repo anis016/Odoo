@@ -64,6 +64,10 @@ class hotel_reservation(models.Model):
     date_select = fields.Selection([('week', 'Week'), ('day', 'Day'), ('month', 'Month'), ('year', 'Year')], "Date Range Selection", default="day")
     date_length = fields.Integer("Date Length", default=0)
     
+    # for the deposit calculation
+    deposit = fields.Float("Deposit", default=0.0)
+    note = fields.Text("Notes")
+    
     @api.depends('checkin', 'date_select', 'date_length')
     def _get_end_date(self):
         start_date = datetime.datetime.strptime(self.checkin, "%Y-%m-%d %H:%M:%S").date()
@@ -286,11 +290,13 @@ class hotel_reservation(models.Model):
                 'reservation_id': reservation.id,
                 'service_lines':reservation['folio_id'],
                 'date_select': reservation.date_select,
-                'date_length': reservation.date_length
+                'date_length': reservation.date_length,
+                'deposit': reservation.deposit
             }
             for line in reservation.reservation_line:
                 for r in line.reserve:
                     folio_lines.append((0, 0, {
+                        'deposit': reservation.deposit,
                         'checkin_date': checkin_date,
                         'checkout_date': checkout_date,
                         'product_id': r.product_id and r.product_id.id,

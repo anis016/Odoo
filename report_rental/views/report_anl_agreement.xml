@@ -35,7 +35,7 @@
     <div class="header">
         <div class="row">
             <div class="col-xs-12 text-center">
-                <p class="cush" t-field="o.warehouse_id.name"></p>
+                <p class="cush"> A&amp;L LEASING PTE LTD</p>
                 <p><span t-field="o.warehouse_id.partner_id.street"/> <span t-field="o.warehouse_id.partner_id.street2"/>
               Tel: <span t-field="o.warehouse_id.partner_id.phone"/> Fax: <span t-field="o.warehouse_id.partner_id.fax"/> <br/>
               Website: <span t-field="o.warehouse_id.partner_id.website"/> Email: <span t-field="o.warehouse_id.partner_id.email"/> <br/>
@@ -59,7 +59,7 @@
                 <div class="col-xs-6">
                     <div class="col-xs-offset-5">
                         <br/>
-                        <span class="cusb right-text">VEH NO.: <span t-field="o.folio_id.room_lines.product_id"/></span>
+                        <span class="cusb right-text" style="border:1px solid black; padding: 4px 80px 4px 6px; width:100%;">VEH NO.: <span t-field="o.reservation_line.reserve.vehicle_no"/></span>
                     </div>
                     RENT TO:
                 </div>
@@ -131,7 +131,7 @@
                                 </span>
                             </td>
                             <td>Vehicle make &amp; model</td>
-                            <td>makemodel-XXXX</td>
+                            <td><span t-field="o.reservation_line.reserve.model"/> </td>
                         </tr>
                         <tr>
                             <td>TEL. NO.</td>
@@ -145,7 +145,7 @@
                                 </span>
                             </td>
                             <td>Agreed Period</td>
-                            <td>period-XXXX</td>
+                            <td><span t-esc="time.strftime('%d/%m/%Y',time.strptime(o.checkin,'%Y-%m-%d %H:%M:%S'))"/> ~ <span t-esc="time.strftime('%d/%m/%Y',time.strptime(o.checkout,'%Y-%m-%d %H:%M:%S'))"/></td>
                         </tr>
                         <tr>
                             <td>PASSPORT/NRIC NO.</td>
@@ -161,7 +161,7 @@
                                 </span>
                             </td>
                             <td>Date And Time OUT:</td>
-                            <td>datetimeout-XXXX</td>
+                            <td><span t-esc="time.strftime('%d/%m/%Y',time.strptime(o.checkin,'%Y-%m-%d %H:%M:%S'))"/></td>
                         </tr>
                         <tr>
                             <td>DATE OF BIRTH</td>
@@ -177,7 +177,7 @@
                                 </span>
                             </td>
                             <td>Date And Time IN:</td>
-                            <td>datetimein-XXXX</td>
+                            <td><span t-esc="time.strftime('%d/%m/%Y',time.strptime(o.checkout,'%Y-%m-%d %H:%M:%S'))"/></td>
                         </tr>
                         <tr>
                             <td>
@@ -186,19 +186,20 @@
                                 </span>
                                 Days @ $
                                 <span t-if="o.date_select and o.date_select == 'day'">
-                                	<span t-field="o.folio_id.amount_total" />
+                                	<span t-field="o.reservation_line.reserve.list_price" />
                                 </span>  
                             </td>
                             <td>
                             	$: <span t-if="o.date_select and o.date_select == 'day'">
-                            				<span t-esc="get_dollar(o.folio_id.amount_total)" />
-                            		   </span>
+                            		 <span t-esc="get_dollar(o.reservation_line.reserve.list_price, o.date_length)" />
+                            	   </span>
                             	c: <span t-if="o.date_select and o.date_select == 'day'">
-                            			  <span t-esc="get_cent(o.folio_id.amount_total)" />
-                            		 </span>
+                            	   	 <span t-esc="get_cent(o.reservation_line.reserve.list_price, o.date_length)" />
+                            	   </span>
                             </td>
                             <td>
-                            	Deposits @ $ XXXXXXXXXX
+                            	Deposits @
+                            	$ : <span t-field="o.deposit" />
                             </td>
                             <td>Balance Payable/Deposit Refundable: </td>
                             <td>XXXXXXXXXXX </td>
@@ -210,19 +211,20 @@
                                 </span>
                                 Weeks @ $
                                 <span t-if="o.date_select and o.date_select == 'week'">
-                                	<span t-field="o.folio_id.amount_total" />
+                                	<span t-field="o.reservation_line.reserve.list_price" />
                                 </span>  
                             </td>
                             <td>
                             	$: <span t-if="o.date_select and o.date_select == 'week'">
-                            				<span t-esc="get_dollar(o.folio_id.amount_total)" />
+                            			<span t-esc="get_dollar(o.reservation_line.reserve.list_price, o.date_length)" />
                             		   </span>
                             	c: <span t-if="o.date_select and o.date_select == 'week'">
-                            			  <span t-esc="get_cent(o.folio_id.amount_total)" />
+                            			  <span t-esc="get_cent(o.reservation_line.reserve.list_price, o.date_length)" />
                             		 </span>
                             </td>
                             <td>
-                            	Total @ $ XXXXXXXXXX
+                            	Total @ 
+                            	$ : <span t-esc="get_total_amnt(o.reservation_line.reserve.list_price, o.date_length, o.deposit)" />
                             </td>
                         </tr>
                         <tr>
@@ -232,19 +234,19 @@
                                 </span>
                                 Months @ $
                                 <span t-if="o.date_select and o.date_select == 'month'">
-                                	<span t-field="o.folio_id.amount_total" />
+                                	<span t-field="o.reservation_line.reserve.list_price" />
                                 </span>  
                             </td>
                             <td>
                             	$: <span t-if="o.date_select and o.date_select == 'month'">
-                            				<span t-esc="get_dollar(o.folio_id.amount_total)" />
+                            				<span t-esc="get_dollar(o.reservation_line.reserve.list_price, o.date_length)" />
                             		   </span>
                             	c: <span t-if="o.date_select and o.date_select == 'month'">
-                            			  <span t-esc="get_cent(o.folio_id.amount_total)" />
+                            			  <span t-esc="get_cent(o.reservation_line.reserve.list_price, o.date_length)" />
                             		 </span>
                             </td>
                             <td rowspan="2" >
-                            	Remarks (if any) (note???)
+                            	Remarks (if any) <span t-field="o.note"/>
                             </td>
                             <td>Refunded/Received Cash/Cheque No.: </td>
                             <td>XXXXXXXXXXX </td>

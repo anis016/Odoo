@@ -84,17 +84,13 @@ class purchase_order(osv.osv):
             'deposit': order.deposit, # Added the deposit amount
         }
 
-    def _get_order(self, cr, uid, ids, context=None):
-        result = {}
-        for line in self.pool.get('purchase.order.line').browse(cr, uid, ids, context=context):
-            result[line.order_id.id] = True
-        return result.keys()
-
     _columns = {
         'amount_total': fields.function(_amount_all, digits_compute=dp.get_precision('Account'), string='Total',
             store=True, multi="sums", help="The total amount"),
 
         # Customer end requirements
         'deposit': fields.float('Deposit'),
-        'deposit_amt': fields.function(_calculate_deposit, readonly="True", digits_compute=dp.get_precision('Account'), string="- Deposit Amnt.")
+        'deposit_amt': fields.function(_calculate_deposit, readonly="True", digits_compute=dp.get_precision('Account'), string="- Deposit Amnt."),
+        
+        'handover_date': fields.datetime("Date of Handover", help="Which day it will be handovered ?")
     }

@@ -16,16 +16,24 @@ class hotel_reservation_report(report_sxw.rml_parse):
             'time': time,
             'get_dollar': self._get_dollar,
             'get_cent': self._get_cent,
+            'get_total_amnt': self._get_total_amnt,
         })
         self.context = context
+        
+    def _get_total_amnt(self, amnt, length, deposit):
+        total = amnt * length
+        result = total - deposit
+        return result
             
-    def _get_dollar(self, field):
-        con_str = str(field)
+    def _get_dollar(self, amnt, length):
+        res = float(amnt) * float(length) 
+        con_str = str(res)
         y = con_str.split('.')
         return int(y[0])
         
-    def _get_cent(self, field):
-        con_str = str(field)
+    def _get_cent(self, amnt, length):
+        res = float(amnt) * float(length)
+        con_str = str(res)
         y = con_str.split('.')
         return int(y[1])
     
