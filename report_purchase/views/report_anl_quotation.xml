@@ -34,14 +34,14 @@
     <t t-call="report.external_layout">
         <div class="page">
             <div class="oe_structure"/>
-			
+
 			<div class="row">
 				<div class="col-xs-12">
                 	<span t-field="o.company_id.name"/>
                 	<div t-field="o.company_id.partner_id"
                 	     t-field-options='{"widget": "contact", "fields": ["address", "zip", "phone", "fax"], "no_marker": true}'/>
                 	<p>Website: <span t-field="o.company_id.website"/> Email: <span t-field="o.company_id.email"/> </p>
-        	</div>
+        	    </div>
         	</div>
             <div class="row">
                 <div class="col-xs-6" style="border: 2px solid; width: 400px;">

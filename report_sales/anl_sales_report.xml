@@ -6,17 +6,17 @@
             model="sale.order"
             string="Anl Sales Quotation"
             report_type="qweb-pdf"
-            name="report_sales.report_anl_quotation"
-            file="report_sales.report_anl_quotation"
+            name="report_sales.report_anl_sales_quotation"
+            file="report_sales.report_anl_sales_quotation"
         />
 
         <report
             id="anl_sales_agreement_report_id"
-            model="hotel.reservation"
+            model="sale.order"
             string="Anl Sales Agreement"
             report_type="qweb-pdf"
-            name="report_sales.report_anl_agreement"
-            file="report_sales.report_anl_agreement"
+            name="report_sales.report_anl_sales_agreement"
+            file="report_sales.report_anl_sales_agreement"
         />
 
         <report
@@ -36,6 +36,27 @@
             name="report_sales.report_anl_delivery"
             file="report_sales.report_anl_delivery"
         />
+        
+        <record id="paperformat_lowmargin" model="report.paperformat">
+        	<field name="name">Custom A4 Margin</field>
+   		    <field name="default" eval="True" />
+    		<field name="format">A4</field>
+    		<field name="page_height">0</field>
+    		<field name="page_width">0</field>
+    		<field name="orientation">Portrait</field>
+    		<field name="margin_top">30</field> <!-- Controls the header height -->
+    		<field name="margin_bottom">4</field> <!-- Controls the footer height -->
+    		<field name="margin_left">4</field>
+    		<field name="margin_right">4</field>
+    		<field name="header_line" eval="False" />
+    		<field name="header_spacing">25</field> <!-- Controls the body starting from the top page -->
+    		<field name="dpi">90</field>
+		</record>
+		
+		<record id="report_sales.anl_sales_agreement_report_id" model="ir.actions.report.xml">
+    		<field name="paperformat_id" ref="report_sales.paperformat_lowmargin" />
+		</record>
+
 
     </data>
 </openerp>

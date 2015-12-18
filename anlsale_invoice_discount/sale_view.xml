@@ -26,6 +26,9 @@
                         </div>
                     </group>
                 </xpath>
+                <xpath expr="//field[@name='date_order']" position="after">
+                	<field name="handover_date" />
+                </xpath>
                 <field name="amount_tax" position="before">
                      <field name="discount_amt" widget="monetary" options="{'currency_field': 'currency_id'}"/>
                      <field name="deposit_amt" widget="monetary" options="{'currency_field': 'currency_id'}"/>

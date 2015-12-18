@@ -144,7 +144,10 @@ class sale_order(osv.osv):
                 
         # Customer end requirements 
         'deposit': fields.float('Deposit'),
-        'deposit_amt': fields.function(_calculate_deposit, readonly="True", digits_compute=dp.get_precision('Account'), string="- Deposit Amnt.")
+        'deposit_amt': fields.function(_calculate_deposit, readonly="True", digits_compute=dp.get_precision('Account'), string="- Deposit Amnt."),
+        
+        # New field added
+        'handover_date': fields.datetime("Date of Handover", help="Which day it will be handovered ?")
     }
 
     def discount_set(self, cr, uid, ids, context=None):
