@@ -24,8 +24,8 @@
             model="account.invoice"
             string="Anl Sales Invoice"
             report_type="qweb-pdf"
-            name="report_sales.report_anl_invoice"
-            file="report_sales.report_anl_invoice"
+            name="report_sales.report_anl_sales_invoice"
+            file="report_sales.report_anl_sales_invoice"
         />
 
         <report

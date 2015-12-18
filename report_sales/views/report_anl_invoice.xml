@@ -7,18 +7,11 @@
         body {
             color: #000 !important;
         }
-        .cush {
-            font-size: 22px;
-            color: black;
-        }
         .underline {
             display: inline-block;
             padding: 0 10px;
             width: 50px;
             border-bottom: 1px dotted #888;
-        }
-        .centered-text {
-            text-align: center;
         }
         .right-text {
             text-align: right;
@@ -31,90 +24,144 @@
     </style>
 </template>
 
-<template id="report_anl_invoice_header">
+<template id="report_anl_sales_invoice_header">
     <div class="header">
         <div class="row">
             <div class="col-xs-12 text-center">
-                <p class="cush">A&amp;L AUTOMOBILE PTE LTD</p>
+            	<br/> <br/>
+                <span style="font-size: 23px;font-weight: bold;text-align:center;">A&amp;L AUTOMOBILE PTE LTD</span> <br/>
                 <p><span t-field="o.company_id.street"/> <span t-field="o.company_id.street2"/>
                    TEL: <span t-field="o.company_id.phone"/> FAX: <span t-field="o.company_id.fax"/> <br/>
                    UEN NO.: <span t-field="o.company_id.vat"/> </p>
             </div>
         </div>
-        <div class="row zero_min_height">
-            <div class="col-xs-12">
-                <div style="border-bottom: 1px solid black;"/>
-            </div>
-        </div>
     </div>
 
     <div class="footer">
-        <div class="text-center" style="border-top: 1px solid black;">
-            <br/>
-            <ul class="list-inline">
-                <li>Page:</li>
-                <li><span class="page"/></li>
-                <li>/</li>
-                <li><span class="topage"/></li>
-            </ul>
-        </div>
     </div>
 </template>
 
-<template id="report_anl_invoice_body">
-    <t t-call="report_sales.report_anl_invoice_header" />
+<template id="report_anl_sales_invoice_body">
+    <t t-call="report_sales.report_anl_sales_invoice_header" />
     <t t-call="report.external_layout">
         <div class="page">
             <div class="oe_structure"/>
-            <p class="cush centered-text">SALES INVOICE</p> <br/>
-
+          
+            <div style="font-size: 19px;font-weight: bold;text-align: center;">
+            	<span>SALES INVOICE</span>
+            </div>
+			<br/>
             <div class="row">
-                <div class="col-xs-6 pull-left">
-                    <strong class="thick-header">TO: </strong> <span t-field="o.partner_id.name"/>
-                    <div style="padding-left:32px">
-                        <div t-field="o.partner_id"
-                             t-field-options='{"widget": "contact", "fields": ["address"], "no_marker": true}'/>
-                    </div>
+                <div class="col-xs-7">
+                	<div style="clear:both; overflow:hidden">
+                		<div style="width:100px; float:left; font-weight:bold;"> To </div>
+                		<div style="width:300px; float:left">:
+                			<b><span t-field="o.partner_id.name" /></b> <br/>
+                			<span t-field="o.partner_id.street"/> <br/>
+                    		<span t-if="o.partner_id.street2" >
+                    			<span t-field="o.partner_id.street2"/> <br/>
+                    		</span>
+                    		<span t-if="o.partner_id.city" >
+                    		 	<span t-field="o.partner_id.city"/> <br/>
+                    		</span>
+                    		<span t-if="o.partner_id.country_id" >
+                    		 	<span t-field="o.partner_id.country_id"/>, 
+                    		</span>
+                    		<span t-if="o.partner_id.zip" >
+                    		 	<span t-field="o.partner_id.zip"/> 
+                    		</span>
+                		</div>
+                	</div>
+                	<br/>
+                	<div style="clear:both; overflow:hidden">
+                		<div style="width:100px; float:left;font-weight:bold;">Attn</div>
+                		<div style="width:300px; float:left">: ACCOUNTS DEPT</div>
+                	</div>
+                	<br/>
+                	<div style="clear:both; overflow:hidden">
+                		<div style="width:100px; float:left;font-weight:bold;">Tel</div>
+                		<div style="width:300px; float:left">:
+                			<span t-field="o.company_id.phone" />
+                		</div>
+                	</div>
+                	<div style="clear:both; overflow:hidden">
+                		<div style="width:100px; float:left;font-weight:bold;">Fax</div>
+                		<div style="width:300px; float:left">:
+                			<span t-field="o.company_id.fax"/>
+                		</div>
+                	</div>
                 </div>
-                <div class="col-xs-6 right-text">
-                    <strong class="thick-header" style="text-align:left; padding-right:63px;">Date    :  </strong> <strong><span style="text-align:right;" t-field="o.date_invoice"/></strong> <br/>
-                    <strong class="thick-header" style="text-align:left; padding-right:50px;">Inv No. :  </strong> <strong><span style="text-align:right;" t-field="o.number"/></strong>
+                <div class="col-xs-5" style="padding-left: 150px; font-weight:bold;">
+                	<div style="overflow:hidden; clear:both;">
+                		<div style="width:50px; float:left;"> Date </div>
+                		<div style="float:left;">:
+                			<span t-field="o.date_invoice"/>
+                		</div>
+                	</div>
+                	<div style="overflow:hidden; clear:both;">
+                		<div style="width:50px; float:left;"> Inv No. </div>
+                		<div style="float:left;">:
+                			<span t-field="o.number"/>
+                		</div>
+                	</div>
                 </div>
             </div>
             <br/>
 
-            <strong>ATTN: ACCOUNTS DEPT</strong> <br/><br/>
-            <strong>Tel: </strong> <span t-field="o.company_id.phone"></span> <br/>
-            <strong>Fax: </strong> <span t-field="o.company_id.fax"></span> <br/> <br/>
-
-            <table class="table table-condensed">
+            <table class="table table-condensed table-bordered">
                 <thead>
                     <tr>
-                        <th><strong>No</strong></th>
-                        <th><strong>Description</strong></th>
-                        <th class="text-right"><strong>Qty</strong></th>
-                        <th class="text-right"><strong>Unit Price</strong></th>
-                        <th class="text-right"><strong>Amount</strong></th>
+                        <th class="text-center">No</th>
+                        <th class="text-center">Description</th>
+                        <th class="text-center"><strong>Qty</strong></th>
+                        <th class="text-center"><strong>Unit Price</strong></th>
+                        <th class="text-center"><strong>Amount</strong></th>
                     </tr>
                 </thead>
                 <tbody class="sale_tbody">
                     <tr t-foreach="o.invoice_line" t-as="l">
-                        <td>
+                        <td class="text-center">
                             <span t-esc="str(l_index+1)"/>
                         </td>
-                        <td>
+                        <td class="text-center">
                             <span t-field="l.name"/>
                         </td>
-                        <td class="text-right">
+                        <td class="text-center">
                             <span t-field="l.quantity"/>
                             <span t-field="l.uos_id"  groups="product.group_uom"/>
                         </td>
-                        <td class="text-right">
-                            <span t-field="l.price_unit" t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
+                        <td class="text-center">
+                            <span t-field="l.price_unit"
+                            	  t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
                         </td>
-                        <td class="text-right">
-                            <span t-field="l.price_subtotal" t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
+                        <td class="text-center">
+                            <span t-field="l.price_subtotal"
+                            	  t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
                         </td>
+                    </tr>
+                    <tr>
+                    	<span t-if="o.discount_amount > 0.00">
+							<td></td>
+							<td></td>
+							<td></td>
+							<td class="text-center" > DISCOUNT </td>
+							<td class="text-center">
+								<span t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'
+									  t-field="o.discount_amount" />
+							</td>
+                    	</span>
+                    </tr>
+                    <tr>
+                    	<span t-if="o.deposit > 0.00">
+							<td></td>
+							<td></td>
+							<td></td>
+							<td class="text-center" > DEPOSIT </td>
+							<td class="text-center">
+								<span t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'
+									  t-field="o.deposit" />
+							</td>
+                    	</span>
                     </tr>
                 </tbody>
             </table>
@@ -150,10 +197,10 @@
     </t>
 </template>
 
-<template id="report_anl_invoice">
+<template id="report_anl_sales_invoice">
     <t t-call="report.html_container">
       <t t-foreach="doc_ids" t-as="doc_id">
-        <t t-raw="translate_doc(doc_id, doc_model, 'partner_id.lang', 'report_sales.report_anl_invoice_body')"/>
+        <t t-raw="translate_doc(doc_id, doc_model, 'partner_id.lang', 'report_sales.report_anl_sales_invoice_body')"/>
       </t>
     </t>
 </template>
