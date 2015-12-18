@@ -35,29 +35,15 @@
     <div class="header">
         <div class="row">
             <div class="col-xs-12 text-center">
-                <p class="cush">A&amp;L AUTOMOBILE PTE LTD</p>
+                <br/> <br/>
+                <span style="font-size: 23px;font-weight: bold;text-align:center;">A&amp;L AUTOMOBILE PTE LTD</span> <br/>
                 <p><span t-field="o.company_id.street"/> <span t-field="o.company_id.street2"/>
-                   TEL: <span t-field="o.company_id.phone"/> FAX: <span t-field="o.company_id.fax"/> <br/>
-                   UEN NO.: <span t-field="o.company_id.vat"/> </p>
-            </div>
-        </div>
-        <div class="row zero_min_height">
-            <div class="col-xs-12">
-                <div style="border-bottom: 1px solid black;"/>
+                   TEL: <span t-field="o.company_id.phone"/> FAX: <span t-field="o.company_id.fax"/> </p>
             </div>
         </div>
     </div>
 
     <div class="footer">
-        <div class="text-center" style="border-top: 1px solid black;">
-            <br/>
-            <ul class="list-inline">
-                <li>Page:</li>
-                <li><span class="page"/></li>
-                <li>/</li>
-                <li><span class="topage"/></li>
-            </ul>
-        </div>
     </div>
 </template>
 
@@ -74,33 +60,89 @@
                         <strong><span t-esc="time.strftime('%d/%m/%Y')"></span></strong><br/>
                     </div>
                     <br/><br/><br/><br/><br/>
-                    <div>
-                        <strong class="thick-header">BILL TO: </strong> <span t-field="o.partner_id.name"/>
-                        <div t-field="o.partner_id"
-                             t-field-options='{"widget": "contact", "fields": ["address", "name", "phone", "fax"], "no_marker": true}'/>
-                    </div>
+                    <div style="clear:both; overflow:hidden;">
+                    	<div style="width:75px; float:left; font-weight:bold;">BILL TO</div>
+                    	<div style="width:300px; float:left;">:
+                    		 <strong><span t-field="o.partner_id.name"/></strong><br/>
+                    		 <span t-field="o.partner_id.street"/> <br/>
+                    		 <span t-if="o.partner_id.street2" >
+                    		 	<span t-field="o.partner_id.street2"/> <br/>
+                    		 </span>
+                    		 <span t-if="o.partner_id.city" >
+                    		 	<span t-field="o.partner_id.city"/> <br/>
+                    		 </span>
+                    		 <span t-if="o.partner_id.country_id" >
+                    		 	<span t-field="o.partner_id.country_id"/>, 
+                    		 </span>
+                    		 <span t-if="o.partner_id.zip" >
+                    		 	<span t-field="o.partner_id.zip"/> 
+                    		 </span>
+						</div>
+					</div>
                 </div>
-                <div class="col-xs-5">
-                    <div>
-                        <strong>DO NO.: <span t-field="o.name"></span></strong><br/>
-                        <strong>YOUR REF NO.: ???? </strong><br/>
-                        <strong>DATE OF DELIVERY:  <span t-field="o.min_date"></span></strong><br/>
-                    </div>
-                    <br/><br/>
-                    <div>
-                        <strong class="thick-header">DELIVERY TO: </strong> <span t-field="o.partner_id.name"/>
-                        <div t-field="o.partner_id"
-                             t-field-options='{"widget": "contact", "fields": ["address", "name", "phone", "fax"], "no_marker": true}'/>
-                    </div>
+                <div class="col-xs-5" style="font-weight: bold;">
+                    <div style="overflow:hidden; clear:both;">
+                		<div style="width:150px; float:left;"> DO NO. </div>
+                		<div style="float:left;">:
+                			<span t-field="o.name"/>
+                		</div>
+                	</div>
+                	<div style="overflow:hidden; clear:both;">
+                		<div style="width:150px; float:left;"> YOUR REF NO. </div>
+                		<div style="float:left;">:
+                			<span>xxxx</span>
+                		</div>
+                	</div>
+                	<div style="overflow:hidden; clear:both;">
+                		<div style="width:150px; float:left;"> DATE OF DELIVERY. </div>
+                		<div style="float:left;">:
+                			<span t-esc="time.strftime('%d/%m/%Y',time.strptime(o.min_date,'%Y-%m-%d %H:%M:%S'))"/>
+                		</div>
+                	</div>
+
+                    <br/><br/><br/>
+                    <div style="clear:both; overflow:hidden;">
+                    	<div style="width:100px; float:left; font-weight:bold;">DELIVERY TO</div>
+                    	<div style="float:left;">:
+                    		 <strong><span t-field="o.partner_id.name"/></strong><br/>
+                    		 <span t-field="o.partner_id.street"/> <br/>
+                    		 <span t-if="o.partner_id.street2" >
+                    		 	<span t-field="o.partner_id.street2"/> <br/>
+                    		 </span>
+                    		 <span t-if="o.partner_id.city" >
+                    		 	<span t-field="o.partner_id.city"/> <br/>
+                    		 </span>
+                    		 <span t-if="o.partner_id.country_id" >
+                    		 	<span t-field="o.partner_id.country_id"/>, 
+                    		 </span>
+                    		 <span t-if="o.partner_id.zip" >
+                    		 	<span t-field="o.partner_id.zip"/> 
+                    		 </span>
+						</div>
+					</div>
                 </div>
             </div>
 
             <br/><br/>
 
-            <strong>ATTN:</strong> <span t-field="o.partner_id.child_ids[0].name"></span><br/>
-            <strong>Tel: </strong> <span t-field="o.partner_id.child_ids[0].phone"></span> <br/><br/>
-
-            <table class="table table-condensed">
+            <strong>ATTN:</strong>
+            	<span t-if="o.partner_id.child_ids" >
+            		<span t-field="o.partner_id.child_ids[0].name"/>
+            	</span>
+            	<span t-if="o.partner_id.function" >
+            		<span t-field="o.partner_id.name"/>
+            	</span>
+                             
+            <strong>Tel: </strong>
+            	<span t-if="o.partner_id.child_ids" >
+            		<span t-field="o.partner_id.child_ids[0].phone"/>
+            	</span>
+            	<span t-if="o.partner_id.function" >
+            		<span t-field="o.partner_id.phone"/>
+            	</span>
+            	
+            <br/><br/>
+            <table class="table table-condensed table-bordered">
                 <thead>
                     <tr>
                         <th><strong>No</strong></th>
