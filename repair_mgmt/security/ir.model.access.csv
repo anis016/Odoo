@@ -1,0 +1,16 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_product_product,product.product.user,product.model_product_product,repair_mgmt.group_repair_user,1,1,1,0
+access_repair_mgmt,repair.mgmt.user,model_repair_mgmt,repair_mgmt.group_repair_user,1,1,1,0
+access_repair_mgmt_line,repair.line.user,model_repair_mgmt_line,repair_mgmt.group_repair_user,1,1,1,0
+access_repair_order_user,repair.order.user,sale.model_sale_order,repair_mgmt.group_repair_user,1,1,1,0
+access_repair_order_line_user,repair.order.line.user,sale.model_sale_order_line,repair_mgmt.group_repair_user,1,1,1,0
+access_repair_invoice_user,account.invoice.user,account.model_account_invoice,repair_mgmt.group_repair_user,1,1,1,0
+access_product_category_manager,product.category.manager,product.model_product_category,repair_mgmt.group_repair_manager,1,1,1,1
+access_product_product_manager,product.product.manager,product.model_product_product,repair_mgmt.group_repair_manager,1,1,1,1
+
+access_repair_mgmt_manager,repair.mgmt.manager,model_repair_mgmt,repair_mgmt.group_repair_manager,1,1,1,1
+
+access_repair_mgmt_line_manager,repair.line.manager,model_repair_mgmt_line,repair_mgmt.group_repair_manager,1,1,1,1
+access_repair_order_manager_manager,repair.order.manager,sale.model_sale_order,repair_mgmt.group_repair_manager,1,1,1,1
+access_repair_order_line_manager,repair.order.line.manager,sale.model_sale_order_line,repair_mgmt.group_repair_manager,1,1,1,0
+access_repair_invoice_manager,account.invoice.manager,account.model_account_invoice,repair_mgmt.group_repair_manager,1,1,1,1

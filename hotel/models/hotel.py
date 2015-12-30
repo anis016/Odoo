@@ -115,15 +115,15 @@ class hotel_room(models.Model):
     @api.multi
     def set_room_status_available(self):
         return self.write({'status': 'available'})
-    
+
     @api.multi
     def write(self, vals):
         if vals and self._context:
             record = super(hotel_room, self).write(vals)
             print "Yeah Something found!"
-            
+
             product_tmpl_obj = self.product_tmpl_id
-            
+
             for key in vals:
                 if key in self.product_tmpl_id:
                     product_tmpl_obj[key] = vals[key]
@@ -133,7 +133,7 @@ class hotel_room(models.Model):
     def create(self, vals, check=True):
         record = super(hotel_room, self).create(vals)
         product_tmpl_obj = record.product_tmpl_id
-        
+
         #update the template objects
         product_tmpl_obj['vehicle_no'] = record.vehicle_no
         product_tmpl_obj['model'] = record.model
@@ -153,9 +153,9 @@ class hotel_room(models.Model):
         product_tmpl_obj['attachment'] = record.attachment
         product_tmpl_obj['deck'] = record.deck
         product_tmpl_obj['isvehicle'] = True
-        
+
         return record
-        
+
      #   obj_product = self.env['product.product'].browse(record.product_id)
      #   obj_product_templ = self.env['product.template']
 
@@ -205,15 +205,15 @@ class hotel_folio(models.Model):
     duration = fields.Float('Duration in Days', help="Number of days which will automatically count from the Start Date and End date. ")
 
     # For the end date calculation
-    checkin_date = fields.Datetime('Start Date', required=False, readonly=True, states={'draft':[('readonly', False)]})
-    checkout_date = fields.Datetime('End Date', required=False, readonly=True, states={'draft':[('readonly', False)]})
+    checkin_date = fields.Datetime('Start Date', required=False, readonly=True, states={'draft':[('readonly', False)]}, default=lambda *a: time.strftime('%Y-%m-%d %H:%M:%S'))
+    checkout_date = fields.Datetime('End Date', required=False, readonly=True, states={'draft':[('readonly', False)]}, store=True, compute = '_get_end_date')
     date_select = fields.Selection([('week', 'Week'), ('day', 'Day'), ('month', 'Month'), ('year', 'Year')], "Date Range Selection", default="day")
     date_length = fields.Integer("Date Length", default=0)
 
     @api.depends('checkin_date', 'date_select', 'date_length')
     def _get_end_date(self):
-        start_date = datetime.datetime.strptime(self.checkin_date, "%Y-%m-%d %H:%M:%S").date()
-        time_trimmed = datetime.datetime.strptime(self.checkin_date, "%Y-%m-%d %H:%M:%S").time()
+        start_date = datetime.strptime(self.checkin_date, "%Y-%m-%d %H:%M:%S").date()
+        time_trimmed = datetime.strptime(self.checkin_date, "%Y-%m-%d %H:%M:%S").time()
 
         if self.date_select == "month":
             n = int(self.date_length)
@@ -247,7 +247,7 @@ class hotel_folio(models.Model):
                 calculate_day = 365 * n
 
         checkout_date = start_date + timedelta(days=calculate_day)
-        endDate = datetime.datetime.combine(checkout_date, time_trimmed)
+        endDate = datetime.combine(checkout_date, time_trimmed)
         self.checkout_date = endDate
 
     @api.constrains('checkin_date','checkout_date')
@@ -292,8 +292,8 @@ class hotel_folio(models.Model):
             configured_addition_hours = company_ids[0].additional_hours
         myduration = 0
         if self.checkin_date and self.checkout_date:
-            chkin_dt = datetime.datetime.strptime(self.checkin_date, '%Y-%m-%d %H:%M:%S')
-            chkout_dt = datetime.datetime.strptime(self.checkout_date, '%Y-%m-%d %H:%M:%S')
+            chkin_dt = datetime.strptime(self.checkin_date, '%Y-%m-%d %H:%M:%S')
+            chkout_dt = datetime.strptime(self.checkout_date, '%Y-%m-%d %H:%M:%S')
             dur = chkout_dt - chkin_dt
             myduration = dur.days
             # if configured_addition_hours > 0:
@@ -634,7 +634,7 @@ class hotel_folio_line(models.Model):
         if self.checkout_date < self.checkin_date:
             raise except_orm(_('Warning'),_('End Date must be greater or equal to Start date'))
         if self.checkin_date:
-            diffDate = datetime.datetime(*time.strptime(self.checkout_date, '%Y-%m-%d %H:%M:%S')[:5]) - datetime.datetime(*time.strptime(self.checkin_date, '%Y-%m-%d %H:%M:%S')[:5])
+            diffDate = datetime(*time.strptime(self.checkout_date, '%Y-%m-%d %H:%M:%S')[:5]) - datetime(*time.strptime(self.checkin_date, '%Y-%m-%d %H:%M:%S')[:5])
             qty = diffDate.days
             if qty == 0:
                 qty = 1
@@ -791,7 +791,7 @@ class hotel_service_line(models.Model):
         if self.checkout_date < self.checkin_date:
             raise Warning('End Date must be greater or equal Start date')
         if self.checkin_date:
-            diffDate = datetime.datetime(*time.strptime(self.checkout_date, '%Y-%m-%d %H:%M:%S')[:5]) - datetime.datetime(*time.strptime(self.checkin_date, '%Y-%m-%d %H:%M:%S')[:5])
+            diffDate = datetime(*time.strptime(self.checkout_date, '%Y-%m-%d %H:%M:%S')[:5]) - datetime(*time.strptime(self.checkin_date, '%Y-%m-%d %H:%M:%S')[:5])
             qty = diffDate.days
         self.product_uom_qty = qty
 

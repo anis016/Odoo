@@ -538,7 +538,6 @@
                                             <field name="name" colspan="4" select="2" placeholder="---Description---"/>
                                             <group>
                                             <field name="price_unit" select="2" string="Rent"/>
-                                            <field name="discount"/>
                                             <newline/>
                                             <!-- <field name="tax_id" colspan="4" nolabel="1"/> -->
                                             <separator string="States" colspan="4"/>
@@ -586,7 +585,6 @@
                                             <field name="name" colspan="4" select="2" placeholder="---Description---"/>
                                             <group>
                                             <field name="price_unit" select="2"/>
-                                            <field name="discount"/>
                                             </group>
                                             <newline/>
                                             <field name="tax_id" colspan="4"/>
@@ -714,7 +712,11 @@
             <field name="view_mode">tree,form,calendar,graph</field>
         </record>
 
-        <menuitem  id="menu_all_folio" name="Invoicing" parent="hotel.hotel_management_menu" sequence="4"/>
+        <menuitem  id="menu_all_folio"
+                   name="Invoicing"
+                   parent="hotel.hotel_management_menu"
+                   sequence="4"/>
+
         <menuitem name="Generate Booking/Invoice"
                   id="menu_open_hotel_folio1_form_tree_all"
                   action="open_hotel_folio1_form_tree_all"
