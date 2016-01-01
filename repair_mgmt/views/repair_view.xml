@@ -85,7 +85,7 @@
                             <field name="partner_id"  string="Customer Name" required="1"/>
                             <field name="partner_invoice_id"  domain="[('parent_id','=',partner_id)]"/>
                             <field name="pricelist_id"  domain="[('type','=','sale')]" />
-                            <field name="product_id" select="1" domain="[('isroom','=',True)]" string="Vehicle No" />
+                           	<field name="vechiles" select="1" domain="[('isroom','=',True)]" widget="selection" />
                             <!-- <field name="project_id"/> -->
                             <field name="partner_shipping_id" domain="[('parent_id','=',partner_id)]" invisible="1"/>
                          </group>

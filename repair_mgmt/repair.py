@@ -42,6 +42,7 @@ class repair_mgmt(models.Model):
     start_date = fields.Date('Start Date', required=False, readonly=True, states={'draft': [('readonly', False)]})
     end_date = fields.Date('End Date', required=False, readonly=True, states={'draft': [('readonly', False)]})
     room_lines = fields.One2many('repair.mgmt.line','repair_id', readonly=True, states={'draft': [('readonly', False)], 'sent': [('readonly', False)]}, help="Vehicles Repair detail.")
+    vechiles = fields.Many2one('product.product', 'Vehicles', required=True)
 
     @api.constrains('start_date','end_date')
     def check_dates(self):
