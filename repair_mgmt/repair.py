@@ -5,6 +5,10 @@ from openerp.exceptions import except_orm, Warning
 from openerp import netsvc
 
 class repair_mgmt(models.Model):
+    _name = 'repair.mgmt'
+    _description = 'Vehicle Repair Management'
+    _rec_name = 'order_id'
+    _order = 'id desc'
 
     @api.multi
     def copy(self,default=None):
@@ -32,17 +36,10 @@ class repair_mgmt(models.Model):
         '''
         return self.env['sale.order']._invoiced_search(obj, name, args)
 
-    _name = 'repair.mgmt'
-    _description = 'Vehicle Repair Management'
-    _rec_name = 'order_id'
-    _order = 'id desc'
-
     name = fields.Char('Booking Number', size=24, default=lambda obj:obj.env['ir.sequence'].get('repair.mgmt'), readonly=True)
     order_id = fields.Many2one('sale.order', 'Order', delegate=True, ondelete='cascade')
-    start_date = fields.Date('Start Date', required=False, readonly=True, states={'draft': [('readonly', False)]})
-    end_date = fields.Date('End Date', required=False, readonly=True, states={'draft': [('readonly', False)]})
     room_lines = fields.One2many('repair.mgmt.line','repair_id', readonly=True, states={'draft': [('readonly', False)], 'sent': [('readonly', False)]}, help="Vehicles Repair detail.")
-    vechiles = fields.Many2one('product.product', 'Vehicles', required=True)
+    vehicles = fields.Many2one('product.product', 'Vehicles', required=True)
 
     @api.constrains('start_date','end_date')
     def check_dates(self):
@@ -127,7 +124,11 @@ class repair_mgmt(models.Model):
         '''
         order_ids = [folio.order_id.id for folio in self]
         sale_obj = self.env['sale.order'].browse(order_ids)
+        if self.product_id:
+            sale_obj['vehicles'] = self.vehicles # Update the vehicles in sale
         invoice_id = sale_obj.action_invoice_create(grouped=False,states=['confirmed', 'done'])
+        if self.product_id:
+            sale_obj.invoice_ids['vehicles'] = self.vehicles # Update the vehicles in invoice
         for line in self:
             values = {
                 'invoiced': True,

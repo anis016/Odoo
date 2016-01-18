@@ -1,29 +1,30 @@
 <openerp>
     <data>
-    
+
     	<!-- Need primarily while creating General menu, First menu and Sub menu -->
     	<!-- Starting -->
-    	
+
     	<!-- Parent Menu -->
         <menuitem id = "repair_mgmt_parent_menu"
         		  name = "AnL Repair Managment"
         		  sequence= "10" />
         <!--  -->
-        
+
     	<record model="ir.actions.act_window" id="open_repair_mgmt_form_tree_all">
     		<field name="name">Repair Management</field>
     		<field name="res_model">repair.mgmt</field>
     		<field name="view_type">form</field>
-    		<field name="view_mode">tree,form,calendar,graph</field>
+    		<field name="view_mode">tree,form,graph</field>
+    		<!-- <field name="view_mode">tree,form,calendar,graph</field> -->
     	</record>
-    	
+
     	<!-- First menu -->
         <menuitem id ="menu_repair_quote"
         		name ="Repair Quote"
         	  parent ="repair_mgmt.repair_mgmt_parent_menu"
         	sequence ="1" />
         <!--  -->
-        
+
         <!-- Sub Menu inside First menu -->
         <menuitem id = "menu_open_repair_mgmt_form_tree_all"
         		  name = "Repair Management Quote"
@@ -32,15 +33,13 @@
         		  sequence = "5" />
         <!--  -->
         <!-- Ending -->
-        
+
         <!-- Tree view of vehicle repair management -->
         <record model="ir.ui.view" id="view_repair_mgmt_quote_tree">
         	<field name="name">repair.mgmt.tree</field>
         	<field name="model">repair.mgmt</field>
         	<field name="arch" type="xml">
         		<tree string = "Repair Management Quote" colors="blue:state == 'draft'; gray:state == 'done'" >
-        			<field name="start_date" />
-        			<field name="end_date" />
         			<field name="name" select="1" />
         			<field name="partner_id" select="1" />
         			<field name="date_order" select="1" />
@@ -48,7 +47,7 @@
         		</tree>
         	</field>
         </record>
-        
+
         <!-- Form view of vehicle repair management -->
         <record model="ir.ui.view" id="view_repair_mgmt_quote_form">
         	<field name="name">repair.mgmt.form</field>
@@ -85,17 +84,13 @@
                             <field name="partner_id"  string="Customer Name" required="1"/>
                             <field name="partner_invoice_id"  domain="[('parent_id','=',partner_id)]"/>
                             <field name="pricelist_id"  domain="[('type','=','sale')]" />
-                           	<field name="vechiles" select="1" domain="[('isroom','=',True)]" widget="selection" />
+                           	<field name="vehicles" select="1" domain="[('isroom','=',True)]" widget="selection" />
                             <!-- <field name="project_id"/> -->
                             <field name="partner_shipping_id" domain="[('parent_id','=',partner_id)]" invisible="1"/>
                          </group>
-                            <newline/>
-                            <group>
-                                <field name="start_date"/>
-                                <field name="end_date"/>
-                            </group>
                             <separator string="Repair Lines" colspan="4"/>
-                            <field name="room_lines"  colspan="4" string="Booking Line" default_get="{'start_date': start_date,'end_date':end_date}" nolabel="1">
+                            <!-- <field name="room_lines"  colspan="4" string="Booking Line" default_get="{'start_date': start_date,'end_date':end_date}" nolabel="1"> -->
+                            <field name="room_lines"  colspan="4" string="Booking Line" nolabel="1">
                                 <form string="Booking Line"  >
                                     <notebook>
                                         <page string="Booking Line">
@@ -168,10 +163,10 @@
                 </form>
         	</field>
         </record>
-        
-        
+
+
         <!-- Calendar view of vehicle repair management -->
-        <record model="ir.ui.view" id="view_repair_mgmt_calendar">
+        <!-- <record model="ir.ui.view" id="view_repair_mgmt_calendar">
             <field name="name">repair.mgmt.calendar</field>
             <field name="model">repair.mgmt</field>
             <field name="arch" type="xml">
@@ -180,8 +175,8 @@
                     <field name="partner_id"/>
                 </calendar>
             </field>
-        </record>
-        
+        </record> -->
+
         <!-- Search view of vehicle repair management -->
         <record model="ir.ui.view" id="view_repair_mgmt_search">
             <field name="name">repair.mgmt.search</field>
@@ -196,7 +191,7 @@
                 </search>
             </field>
         </record>
-        
+
     	<!-- Graph view of vehicle repair management -->
     	<record model="ir.ui.view" id="view_repair_mgmt_graph">
         	<field name="name">repair.mgmt.graph</field>
@@ -208,6 +203,6 @@
         	    </graph>
         	</field>
     	</record>
-        
+
     </data>
 </openerp>

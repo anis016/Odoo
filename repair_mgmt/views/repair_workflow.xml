@@ -2,9 +2,9 @@
 <openerp>
 	<data>
 		<record model="workflow" id="wkf_repair">
-		<field name="name">repair.mgmt.basic</field>
-		<field name="osv">repair.mgmt</field>
-		<field name="on_create">True</field>
+			<field name="name">repair.mgmt.basic</field>
+			<field name="osv">repair.mgmt</field>
+			<field name="on_create">True</field>
 		</record>
 
 	#----------------------------------------------
