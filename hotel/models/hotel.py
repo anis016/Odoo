@@ -86,7 +86,7 @@ class hotel_room(models.Model):
     max_adult = fields.Integer('Max Adult')
     max_child = fields.Integer('Max Child')
     room_amenities = fields.Many2many('hotel.room.amenities','temp_tab','room_amenities','rcateg_id',string='Room Amenities',help='List of room amenities. ')
-    status = fields.Selection([('available', 'Available'), ('occupied', 'Rented'),('maintain', 'Under Maintenance')], 'Status',default='available')
+    status = fields.Selection([('available', 'Available'), ('occupied', 'Rented'),('maintain', 'Under Maintenance'),('sold', 'Sold'), ('scrap', 'Scrap'),('layout', 'Layout'),('others', 'Others')], 'Status',default='available')
     capacity = fields.Integer('Capacity/Seats')
     # Client End Requirements
     vehicle_no = fields.Char('Vehicle No ', size=128)
@@ -98,10 +98,11 @@ class hotel_room(models.Model):
     coe_expiry = fields.Date("C.O.E Expiry Date")
     parf = fields.Char("Parf", size=128)
     non_parf = fields.Char("Non Parf", size=128)
-    company_reg = fields.Char("Conpany Registered", size=128)
+    company_reg = fields.Char("Company Registered", size=128)
     no_of_transfer = fields.Char("No of Transfer", size=24)
+
     # New Client requriements
-    road_tax_due = fields.Date(String="Road Tax Due date")
+    roadtax_due_date = fields.Date(String="RoadTax Due date")
     inspect_due_date = fields.Date(String="Inspection Due date")
     mileage = fields.Char(String="Mileage")
 
@@ -147,7 +148,7 @@ class hotel_room(models.Model):
         product_tmpl_obj['company_reg'] = record.company_reg
         product_tmpl_obj['no_of_transfer'] = record.no_of_transfer
         product_tmpl_obj['capacity'] = record.capacity
-        product_tmpl_obj['road_tax_due'] = record.road_tax_due
+        product_tmpl_obj['roadtax_due_date'] = record.roadtax_due_date
         product_tmpl_obj['inspect_due_date'] = record.inspect_due_date
         product_tmpl_obj['mileage'] = record.mileage
         product_tmpl_obj['attachment'] = record.attachment
@@ -163,6 +164,11 @@ class hotel_room(models.Model):
     # def set_room_status_maintain(self):
     #     return self.write({'status': 'maintain'})
 
+class res_users(models.Model):
+    _inherit = 'res.users'
+
+    commission = fields.Float('Commission')
+    commission_total = fields.Float('Total Commission', readonly=True)
 
 class hotel_folio(models.Model):
 
@@ -209,6 +215,17 @@ class hotel_folio(models.Model):
     checkout_date = fields.Datetime('End Date', required=False, readonly=True, states={'draft':[('readonly', False)]}, store=True, compute = '_get_end_date')
     date_select = fields.Selection([('week', 'Week'), ('day', 'Day'), ('month', 'Month'), ('year', 'Year')], "Date Range Selection", default="day")
     date_length = fields.Integer("Date Length", default=0)
+
+    # Commission Calculation
+    commission = fields.Float('Commission', default=0.0, help='Commission in this sale.', readonly=True)
+        
+    @api.multi
+    def _commission_calculation(self):
+        if self.user_id.commission:
+            self.write({'commission': self.user_id.commission})            
+            self.user_id.write({'commission_total': self.user_id.commission + self.user_id.commission_total})
+
+        return True
 
     @api.depends('checkin_date', 'date_select', 'date_length')
     def _get_end_date(self):
@@ -377,13 +394,19 @@ class hotel_folio(models.Model):
         '''
         order_ids = [folio.order_id.id for folio in self]
         sale_obj = self.env['sale.order'].browse(order_ids)
+        if self.product_id:
+            sale_obj['vehicles'] = self.product_id # Update the vehicles in sale
         invoice_id = sale_obj.action_invoice_create(grouped=False,states=['confirmed', 'done'])
+        if self.product_id:
+            sale_obj.invoice_ids['vehicles'] = self.product_id # Update the vehicles in invoice
         for line in self:
             values = {
                 'invoiced': True,
                 'state': 'progress' if grouped else 'progress',
             }
             line.write(values)
+
+        self._commission_calculation() # Call commission function here
         return invoice_id
 
 

@@ -10,6 +10,42 @@
 		 #############Company Configuration#############
    	     ###############################################
    -->
+
+    <!-- For the Commission calculation -->
+    <record id="view_commission_settings_sales_users" model="ir.ui.view">
+      <field name="name">commission sales users inherit</field>
+      <field name="model">res.users</field>
+      <field name="inherit_id" ref="base.view_users_form" />
+        <field name="arch" type="xml">
+          <xpath expr="//notebook" position="inside">
+                  <page string="Commission Settings">
+                    <group>
+	                    <div>
+				    		<label string="Commission" />
+				    		<field name="commission"/>
+				    	</div>
+				    	<div>
+				    		<label string="Total Commission" />
+				    		<field name="commission_total" />
+				    	</div>
+			    	</group>
+                  </page>
+          </xpath>
+        </field>
+    </record>
+
+    <!-- Add commission to the hotel.folio -->
+    <record id="view_commission_hotel_folio_sales" model="ir.ui.view">
+        <field name="name">commission hotel folio inherit</field>
+        <field name="model">hotel.folio</field>
+        <field name="inherit_id" ref="hotel.view_hotel_folio1_form" />
+          <field name="arch" type="xml">
+            <xpath expr="//field[@name='user_id']" position="after">
+                      <field name="commission" />
+            </xpath>
+          </field>
+      </record>
+
 	<record id="res_company_inherit_config_hotel" model="ir.ui.view">
 			<field name="name">res.company.inherit.config.hotel</field>
 			<field name="model">res.company</field>
@@ -80,7 +116,7 @@
                    <group>
                     <field name="name" select="1"/>
                     <field name="parent_id" domain="[('isroomtype','=',True)]" select="1"/>
-                    <field name = "isroomtype" invisible="1"/>
+                    <field name="isroomtype" invisible="1"/>
                    </group>
                   </sheet>
                 </form>
@@ -92,7 +128,7 @@
             <field name="name">hotel.room_type.tree</field>
             <field name="model">hotel.room.type</field>
             <field name="arch" type="xml">
-                <tree string=" Vehicle Type">
+                <tree string="Vehicle Type">
                     <field name="complete_name"/>
                 </tree>
             </field>
@@ -106,7 +142,7 @@
             <field name="context">{'default_isroomtype':1}</field>
             <field name="view_mode">tree,form</field>
         </record>
-        <menuitem  id="menu_hotel_room" name="Vehicles" parent="hotel.hotel_configuration_menu" sequence="2"/>
+        <menuitem id="menu_hotel_room" name="Vehicles" parent="hotel.hotel_configuration_menu" sequence="2"/>
         <menuitem name="Vehicle Types"
                   id="menu_open_hotel_room_type_form_tree"
                   action="open_hotel_room_type_form_tree"
@@ -305,7 +341,7 @@
                             <!-- <field name="product_manager" select="2" string="Room Manager"/> -->
                               <field name="capacity"/>
                               <field name="uom_id" invisible="1"/>
-                              <field name="road_tax_due"/>
+                              <field name="roadtax_due_date"/>
                               <field name="inspect_due_date"/>
                             </group>
                             <group>
@@ -516,7 +552,8 @@
                                 <field name="date_select"/>
                                 <field name="date_length"/>
                                 <field name="checkout_date"/>
-                                <field name="duration"/>
+                                <field name="deposit"/>
+                                <field name="duration" invisible="1" />
                             </group>
                             <separator string="Booking Lines" colspan="4"/>
                             <field name="room_lines"  colspan="4" string="Booking Line" default_get="{'checkin_date': checkin_date,'checkout_date':checkout_date}" nolabel="1">
