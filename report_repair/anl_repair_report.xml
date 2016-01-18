@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <report
+            id="anl_repair_invoice_report_id"
+            model="account.invoice"
+            string="Anl Repair Invoice"
+            report_type="qweb-pdf"
+            name="report_repair.report_anl_repair_invoice"
+            file="report_repair.report_anl_repair_invoice"
+        />
+
+    </data>
+</openerp>
