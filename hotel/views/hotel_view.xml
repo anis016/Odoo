@@ -34,18 +34,6 @@
         </field>
     </record>
 
-    <!-- Add commission to the hotel.folio -->
-    <record id="view_commission_hotel_folio_sales" model="ir.ui.view">
-        <field name="name">commission hotel folio inherit</field>
-        <field name="model">hotel.folio</field>
-        <field name="inherit_id" ref="hotel.view_hotel_folio1_form" />
-          <field name="arch" type="xml">
-            <xpath expr="//field[@name='user_id']" position="after">
-                      <field name="commission" />
-            </xpath>
-          </field>
-      </record>
-
 	<record id="res_company_inherit_config_hotel" model="ir.ui.view">
 			<field name="name">res.company.inherit.config.hotel</field>
 			<field name="model">res.company</field>
@@ -682,6 +670,18 @@
                 </form>
             </field>
         </record>
+        
+       <!-- Add commission to the hotel.folio -->
+    	<record id="view_commission_hotel_folio_sales" model="ir.ui.view">
+        	<field name="name">commission hotel folio inherit</field>
+        	<field name="model">hotel.folio</field>
+        	<field name="inherit_id" ref="hotel.view_hotel_folio1_form" />
+        	  <field name="arch" type="xml">
+            	<xpath expr="//field[@name='user_id']" position="after">
+            	    <field name="commission" />
+            	</xpath>
+          	  </field>
+      	</record>
 
         <!-- Tree view of hotel folio  -->
         <record model="ir.ui.view" id="view_hotel_folio1_tree">
