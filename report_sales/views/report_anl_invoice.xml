@@ -91,15 +91,15 @@
                 		</div>
                 	</div>
                 </div>
-                <div class="col-xs-5" style="padding-left: 150px; font-weight:bold;">
+                <div class="col-xs-5" style="padding-left: 120px; font-weight:bold;">
                 	<div style="overflow:hidden; clear:both;">
-                		<div style="width:50px; float:left;"> Date </div>
+                		<div style="width:100px; float:left;"> Date </div>
                 		<div style="float:left;">:
                 			<span t-field="o.date_invoice"/>
                 		</div>
                 	</div>
                 	<div style="overflow:hidden; clear:both;">
-                		<div style="width:50px; float:left;"> Inv No. </div>
+                		<div style="width:100px; float:left;"> Inv No. </div>
                 		<div style="float:left;">:
                 			<span t-field="o.number"/>
                 		</div>
@@ -147,7 +147,7 @@
 							<td class="text-center" > DISCOUNT </td>
 							<td class="text-center">
 								<span t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'
-									  t-field="o.discount_amount" />
+									  t-field="o.discount_amt" />
 							</td>
                     	</span>
                     </tr>
