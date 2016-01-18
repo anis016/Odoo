@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <report
+            id="anl_debit_note_report_id"
+            model="account.invoice"
+            string="Anl Debit Note"
+            report_type="qweb-pdf"
+            name="report_dcnote.report_anl_debit_note"
+            file="report_dcnote.report_anl_debit_note"
+        />
+
+        <report
+            id="anl_credit_note_report_id"
+            model="account.invoice"
+            string="Anl Credit Note"
+            report_type="qweb-pdf"
+            name="report_dcnote.report_anl_credit_note"
+            file="report_dcnote.report_anl_credit_note"
+        />
+    </data>
+</openerp>

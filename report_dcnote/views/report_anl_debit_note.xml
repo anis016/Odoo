@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+
+<template id="report.style" name="style">
+    <style type="text/css">
+        body {
+            color: #000 !important;
+        }
+        .underline {
+            display: inline-block;
+            padding: 0 10px;
+            width: 50px;
+            border-bottom: 1px dotted #888;
+        }
+        .right-text {
+            text-align: right;
+        }
+        .thick-header {
+            font-size: 16px;
+            font-weight: bold;
+        }
+        <!-- More of CUSTOM CSS here -->
+    </style>
+</template>
+
+<template id="report_anl_debit_note_header">
+    <div class="header">
+        <div class="row">
+            <div class="col-xs-12 text-center">
+            	<br/> <br/>
+                <span style="font-size: 23px;font-weight: bold;text-align:center;">A&amp;L AUTOMOBILE PTE LTD</span> <br/>
+                <p><span t-field="o.company_id.street"/> <span t-field="o.company_id.street2"/>
+                   TEL: <span t-field="o.company_id.phone"/> FAX: <span t-field="o.company_id.fax"/> <br/>
+                   UEN NO.: <span t-field="o.company_id.vat"/> </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+    </div>
+</template>
+
+<template id="report_anl_debit_note_body">
+    <t t-call="report_dcnote.report_anl_debit_note_header" />
+    <t t-call="report.external_layout">
+        <div class="page">
+            <div class="oe_structure"/>
+
+            <div style="font-size: 19px;font-weight: bold;text-align: center;">
+            	<span>DEBIT NOTE</span>
+            </div>
+			<br/>
+            <div class="row">
+                <div class="col-xs-7">
+                    <div style="clear:both; overflow:hidden">
+                		<div style="width:300px; float:left">
+                			<span t-field="o.date_invoice"/>
+                		</div>
+                	</div>
+                	<br/>
+                	<div style="clear:both; overflow:hidden">
+                		<div style="width:300px; float:left">
+                			<b><span t-field="o.partner_id.name" /></b> <br/>
+                			<span t-field="o.partner_id.street"/> <br/>
+                    		<span t-if="o.partner_id.street2" >
+                    			<span t-field="o.partner_id.street2"/> <br/>
+                    		</span>
+                    		<span t-if="o.partner_id.city" >
+                    		 	<span t-field="o.partner_id.city"/> <br/>
+                    		</span>
+                    		<span t-if="o.partner_id.country_id" >
+                    		 	<span t-field="o.partner_id.country_id"/>,
+                    		</span>
+                    		<span t-if="o.partner_id.zip" >
+                    		 	<span t-field="o.partner_id.zip"/>
+                    		</span>
+                		</div>
+                	</div>
+                	<br/>
+                	<div style="clear:both; overflow:hidden">
+                		<div style="width:30px; float:left;font-weight:bold;">Attn</div>
+                		<div style="width:300px; float:left">:
+                			<!-- <span t-field="o.company_id.phone" /> -->
+                			<span>ANGELIA XXXXXX</span>
+                		</div>
+                	</div>
+                	<div style="clear:both; overflow:hidden">
+                		<div style="width:30px; float:left;font-weight:bold;">Re</div>
+                		<div style="width:300px; float:left">:
+                			<!-- <span t-field="o.company_id.phone" /> -->
+                			<span>XXXXXX</span>
+                		</div>
+                	</div>
+                </div>
+                <div class="col-xs-5" style="padding-left: 120px; font-weight:bold;">
+                	<br/>
+                	<div style="overflow:hidden; clear:both;">
+                		<div style="width:100px; float:left;"> ADN No. </div>
+                		<div style="float:left;">:
+                			<span t-field="o.number"/>
+                		</div>
+                	</div>
+                </div>
+            </div>
+            <br/>
+
+            <table class="table table-condensed table-bordered">
+                <thead>
+                    <tr>
+                        <th class="text-center">No</th>
+                        <th class="text-center">Description</th>
+                        <th class="text-center"><strong>Amount</strong></th>
+                    </tr>
+                </thead>
+                <tbody class="sale_tbody">
+                    <tr t-foreach="o.invoice_line" t-as="l">
+                        <td class="text-center">
+                            <span t-esc="str(l_index+1)"/>
+                        </td>
+                        <td class="text-center">
+                            <span t-field="l.name"/>
+                        </td>
+                        <td class="text-center">
+                            <span t-field="l.price_subtotal"
+                            	  t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
+                        </td>
+                    </tr>
+                    <tr>
+                    	<span t-if="o.discount_amount > 0.00">
+							<td></td>
+							<td class="text-center" > DISCOUNT </td>
+							<td class="text-center">
+								<span t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'
+									  t-field="o.discount_amt" />
+							</td>
+                    	</span>
+                    </tr>
+                    <tr>
+                    	<span t-if="o.deposit > 0.00">
+							<td></td>
+							<td class="text-center" > DEPOSIT </td>
+							<td class="text-center">
+								<span t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'
+									  t-field="o.deposit" />
+							</td>
+                    	</span>
+                    </tr>
+                    <tr>
+                    	<span t-if="o.amount_tax > 0.00">
+							<td></td>
+							<td class="text-center" > Tax </td>
+							<td class="text-center">
+								<span t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'
+									  t-field="o.amount_tax" />
+							</td>
+                    	</span>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="row">
+                <div class="col-xs-5 pull-right">
+                    <table class="table table-condensed">
+                        <tr class="border-black">
+                            <td><strong>Total</strong></td>
+                            <td class="text-center">
+                                 <span t-field="o.amount_total" t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <br/><br/>
+            <div class="row">
+                <div class="col-xs-8">
+                    <div>
+                        <p>A&amp;L AUTOMOBILE PTE LTD</p> <br/><br/><br/>
+                        <strong>____________________________</strong><br/>
+                        <strong>Authorised Signature</strong><br/>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </t>
+</template>
+
+<template id="report_anl_debit_note">
+    <t t-call="report.html_container">
+      <t t-foreach="doc_ids" t-as="doc_id">
+        <t t-raw="translate_doc(doc_id, doc_model, 'partner_id.lang', 'report_dcnote.report_anl_debit_note_body')"/>
+      </t>
+    </t>
+</template>
+
+</data>
+</openerp>
