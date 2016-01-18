@@ -33,7 +33,15 @@ class res_partner(osv.Model):
         'driver_license_number' :fields.char("Driver License Number", size=24),
         'driver_license_pass_date' :fields.date('Driver License Pass Date'),
         'gender':fields.selection([('male', 'Male'), ('female', 'Female')], 'Gender',default='male'),
-        'marital':fields.selection([('single', 'Single'), ('married', 'Married'), ('widower', 'Widower'), ('divorced', 'Divorced')], 'Marital Status',default='single')
+        'marital':fields.selection([('single', 'Single'), ('married', 'Married'), ('widower', 'Widower'), ('divorced', 'Divorced')], 'Marital Status',default='single'),
+        
+        # Drivers address informations
+        'dstreet': fields.char('Street'),
+        'dstreet2': fields.char('Street2'),
+        'dzip': fields.char('Zip', size=24, change_default=True),
+        'dcity': fields.char('City'),
+        'dstate_id': fields.many2one("res.country.state", 'State', ondelete='restrict'),
+        'dcountry_id': fields.many2one('res.country', 'Country', ondelete='restrict'),
         }
 
     def onchange_address(self, cr, uid, ids, use_parent_address, parent_id, context=None):

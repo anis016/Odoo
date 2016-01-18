@@ -26,21 +26,35 @@
                     <field name="hp_no"/>
                 </field>
                 <field name="website" position="after">
-                    <separator string="Divers Personal Details" attrs="{'invisible': [('is_company', '=', True)]}"/>
-                    <newline/>
-                        <field name="nea_license" attrs="{'invisible': [('is_company', '=', True)]}"/>
-                        <field name="d_o_b" attrs="{'invisible': [('is_company', '=', True)]}"/>
-                        <field name="driver_license_number" attrs="{'invisible': [('is_company', '=', True)]}"/>
-                        <field name="driver_license_pass_date" attrs="{'invisible': [('is_company', '=', True)]}"/>
-                        <field name="gender" attrs="{'invisible': [('is_company', '=', True)]}"/>
-                        <field name="marital" attrs="{'invisible': [('is_company', '=', True)]}"/>
+                    <group colspan="4">
+                        <separator string="Divers Personal Details" attrs="{'invisible': [('is_company', '=', True)]}"/>
+                    	<newline/>
+	                    <group colspan="4">
+	                        <label for="dstreet" string="Address"/>
+	                        <div class="o_address_format">
+	                            <field name="dstreet" placeholder="Street..." class="o_address_street"/>
+	                            <field name="dstreet2" placeholder="Street 2..." class="o_address_street"/>
+	                            <field name="dcity" placeholder="City" class="o_address_city"/>
+	                            <field name="dstate_id" class="o_address_state" placeholder="State" options='{"no_open": True}' on_change="onchange_state(state_id)"/>
+	                            <field name="dzip" placeholder="ZIP" class="o_address_zip"/>
+	                            <field name="dcountry_id" placeholder="Country" class="o_address_country" options='{"no_open": True}' on_change="on_change_country(country_id)"/>
+	                        </div>
+	                    </group>
+	                    <group>
+	                        <field name="nea_license" attrs="{'invisible': [('is_company', '=', True)]}"/>
+	                        <field name="d_o_b" attrs="{'invisible': [('is_company', '=', True)]}"/>
+	                        <field name="driver_license_number" attrs="{'invisible': [('is_company', '=', True)]}"/>
+	                        <field name="driver_license_pass_date" attrs="{'invisible': [('is_company', '=', True)]}"/>
+	                        <field name="gender" attrs="{'invisible': [('is_company', '=', True)]}"/>
+	                        <field name="marital" attrs="{'invisible': [('is_company', '=', True)]}"/>
+	                    </group>
+	                 </group>
                 </field>
                 <xpath expr="//field[@name='city']" position="before">
                     <field name="area" placeholder="Unit" style="width: 40%%" attrs="{'readonly': [('use_parent_address','=',True)]}"/>
                 </xpath>
                 
             </field>
-            
         </record>
 
     </data>
