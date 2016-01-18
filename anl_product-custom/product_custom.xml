@@ -11,8 +11,8 @@
                       <group colspan="4">
                           <group>
                             <field name="capacity"/>
-                            <field name="ro_due" string="Road Tax due date"/>
-                            <field name="ins_date" string="Inspect. due date"/>
+                            <field name="roadtax_due_date" string="Road Tax due date"/>
+                            <field name="inspect_due_date" string="Inspect. due date"/>
                           </group>
                           <group>
                             <field name="vehicle_no"/>

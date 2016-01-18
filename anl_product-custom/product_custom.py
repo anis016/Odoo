@@ -36,12 +36,13 @@ class product_custom(osv.Model):
         'coe_expiry' : fields.date("C.O.E Expiry Date"),
         'parf' : fields.char("Parf", size=128),
         'non_parf' : fields.char("Non Parf", size=128),
-        'company_reg' : fields.char("Conpany Registered", size=128),
+        'company_reg' : fields.char("Company Registered", size=128),
         'no_of_transfer' : fields.char("No of Transfer", size=24),
         'capacity': fields.integer("Capacity/Seats"),
+
         # New Client requriements
-        'ro_due' : fields.date(String="Road Tax date"),
-        'ins_date' : fields.date(String="Inspection date"),
+        'roadtax_due_date' : fields.date(String="Road Tax date"),
+        'inspect_due_date' : fields.date(String="Inspection date"),
         'mileage' : fields.char(String="Mileage"),
 
         'attachment' : fields.selection([('box', 'Box'), ('open', 'Open'),('canopy', 'Canopy')], 'Vehicle Attachment',default='box'),
