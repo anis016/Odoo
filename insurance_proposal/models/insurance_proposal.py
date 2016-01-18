@@ -44,6 +44,28 @@ class insurance_summary(models.Model):
     premium_amount = fields.Float(string="Premium Amount")
     commision = fields.Char(string="Commision")
     sales_person = fields.Char(string="Sales Person")
+    amnt_total = fields.Float(compute='_calculate_total_amount')
+    
+    @api.multi
+    def _calculate_total_amount(self):
+        res = {}
+        res = {
+            'total' : 0.0
+        }
+        query = "select sum(premium_amount) from insurance_summary"
+        self.env.cr.execute(query)
+        result = [row[0] for row in self._cr.fetchall()]
+        
+        sum = 0
+        for i in result:
+            sum += i
+        
+        res['total'] = sum
+        print sum
+        print res
+        self.amnt_total = sum
+        return res
+        
 
 class insurance_folio(models.Model):
     _inherit = 'insurance.folio'
@@ -88,7 +110,9 @@ class insurance_reservation(models.Model):
     unladen_weight = fields.Integer('Unladen Weight')
     previous_insurer = fields.Char('Previous Insurer', size=64)
     ncd_entitlement = fields.Char('NCD Entitlement', size=64)
+    
     any_claim = fields.Selection([('yes', 'Yes'), ('no', 'No')], 'Any Claim exp. pass 3 years', required=False, readonly=False,default=lambda *a: 'no')
+    notes = fields.Text('Notes')
 
     folio_id = fields.Many2many('insurance.folio','insurance_folio_reservation_rel','order_id','invoice_id',string='Invoice ID')
     reservation_line = fields.One2many('insurance_company.line','line_id','Proposal Line',help='Companies Proposal for Insurance')

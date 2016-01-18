@@ -43,8 +43,7 @@
                                 <field name="previous_insurer"/>
                                 <field name="ncd_entitlement"/>
                                 <field name="any_claim"/>
-                                <!-- <field name="adults"/>
-                                <field name="children"/> -->
+                                <field name="notes" attrs="{'required': [('any_claim', '=', 'yes')], 'invisible': [('any_claim', '!=', 'yes')]}" />
                             </group>
                                <field name="dummy" invisible="True"/>
                         </group>
