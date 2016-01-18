@@ -28,6 +28,7 @@
                 </xpath>
                 <xpath expr="//field[@name='date_order']" position="after">
                 	<field name="handover_date" />
+                    <field name="vehicles" />
                 </xpath>
                 <field name="amount_tax" position="before">
                      <field name="discount_amt" widget="monetary" options="{'currency_field': 'currency_id'}"/>

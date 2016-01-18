@@ -22,6 +22,7 @@
                     <div>
                     	<field name="deposit" class="oe_inline"/>
                     </div>
+                    <field name="vehicles" class="oe_inline" domain="[('isroom','=',True)]"/>
             	</xpath>
                 <!-- <field name="date_invoice" position="after">
                 </field> -->

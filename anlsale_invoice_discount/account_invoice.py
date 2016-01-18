@@ -84,6 +84,9 @@ class account_invoice(models.Model):
     # for the deposit calculation
     deposit = fields.Float('Deposit')
     deposit_amt = fields.Float(compute='_calculate_deposit', readonly="True", string="- Deposit Amnt.")
+    
+    # for the vehicle informations
+    vehicles = fields.Many2one('product.product', 'Vehicles')
 
     @api.one
     def discount_set(self):

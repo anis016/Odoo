@@ -49,7 +49,7 @@ class sale_order(osv.osv):
                 line.order_id.partner_id)['taxes']:
             val += c.get('amount', 0.0)
         return val
-    
+
     def _calculate_deposit(self, cr, uid, ids, field_name, args, context={}):
         res = {}
         deposit = 0.0
@@ -141,13 +141,16 @@ class sale_order(osv.osv):
                 'sale.order.line': (_get_order, ['price_unit', 'tax_id', 'discount', 'product_uom_qty'], 10),
             },
             multi='sums', help="The total amount."),
-                
-        # Customer end requirements 
+
+        # Customer end requirements
         'deposit': fields.float('Deposit'),
         'deposit_amt': fields.function(_calculate_deposit, readonly="True", digits_compute=dp.get_precision('Account'), string="- Deposit Amnt."),
-        
+
         # New field added
-        'handover_date': fields.datetime("Date of Handover", help="Which day it will be handovered ?")
+        'handover_date': fields.datetime("Date of Handover", help="Which day it will be handovered ?"),
+
+        # Added new field for handling the vechicle
+        'vehicles': fields.many2one('product.product', 'Vehicles')
     }
 
     def discount_set(self, cr, uid, ids, context=None):
