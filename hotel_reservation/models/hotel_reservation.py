@@ -35,6 +35,14 @@ class hotel_folio(models.Model):
 
     reservation_id = fields.Many2one(comodel_name='hotel.reservation',string='Reservation Id')
 
+class insurance_type(models.Model):
+    _name = 'insurance.type'
+    
+    coverage = fields.Selection([('compro', 'Comprehensive'), ('tpft', 'TPFT'), ('tpo', 'TPO')], 'Coverage')
+    #comp = fields.Char('Comprehensive', size=32)
+    #tpft = fields.Char('TPFT', size=32)
+    #tpo  = fields.Char('TPO', size=32)
+    
 class hotel_reservation(models.Model):
 
     _name = "hotel.reservation"
@@ -60,13 +68,16 @@ class hotel_reservation(models.Model):
     
     # For the end date calculation
     checkin = fields.Datetime('Start Date', required=True, readonly=False, states={'draft':[('readonly', False)]}, default=lambda *a: time.strftime('%Y-%m-%d %H:%M:%S'))
-    checkout = fields.Datetime('End Date', required=True, readonly=False, states={'draft':[('readonly', False)]}, store=True, compute = '_get_end_date')
+    checkout = fields.Datetime('End Date', required=False, readonly=False, states={'draft':[('readonly', False)]}, store=True, compute = '_get_end_date')
     date_select = fields.Selection([('week', 'Week'), ('day', 'Day'), ('month', 'Month'), ('year', 'Year')], "Date Range Selection", default="day")
     date_length = fields.Integer("Date Length", default=0)
     
     # for the deposit calculation
     deposit = fields.Float("Deposit", default=0.0)
     note = fields.Text("Notes")
+    
+    # Insurance coverage    
+    coverage = fields.Many2many('insurance.type', string="Coverage")
     
     @api.depends('checkin', 'date_select', 'date_length')
     def _get_end_date(self):

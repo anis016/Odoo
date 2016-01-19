@@ -4,7 +4,20 @@
         <!--============================================================
         Reservation
         ============================================================ -->
-
+		<!-- <record model="ir.ui.view" id="view_insurance_type_form">
+			<field name="name">insurance.type.selection</field>
+			<field name="model">insurance.type</field>
+			<field name="inherit_id" ref=""/>
+			<field name="arch" type="xml">
+			    <form string="Insurance">
+			        <xpath expr=""
+			    	<field name="comp"/>
+			    	<field name="tpo"/>
+			    	<field name="tpft"/>
+			    </form>
+			</field>
+		</record> -->
+		    
         <!-- Form view of hotel reservation -->
         <record model="ir.ui.view" id="view_hotel_reservation_form">
             <field name="name">hotel.reservation.form</field>
@@ -46,6 +59,7 @@
                                <field name="dummy" invisible="True"/>
                             <group>
                             	<field name="deposit" />
+                            	<field name="coverage" widget="many2many_checkboxes" options="{'no_create_edit':'1'}" />
                             </group>
                         </group>
                         <notebook>
