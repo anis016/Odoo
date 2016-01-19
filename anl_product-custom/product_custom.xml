@@ -24,7 +24,7 @@
                             <field name="y_o_m"/>
                             <field name="reg_date"/>
                             <field name="coe_expiry"/>
-                            <field name="mileage" />
+                            <field name="mileage" string="Mileage"/>
                           </group>
                           <group>
                               <field name="parf"/>
