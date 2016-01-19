@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+
+<template id="report.style" name="style">
+    <style type="text/css">
+        body {
+            color: #000 !important;
+        }
+        .underline {
+            display: inline-block;
+            padding: 0 10px;
+            width: 50px;
+            border-bottom: 1px dotted #888;
+        }
+        .right-text {
+            text-align: right;
+        }
+        .thick-header {
+            font-size: 16px;
+            font-weight: bold;
+        }
+        <!-- More of CUSTOM CSS here -->
+    </style>
+</template>
+
+<template id="report_mkholdings_tax_invoice_header">
+    <div class="header">
+        <div class="row">
+            <div class="col-xs-12 text-center">
+                <div style="font-size: 19px;font-weight: bold;text-align: center;">
+            		<span>TAX INVOICE</span>
+            	</div>
+                <span style="font-size: 23px;font-weight: bold;text-align:left;">MK HOLDINGS PTE LTD</span> <br/>
+                <p>
+                    HQ: 11 Mandai Estate #05-09, ELDIX Singapore 729908 <br/>
+                    Tel: +65 6362 7228 Fax: +65 6366 9708 <br/>
+                    Reg No: 201021748R GST Registration: 201021748R <br/>
+                    Branch: 48, Toh Guan Road East #04-124 Enterprise Hub Singapore 608586 <br/>
+                    Tel: +65 6362 0238 Fax: +65 6763 0919
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+    </div>
+</template>
+
+<template id="report_mkholdings_tax_invoice_body">
+    <t t-call="report_mkholdings.report_mkholdings_tax_invoice_header" />
+    <t t-call="report.external_layout">
+        <div class="page">
+            <div class="oe_structure"/>
+            
+            <div class="row">
+                <div class="col-xs-7">
+                	<div style="clear:both; overflow:hidden">
+                		<div style="width:30px; float:left; font-weight:bold;"> M/S </div>
+                		<div style="width:300px; float:left; text-decoration: underline;">
+                			<b><span t-field="o.partner_id.name" /></b> <br/>
+                			<span t-field="o.partner_id.street"/> <br/>
+                    		<span t-if="o.partner_id.street2" >
+                    			<span t-field="o.partner_id.street2"/> <br/>
+                    		</span>
+                    		<span t-if="o.partner_id.city" >
+                    		 	<span t-field="o.partner_id.city"/> <br/>
+                    		</span>
+                    		<span t-if="o.partner_id.country_id" >
+                    		 	<span t-field="o.partner_id.country_id"/>, 
+                    		</span>
+                    		<span t-if="o.partner_id.zip" >
+                    		 	<span t-field="o.partner_id.zip"/> 
+                    		</span>
+                		</div>
+                	</div>
+                </div>
+                <div class="col-xs-5" style="padding-left: 120px; font-weight:bold;">
+                	<div style="overflow:hidden; clear:both;">
+                		<div style="width:100px; float:left;"> Inv No. </div>
+                		<div style="float:left;">:
+                			<span t-field="o.number"/>
+                		</div>
+                	</div>
+                	<div style="overflow:hidden; clear:both;">
+                		<div style="width:100px; float:left;"> Date </div>
+                		<div style="float:left;">:
+                			<span t-field="o.date_invoice"/>
+                		</div>
+                	</div>
+                </div>
+            </div>
+            <br/>
+
+            <table class="table table-condensed table-bordered">
+                <thead>
+                    <tr>
+                        <th class="text-center"><strong>No</strong></th>
+                        <th class="text-center"><strong>Quantity</strong></th>
+                        <th class="text-center"><strong>Description</strong></th>
+                        <th class="text-center"><strong>Unit Price</strong></th>
+                        <th class="text-center" width="120px"><strong>Amount</strong></th>
+                    </tr>
+                </thead>
+                <tbody class="sale_tbody">
+                    <tr t-foreach="o.invoice_line" t-as="l">
+                        <td class="text-center">
+                            <span t-esc="str(l_index+1)"/>
+                        </td>
+                        <td class="text-center">
+                            <span t-field="l.quantity"/>
+                            <span t-field="l.uos_id"  groups="product.group_uom"/>
+                        </td>
+                        <td class="text-center">
+                            <span t-field="l.name"/>
+                        </td>
+                        <td class="text-center">
+                            <span t-field="l.price_unit"
+                            	  t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
+                        </td>
+                        <td class="text-center">
+                            <span t-field="l.price_subtotal"
+                            	  t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="row">
+                <div class="col-xs-7">
+                    <p>Remark: <br/><br/><br/></p>
+                    <p>Note: If payment is made by cheque/s and the same is/are dishonoured when presented for payment then this receipt shall automatically be deemed to be NULL &amp; VOID.</p>
+                    <br/><br/>
+                    <div class="row">
+                        <div class="col-xs-6">
+	                        <strong>____________________________</strong><br/>
+    	                    <strong>Issued By</strong><br/>
+    	                </div>
+    	                <div class="col-xs-6">
+	                        <strong>____________________________</strong><br/>
+    	                    <strong>Received By</strong><br/>
+    	                </div>
+                    </div> 
+                </div>
+                <div class="col-xs-5 pull-right">
+                    <table class="table table-striped table-bordered">
+                        <tr class="border-black">
+                            <td class="text-center"><strong>Total</strong></td>
+                            <td class="text-center" width="120px">
+                                <span t-field="o.amount_untaxed" t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-center">GST</td>
+                            <td class="text-center">
+                                <span t-field="o.amount_tax" t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
+                            </td>
+                        </tr>
+                        <tr class="border-black">
+                            <td class="text-center"><strong>Grand Total</strong></td>
+                            <td class="text-center">
+                                 <span t-field="o.amount_total" t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </t>
+</template>
+
+<template id="report_mkholdings_tax_invoice">
+    <t t-call="report.html_container">
+      <t t-foreach="doc_ids" t-as="doc_id">
+        <t t-raw="translate_doc(doc_id, doc_model, 'partner_id.lang', 'report_mkholdings.report_mkholdings_tax_invoice_body')"/>
+      </t>
+    </t>
+</template>
+
+</data>
+</openerp>

@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+
+<template id="report.style" name="style">
+    <style type="text/css">
+        body {
+            color: #000 !important;
+        }
+        <!-- More of CUSTOM CSS here -->
+    </style>
+</template>
+
+<template id="report_mkholdings_sales_quotation_header">
+    <div class="header">
+        <div class="row">
+            <div class="col-xs-12 text-center">
+            	<br/><br/>
+                <span style="font-size: 23px;font-weight: bold;text-align:center;">MK HOLDINGS PTE LTD</span> <br/>
+                <p><strong>
+                    11 Mandai Estate #05-09 Eldix Singapore 729908 Tel: 6363 3177 Fax: 6366 9708
+                </strong></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+    </div>
+</template>
+
+<template id="report_mkholdings_sales_quotation_body">
+    <t t-call="report_mkholdings.report_mkholdings_sales_quotation_header" />
+
+    <t t-call="report.external_layout">
+        <div class="page">
+            <div class="oe_structure"/>
+            
+            <div class="row">
+                <div class="col-xs-7">
+                    <div style="overflow:hidden; clear:both;">
+                		<div style="float:left;">
+                		    <span t-esc="time.strftime('%d/%m/%Y',time.strptime(o.date_order,'%Y-%m-%d %H:%M:%S'))"/>
+                		</div>
+                	</div>
+                	<br/>
+                	<div style="clear:both; overflow:hidden">
+                		<div style="width:300px; float:left">
+                			<b><span t-field="o.partner_id.name" /></b> <br/>
+                			<span t-field="o.partner_id.street"/> <br/>
+                    		<span t-if="o.partner_id.street2" >
+                    			<span t-field="o.partner_id.street2"/> <br/>
+                    		</span>
+                    		<span t-if="o.partner_id.city" >
+                    		 	<span t-field="o.partner_id.city"/> <br/>
+                    		</span>
+                    		<span t-if="o.partner_id.country_id" >
+                    		 	<span t-field="o.partner_id.country_id"/>, 
+                    		</span>
+                    		<span t-if="o.partner_id.zip" >
+                    		 	<span t-field="o.partner_id.zip"/> 
+                    		</span>
+                		</div>
+                	</div>
+                </div>
+                <div class="col-xs-5" style="padding-left: 190px; font-weight:bold;">
+                	<div style="overflow:hidden; clear:both;">
+                		<div style="width:30px; float:left;">Tel</div>
+                		<div style="float:left;">:
+                			<span t-field="o.company_id.phone" />
+                		</div>
+                	</div>
+                </div>
+            </div>
+            
+            <br/>
+            <p style="text-align:center;font-weight:bold;font-size:18px;"><u>
+                QUOTATION FOR OFFICE AND STORAGE CONTAINERS
+            </u></p>
+            <br/>
+
+            <table class="table table-condensed table-bordered">
+                <thead>
+                    <tr>
+                        <th class="text-center" width="10%"><strong>No.</strong></th>
+                        <th class="text-center" width="15%"><strong>Quantity</strong></th>
+                        <th class="text-center"><strong>Description</strong></th>
+                        <th class="text-center"><strong>Unit Price</strong></th>
+                        <th class="text-center" width="120px"><strong>Amount</strong></th>
+                    </tr>
+                </thead>
+                <tbody class="sale_tbody">
+                    <tr t-foreach="o.order_line" t-as="l">
+                        <td class="text-center">
+                            <span t-esc="str(l_index+1)"/>
+                        </td>
+                        <td class="text-center">
+                            <span t-field="l.product_uom_qty"/>
+                            <span groups="product.group_uom" t-field="l.product_uom"/>
+                        </td>
+                        <td class="text-center">
+                            <span t-field="l.name"/>
+                        </td>
+                        <td class="text-center">
+                            <span t-field="l.price_unit"/>
+                        </td>
+                        <td class="text-center">
+                            <span t-field-options='{"widget": "monetary", "display_currency": "o.pricelist_id.currency_id"}'
+                                  t-field="l.price_subtotal" />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="row">
+                <div class="col-xs-5 pull-right">
+                    <table class="table table-striped table-bordered">
+                        <tr class="border-black">
+                            <td><strong>Sub Total</strong></td>
+                            <td class="text-center" width="120px">
+                                <span t-field="o.amount_untaxed"
+                                      t-field-options='{"widget": "monetary", "display_currency": "o.pricelist_id.currency_id"}'/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>GST</td>
+                            <td class="text-center">
+                                <span t-field="o.amount_tax"
+                                      t-field-options='{"widget": "monetary", "display_currency": "o.pricelist_id.currency_id"}'/>
+                            </td>
+                        </tr>
+                        <tr class="border-black">
+                            <td><strong>Grand Total</strong></td>
+                            <td class="text-center">
+                                <span t-field="o.amount_total"
+                                      t-field-options='{"widget": "monetary", "display_currency": "o.pricelist_id.currency_id"}'/>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <strong><u>Terms &amp; Conditions:</u></strong>
+            <p>
+                <ul>
+                    <li>a. We only accept cheque &amp; containers will be delivered after cheque cleared.</li>
+                    <li>b. Quotation is valid for 14 days only.</li>
+                    <li>c. Please note that transportation charge may vary due to location.</li>
+                    <li>d. Any additional items will be charged accordingly &amp; any items not listed above will not be included.</li>
+                    <li>e. This quotation shall be considered as a legal contract once it has been stamped &amp; signed by client.</li>
+                    <li>f. All the above prices quoted subjected to ex-stock availability.</li>
+                    <li>g. Cancellation of confirmed order/contract, a penalty charge of 35% for general unit and 45% for custom made order of the total contract sum shall be imposed of the customer.</li>
+                    <li>h. Sotrage fees of $20 per day for 20ft &amp; $35 per day for 40ft will be charged for finished orders not collected within 7 days from confirmed date of delivery.</li>
+                    <li>i. Asset ownership: Products &amp; services supplied as written on the above shall remain as propery of MK Holdings Pte Ltd till 100% payment has been received. MKH reserves the right to retrive products &amp; services back any time without any reason in any circumstances if payment is not made in full within reasonable time period.</li>
+                </ul>
+            </p>
+
+            <br/>
+            <br/>
+
+            <div class="row">
+                <div class="col-xs-8">
+                    <div>
+                        <strong class="text-center">Issued By On Behalf of</strong><br/>
+                        <strong class="text-center">MK Holding Pte Ltd</strong><br/><br/>
+                        <strong style="font-size:16px;"><u>YOU JING FENG</u></strong><br/>
+                        <strong class="text-center">Authorised Signature </strong><br/>
+                        <strong class="text-center">YOU JING FENG</strong><br/>
+                        <strong class="text-center">Tel: 6363 3177</strong><br/>
+                        <strong class="text-center">Fax: 6366 9708</strong><br/>
+                    </div>
+                </div>
+                <div class="col-xs-4">
+                    <strong class="text-center">Confirmed &amp; Accepted By </strong><br/><br/>
+                    <strong>________________________________</strong><br/>
+                    <strong class="text-center">Authorised Signature </strong><br/>
+                    <strong class="text-center">(Name &amp; Company Stamp)</strong><br/>
+                </div>
+            </div>
+
+        </div>
+    </t>
+</template>
+
+<template id="report_mkholdings_sales_quotation">
+    <t t-call="report.html_container">
+      <t t-foreach="doc_ids" t-as="doc_id">
+        <t t-raw="translate_doc(doc_id, doc_model, 'partner_id.lang', 'report_mkholdings.report_mkholdings_sales_quotation_body')"/>
+      </t>
+    </t>
+</template>
+
+</data>
+</openerp>

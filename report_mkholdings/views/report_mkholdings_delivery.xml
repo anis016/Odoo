@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+
+<template id="report.style" name="style">
+    <style type="text/css">
+        body {
+            color: #000 !important;
+        }
+        .cush {
+            font-size: 22px;
+            color: black;
+        }
+        .underline {
+            display: inline-block;
+            padding: 0 10px;
+            width: 50px;
+            border-bottom: 1px dotted #888;
+        }
+        .centered-text {
+            text-align: center;
+        }
+        .right-text {
+            text-align: right;
+        }
+        .thick-header {
+            font-size: 16px;
+            font-weight: bold;
+        }
+        <!-- More of CUSTOM CSS here -->
+    </style>
+</template>
+
+<template id="report_mkholdings_delivery_order_header">
+    <div class="header">
+        <div class="row">
+            <div class="col-xs-12 text-center">
+            	<br/><br/>
+                <span style="font-size: 23px;font-weight: bold;text-align:center;">MK HOLDINGS PTE LTD</span> <br/>
+                <p><strong>
+                    11 Mandai Estate #05-09 Eldix Singapore 729908 Tel: 6363 3177 Fax: 6366 9708
+                </strong></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+    </div>
+</template>
+
+<template id="report_mkholdings_delivery_order_body">
+    <t t-call="report_mkholdings.report_mkholdings_delivery_order_header" />
+    <t t-call="report.external_layout">
+        <div class="page">
+            <div class="oe_structure"/>
+            <p class="cush centered-text" style="text-decoration:underline;">DELIVERY ORDER</p> <br/>
+
+            <div class="row">
+                <div class="col-xs-7">
+                    <div>
+                        <strong><span t-esc="time.strftime('%d/%m/%Y')"></span></strong><br/>
+                    </div>
+                    <br/><br/><br/><br/><br/>
+                    <div style="clear:both; overflow:hidden;">
+                    	<div style="width:75px; float:left; font-weight:bold;">BILL TO</div>
+                    	<div style="width:300px; float:left;">:
+                    		 <strong><span t-field="o.partner_id.name"/></strong><br/>
+                    		 <span t-field="o.partner_id.street"/> <br/>
+                    		 <span t-if="o.partner_id.street2" >
+                    		 	<span t-field="o.partner_id.street2"/> <br/>
+                    		 </span>
+                    		 <span t-if="o.partner_id.city" >
+                    		 	<span t-field="o.partner_id.city"/> <br/>
+                    		 </span>
+                    		 <span t-if="o.partner_id.country_id" >
+                    		 	<span t-field="o.partner_id.country_id"/>, 
+                    		 </span>
+                    		 <span t-if="o.partner_id.zip" >
+                    		 	<span t-field="o.partner_id.zip"/> 
+                    		 </span>
+						</div>
+					</div>
+                </div>
+                <div class="col-xs-5" style="font-weight: bold;">
+                    <div style="overflow:hidden; clear:both;">
+                		<div style="width:150px; float:left;"> DO NO. </div>
+                		<div style="float:left;">:
+                			<span t-field="o.name"/>
+                		</div>
+                	</div>
+                	<div style="overflow:hidden; clear:both;">
+                		<div style="width:150px; float:left;"> YOUR REF NO. </div>
+                		<div style="float:left;">:
+                			<span>xxxx</span>
+                		</div>
+                	</div>
+                	<div style="overflow:hidden; clear:both;">
+                		<div style="width:150px; float:left;"> DATE OF DELIVERY. </div>
+                		<div style="float:left;">:
+                			<span t-esc="time.strftime('%d/%m/%Y',time.strptime(o.min_date,'%Y-%m-%d %H:%M:%S'))"/>
+                		</div>
+                	</div>
+
+                    <br/><br/><br/>
+                    <div style="clear:both; overflow:hidden;">
+                    	<div style="width:100px; float:left; font-weight:bold;">DELIVERY TO</div>
+                    	<div style="float:left;">:
+                    		 <strong><span t-field="o.partner_id.name"/></strong><br/>
+                    		 <span t-field="o.partner_id.street"/> <br/>
+                    		 <span t-if="o.partner_id.street2" >
+                    		 	<span t-field="o.partner_id.street2"/> <br/>
+                    		 </span>
+                    		 <span t-if="o.partner_id.city" >
+                    		 	<span t-field="o.partner_id.city"/> <br/>
+                    		 </span>
+                    		 <span t-if="o.partner_id.country_id" >
+                    		 	<span t-field="o.partner_id.country_id"/>, 
+                    		 </span>
+                    		 <span t-if="o.partner_id.zip" >
+                    		 	<span t-field="o.partner_id.zip"/> 
+                    		 </span>
+						</div>
+					</div>
+                </div>
+            </div>
+
+            <br/><br/>
+
+            <strong>ATTN:</strong>
+            	<span t-if="o.partner_id.child_ids" >
+            		<span t-field="o.partner_id.child_ids[0].name"/>
+            	</span>
+            	<span t-if="o.partner_id.function" >
+            		<span t-field="o.partner_id.name"/>
+            	</span>
+                             
+            <!-- <strong>Tel: </strong>
+            	<span t-if="o.partner_id.child_ids" >
+            		<span t-field="o.partner_id.child_ids[0].phone"/>
+            	</span>
+            	<span t-if="o.partner_id.function" >
+            		<span t-field="o.partner_id.phone"/>
+            	</span> -->
+            	
+            <br/><br/>
+            <table class="table table-condensed table-bordered">
+                <thead>
+                    <tr>
+                        <th><strong>No</strong></th>
+                        <th class="text-right"><strong>Quantity</strong></th>
+                        <th class="text-center"><strong>Description</strong></th>
+                        <th><strong>Remark</strong></th>
+                    </tr>
+                </thead>
+                <tbody class="sale_tbody">
+                    <tr t-foreach="o.move_lines" t-as="pack_operation">
+                        <td>
+                            <span t-esc="str(pack_operation_index+1)"/>
+                        </td>
+                        <td class="text-right">
+                            <span t-field="pack_operation.product_qty"/>
+                            <span t-field="pack_operation.product_uom_id" groups="product.group_uom"/>
+                        </td>
+                        <td class="text-center">
+                            <span t-field="pack_operation.name"/>
+                        </td>
+                        <td>
+                            <strong>DELIVERY ON</strong> <br/>
+                            <span t-field="pack_operation.date"/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <br/>
+            <div class="row">
+                <div class="col-xs-7">
+                    <div>
+                        <p>Issued By <br/> <span t-field="o.company_id.name"></span></p> <br/><br/><br/>
+                        <strong>____________________________</strong><br/>
+                        <strong>Authorised Signature</strong><br/>
+                    </div>
+                </div>
+                <div class="col-xs-5">
+                    <p>Received By <br/> <span t-field="o.partner_id.name"></span></p> <br/><br/><br/>
+                    <strong>____________________________</strong><br/>
+                    <strong>Authorised Signature</strong><br/>
+                </div>
+            </div>
+
+        </div>
+    </t>
+</template>
+
+<template id="report_mkholdings_delivery_order">
+    <t t-call="report.html_container">
+      <t t-foreach="doc_ids" t-as="doc_id">
+        <t t-raw="translate_doc(doc_id, doc_model, 'partner_id.lang', 'report_mkholdings.report_mkholdings_delivery_order_body')"/>
+      </t>
+    </t>
+</template>
+
+</data>
+</openerp>
