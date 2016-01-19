@@ -21,7 +21,7 @@
 
 from openerp import models, fields, api, _
 import openerp.addons.decimal_precision as dp
-
+from openerp.tools import amount_to_text_en
 
 class account_invoice(models.Model):
     _inherit = 'account.invoice'
@@ -87,6 +87,18 @@ class account_invoice(models.Model):
     
     # for the vehicle informations
     vehicles = fields.Many2one('product.product', 'Vehicles')
+    
+    # Added new field for the minghow report. number to text conversion
+    amount_in_word = fields.Char(string='Text Amount', readonly=True, default=False, compute='_compute_text')
+
+    @api.multi
+    @api.depends('amount_total')
+    def _compute_text(self):
+        amount_in_word = str(amount_to_text_en.amount_to_text(self.amount_total, 'self.currency_id.name'))
+        print "amount_in_word: ", amount_in_word
+        words = amount_in_word.replace("euro", "dollar")
+        print "words: ", words
+        self.amount_in_word = words
 
     @api.one
     def discount_set(self):
