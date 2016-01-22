@@ -20,11 +20,13 @@
     <div class="header">
         <div class="row">
             <div class="col-xs-12 text-center">
-                <p class="cush">A&amp;L AUTOMOBILE PTE LTD</p>
-                <p><span t-field="o.warehouse_id.partner_id.street"/> <span t-field="o.warehouse_id.partner_id.street2"/>
-              Tel: <span t-field="o.warehouse_id.partner_id.phone"/> Fax: <span t-field="o.warehouse_id.partner_id.fax"/> <br/>
-              Website: <span t-field="o.warehouse_id.partner_id.website"/> Email: <span t-field="o.warehouse_id.partner_id.email"/> <br/>
-              UEN No.: <span t-field="o.warehouse_id.partner_id.nea_license"/> </p>
+            	<br/><br/>
+                <span style="font-size: 23px;font-weight: bold;text-align:center;">A&amp;L AUTOMOBILE PTE LTD</span> <br/>
+                <p><strong>
+                    11 Mandai Estate #05-09 ELDIX Singapore 729908 Tel: 63627228 Fax: 63669708 <br/>
+                    Website: www.anl.sg Email: leasing@anl.sg <br/>
+                    UEN NO.: 201026256R
+                </strong></p>
             </div>
          </div>
     </div>
@@ -110,7 +112,7 @@
                 	</table>
                 </div>
             </div>
-            <br/><br/>
+            <br/>
             <div class="row" style="padding-left:11px;">
             	<div style="border:1px solid; padding: 10px 5px 0 10px; ">
             		<p style="font-size:18px; font-weight:bold; margin-left: 50px;margin-bottom: 50px;">
@@ -162,7 +164,7 @@
       				</p>
   				</div>
 
-				<br/><br/>
+				<br/>
 				<div>
   					<p>
     					Note: <br/>
@@ -176,7 +178,7 @@
 					Preferred Vehicle collection date: _________________________________ (kindly indicate upon confirmation) <br/><br/>
   					Period of Rental: ______________________________ Purpose of use: ______________________________ <br/>
 				</div>
-				<br/> <br/>
+				<br/><br/>
 				
 				<div class="row">
     				<div class="col-xs-6">
