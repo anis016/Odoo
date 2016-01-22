@@ -110,6 +110,37 @@ class sale_order(osv.osv):
         for line in self.pool.get('sale.order.line').browse(cr, uid, ids, context=context):
             result[line.order_id.id] = True
         return result.keys()
+    
+    def _calculate_total(self, cr, uid, ids, field_name, args, context={}):
+        res = {}
+        total = 0.0
+        for self_obj in self.browse(cr, uid, ids, context=context):
+            selling_price = self_obj.amount_untaxed
+            less_deposit = self_obj.deposit_amt
+            transfer_fee = self_obj.tran_fee
+            admin_and_doc_fee = self_obj.ad_doc_fee
+            insurance = self_obj.insurance
+            fin_service_charge = self_obj.fin_ser_charge
+            fin_first_payment = self_obj.fin_1st_pay
+            
+            total = selling_price - less_deposit + transfer_fee + admin_and_doc_fee + insurance + fin_service_charge + fin_first_payment 
+            
+            res[self_obj.id] = total
+        
+        return res
+    
+    def _calculate_balance_payment(self, cr, uid, ids, field_name, args, context={}):
+        res = {}
+        balance_payment = 0.0
+        for self_obj in self.browse(cr, uid, ids, context=context):
+            total = self_obj.total
+            less_finance = self_obj.less_finance
+            
+            balance_payment = total - less_finance 
+            
+            res[self_obj.id] = balance_payment
+                    
+        return res
 
     _columns = {
         'apply_discount_in_line': fields.boolean('Apply Discount in Line?', help='Help note'),
@@ -146,8 +177,16 @@ class sale_order(osv.osv):
         'deposit': fields.float('Deposit'),
         'deposit_amt': fields.function(_calculate_deposit, readonly="True", digits_compute=dp.get_precision('Account'), string="- Deposit Amnt."),
 
-        # New field added
+        # New field added for the sales report agreement
         'handover_date': fields.datetime("Date of Handover", help="Which day it will be handovered ?"),
+        'tran_fee': fields.float("Transfer Fee", default=0.0),
+        'ad_doc_fee': fields.float("Admin & Document Fee", default=0.0),
+        'insurance': fields.float("Insurance", default=0.0),
+        'fin_ser_charge': fields.float("Finance Service Charge", default=0.0),
+        'fin_1st_pay': fields.float("Finance 1st Payment", default=0.0),
+        'total': fields.function(_calculate_total, readonly="True", digits_compute=dp.get_precision('Account'), string="Total"),
+        'less_finance': fields.float("- Less Finance", default=0.0),
+        'balance_paym': fields.function(_calculate_balance_payment, readonly="True", digits_compute=dp.get_precision('Account'), string="Balance Payment"),
 
         # Added new field for handling the vechicle
         'vehicles': fields.many2one('product.product', 'Vehicles')
@@ -247,14 +286,15 @@ class sale_order_line(osv.osv):
         'discount_method': fields.selection(
             [('fix', 'Fixed'), ('per', 'Percentage')], 'Discount Method'),
         'price_subtotal': fields.function(_amount_line, string='Subtotal',digits_compute=dp.get_precision('Account')),
+        
         # Customer requirements
-        #'deposit' : fields.float('Deposit'),
-        'transfer_fee':fields.float('Transfer fee'),
-        'ad_doc_fee':fields.float('Admin & Document fee'),
-        'insurance':fields.float('Insurance'),
-        'fin_charge':fields.float('Finance Service Charge'),
-        'fin_first_payment':fields.float('Finance 1st Payment'),
-        'lease_fin':fields.float('Finance'),
+        # 'deposit' : fields.float('Deposit'),
+        # 'transfer_fee':fields.float('Transfer fee'),
+        # 'ad_doc_fee':fields.float('Admin & Document fee'),
+        # 'insurance':fields.float('Insurance'),
+        # 'fin_charge':fields.float('Finance Service Charge'),
+        # 'fin_first_payment':fields.float('Finance 1st Payment'),
+        # 'lease_fin':fields.float('Finance'),
         }
 
     def _prepare_order_line_invoice_line(self, cr, uid, line, account_id=False,

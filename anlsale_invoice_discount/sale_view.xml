@@ -1,6 +1,30 @@
 <?xml version="1.0"?>
 <openerp>
     <data>
+        
+        <record id="view_sale_order_finance_form" model="ir.ui.view">
+            <field name="name">sale.order.finance.calculation</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//notebook" position="inside" >
+                    <page string="Finance Fees" >
+                        <group>
+                            <field name="tran_fee"/>
+	                        <field name="ad_doc_fee"/>
+	                        <field name="insurance"/>
+	                        <field name="fin_ser_charge"/>
+	                        <field name="fin_1st_pay"/>
+	                        <field name="less_finance"/>
+                        </group>
+                        <group>
+	                        <field name="total"/>
+	                        <field name="balance_paym"/>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
 
         <record id="view_order_invoice_discount_form" model="ir.ui.view">
             <field name="name">sale.order.invoice.discount.form.view</field>
