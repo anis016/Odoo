@@ -35,10 +35,11 @@
     <div class="header">
         <div class="row">
             <div class="col-xs-12 text-center">
-                <br/> <br/>
+            	<br/>
                 <span style="font-size: 23px;font-weight: bold;text-align:center;">A&amp;L AUTOMOBILE PTE LTD</span> <br/>
-                <p><span t-field="o.company_id.street"/> <span t-field="o.company_id.street2"/>
-                   TEL: <span t-field="o.company_id.phone"/> FAX: <span t-field="o.company_id.fax"/> </p>
+               	<p>
+                   	11 Mandai Estate #05-09 ELDIX Singapore 729908 Tel: 63627228 Fax: 63669708
+               	</p>
             </div>
         </div>
     </div>
@@ -90,7 +91,7 @@
                 	<div style="overflow:hidden; clear:both;">
                 		<div style="width:150px; float:left;"> YOUR REF NO. </div>
                 		<div style="float:left;">:
-                			<span>xxxx</span>
+                			<span t-field="o.backorder_id"/>
                 		</div>
                 	</div>
                 	<div style="overflow:hidden; clear:both;">

@@ -37,14 +37,16 @@
     <div class="header">
         <div class="row">
             <div class="col-xs-12 text-center">
-                <p class="cush">A&amp;L AUTOMOBILE</p>
-                <p><span t-field="o.company_id.street"/> <span t-field="o.company_id.street2"/> <br/>
-                   Tel: <span t-field="o.company_id.phone"/> Fax: <span t-field="o.company_id.fax"/> </p>
-                <p class="cush"><u>SALES AGREEMENT</u></p>
+               	<span style="font-size: 23px;font-weight: bold;text-align:center;">A&amp;L AUTOMOBILE PTE LTD</span> <br/>
+               	<p>
+                   	11 Mandai Estate #05-09 ELDIX Singapore 729908 <br/>
+                   	Tel: 63627228 Fax: 63669708 <br/>
+               	</p>
+            	<p class="cush"><u>SALES AGREEMENT</u></p>
             </div>
-        </div>
-    </div>
-
+         </div>
+     </div>
+ 
     <div class="footer">
     </div>
 </template>
@@ -134,20 +136,33 @@
 
                             <div class="row">
                                 <div class="col-xs-6">
-	                                <span>Selling Price: XXXXXXXX </span> <br/>
-	                                <span>Less Deposit:  XXXXXXXX </span> <br/>
-	                                <span>Transfer Fee: <strong t-field-options='{"widget": "monetary", "display_currency": "o.pricelist_id.currency_id"}' /> XXXXXXXX </span> <br/>
-	                                <span>Admin &amp; Document fee: <strong t-field-options='{"widget": "monetary", "display_currency": "o.pricelist_id.currency_id"}' /> XXXXXXXX </span> <br/>
-	                                <span>Insurance: <strong t-field-options='{"widget": "monetary", "display_currency": "o.pricelist_id.currency_id"}' /> XXXXXXXX </span> <br/>
-	                                <span>Finance Service Charge: <strong t-field-options='{"widget": "monetary", "display_currency": "o.pricelist_id.currency_id"}' /> XXXXXXXX </span> <br/>
-	                                <span>Finance 1st Payment: <strong t-field-options='{"widget": "monetary", "display_currency": "o.pricelist_id.currency_id"}' /> XXXXXXXX </span> <br/>
-	                                <span>Total: <strong t-field-options='{"widget": "monetary", "display_currency": "o.pricelist_id.currency_id"}' /> XXXXXXXX </span> <br/>
-	                                <span>Less Finance: <strong t-field-options='{"widget": "monetary", "display_currency": "o.pricelist_id.currency_id"}' /> XXXXXXXX </span> <br/>
-	                                <span>Balance Payment: XXXXXXXX </span> <br/>
+	                                <span>Selling Price: <span t-field="o.amount_untaxed"/> </span> <br/>
+	                                <span>Less Deposit:  <span t-field="o.deposit"/> </span> <br/>
+	                                <span>Transfer Fee:  <span t-field-options='{"widget": "monetary", "display_currency": "o.pricelist_id.currency_id"}'
+	                                                           t-field="o.tran_fee"/> </span> <br/>
+	                                <span>Admin &amp; Document fee: <span t-field-options='{"widget": "monetary", "display_currency": "o.pricelist_id.currency_id"}'
+	                                                           			  t-field="o.ad_doc_fee"/> </span> <br/>
+	                                <span>Insurance: <span t-field-options='{"widget": "monetary", "display_currency": "o.pricelist_id.currency_id"}'
+	                                                       t-field="o.insurance"/> </span> <br/>
+	                                <span>Finance Service Charge: <span t-field-options='{"widget": "monetary", "display_currency": "o.pricelist_id.currency_id"}'
+	                                                       				t-field="o.fin_ser_charge"/> </span> <br/>
+	                                <span>Finance 1st Payment: <span t-field-options='{"widget": "monetary", "display_currency": "o.pricelist_id.currency_id"}'
+	                                                       			 t-field="o.fin_1st_pay"/> </span> <br/>
+	                                <span>Total: <span t-field-options='{"widget": "monetary", "display_currency": "o.pricelist_id.currency_id"}'
+	                                                   t-field="o.total"/> </span> <br/>
+	                                <span>Less Finance: (<span t-field-options='{"widget": "monetary", "display_currency": "o.pricelist_id.currency_id"}'
+	                                                          t-field="o.less_finance"/>) </span> <br/>
+	                                <span>Balance Payment: <span t-field-options='{"widget": "monetary", "display_currency": "o.pricelist_id.currency_id"}'
+	                                                             t-field="o.balance_paym"/> </span> <br/>
                                 </div>
                                 <div class="col-xs-6">
-                                    <span>Date of Handover: <span style="text-align:center; display: inline-block; width: 50%; border-bottom: 1px dotted #888;" t-esc="time.strftime('%d %B %Y',time.strptime(o.handover_date,'%Y-%m-%d %H:%M:%S'))"/> </span><br/>
-                                    <span>Time: <span class="underline-body" t-esc="time.strftime('%I:%M:%S %p',time.strptime(o.handover_date,'%Y-%m-%d %H:%M:%S'))"/> </span> <br/>
+                                    <span t-if="o.handover_date">
+                                    	<span>Date of Handover: <span style="text-align:center; display: inline-block; width: 50%; border-bottom: 1px dotted #888;" t-esc="time.strftime('%d %B %Y',time.strptime(o.handover_date,'%Y-%m-%d %H:%M:%S'))"/> </span><br/>
+                                    	<span>Time: <span class="underline-body" t-esc="time.strftime('%I:%M:%S %p',time.strptime(o.handover_date,'%Y-%m-%d %H:%M:%S'))"/> </span> <br/>
+                                    </span>
+                                    <span t-if="not o.handover_date">
+                                        <span style="font-weight:bold; font-size: 18px;">No Handover Date Specified </span><br/>
+                                    </span>
                                 </div>
                             </div>
                        	</p>
@@ -162,8 +177,27 @@
                             </ul>
                         </p>
                     </div>
-
+                    <br/>
                     <div class="row">
+                        <div class="col-xs-6">
+                            <p>_____________________________ <br/>
+                               Signature of Buyer: <br/>
+                               Name:  <br/>
+                               NRIC NO:  <br/>
+                               Tel:
+                            </p>
+                        </div>
+                        <div class="col-xs-6">
+                            <p>_____________________________ <br/>
+                               Signature of Seller: <br/>
+                               Name:  <br/>
+                               NRIC NO:  <br/>
+                               Tel:
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- <div class="row">
                         <div class="col-xs-6">
                             <br/>
                             <p>_____________________________ <br/>
@@ -193,7 +227,7 @@
                             Tel: <span t-field="o.warehouse_id.company_id.phone"></span><br/> </p>
                             
                         </div>
-                    </div>
+                    </div> -->
                 </tr>
             </div>
         </div>
