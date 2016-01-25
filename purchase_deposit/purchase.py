@@ -83,6 +83,18 @@ class purchase_order(osv.osv):
             'company_id': order.company_id.id,
             'deposit': order.deposit, # Added the deposit amount
         }
+        
+    def _calculate_balance_payment(self, cr, uid, ids, field_name, args, context={}):
+        res = {}
+        balance_payment = 0.0
+        for self_obj in self.browse(cr, uid, ids, context=context):
+            selling_price = self_obj.amount_untaxed
+            full_settle = self_obj.full_settle
+            balance_payment = full_settle - (selling_price - self_obj.deposit_amt)
+            
+            res[self_obj.id] = balance_payment
+                    
+        return res
 
     _columns = {
         'amount_total': fields.function(_amount_all, digits_compute=dp.get_precision('Account'), string='Total',
@@ -92,5 +104,10 @@ class purchase_order(osv.osv):
         'deposit': fields.float('Deposit'),
         'deposit_amt': fields.function(_calculate_deposit, readonly="True", digits_compute=dp.get_precision('Account'), string="- Deposit Amnt."),
         
-        'handover_date': fields.datetime("Date of Handover", help="Which day it will be handovered ?")
+        'handover_date': fields.datetime("Date of Handover", help="Which day it will be handovered ?"),
+        
+        # New field added for the purchase report agreement
+        
+        'full_settle': fields.float("- Full Settle", default=0.0),
+        'balance_paym': fields.function(_calculate_balance_payment, readonly="True", digits_compute=dp.get_precision('Account'), string="Balance Payment"),
     }
