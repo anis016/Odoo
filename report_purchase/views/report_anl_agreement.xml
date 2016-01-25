@@ -33,14 +33,16 @@
     </style>
 </template>
 
-<template id="report_anl_agreement_header">
+<template id="report_purchase_anl_agreement_header">
     <div class="header">
         <div class="row">
             <div class="col-xs-12 text-center">
-                <p class="cush">A&amp;L AUTOMOBILE</p>
-                <p><span t-field="o.company_id.street"/> <span t-field="o.company_id.street2"/> <br/>
-                   Tel: <span t-field="o.company_id.phone"/>, Fax: <span t-field="o.company_id.fax"/> </p>
-                <p class="cush"><u>PURCHASE AGREEMENT</u></p>
+               	<span style="font-size: 23px;font-weight: bold;text-align:center;">A&amp;L AUTOMOBILE PTE LTD</span> <br/>
+               	<p>
+                   	11 Mandai Estate #05-09 ELDIX Singapore 729908 <br/>
+                   	Tel: 63627228 Fax: 63669708 <br/>
+               	</p>
+            	<p class="cush"><u>PURCHASE AGREEMENT</u></p>
             </div>
         </div>
     </div>
@@ -49,8 +51,8 @@
     </div>
 </template>
 
-<template id="report_anl_agreement_body">
-    <t t-call="report_purchase.report_anl_agreement_header" />
+<template id="report_purchase_anl_agreement_body">
+    <t t-call="report_purchase.report_purchase_anl_agreement_header" />
     <t t-call="report.external_layout">
         <div class="page">
             <div class="oe_structure"/>
@@ -137,15 +139,21 @@
                             <div class="row">
                                 <div class="col-xs-6">
                                     <span>Selling Price: <strong t-field-options='{"widget": "monetary", "display_currency": "o.pricelist_id.currency_id"}' /> <span class="underline-body" t-field="o.amount_untaxed"/> </span> <br/>
-                                    <span>Full Settle: <strong t-field-options='{"widget": "monetary", "display_currency": "o.pricelist_id.currency_id"}' /> <span class="underline-body" t-field="o.amount_total"/> </span> <br/>
-                                    <span>Balance Payment: <strong t-field-options='{"widget": "monetary", "display_currency": "o.pricelist_id.currency_id"}' /> <span class="underline-body"/> xxxx </span> <br/>
+                                    <span>Full Settle: <strong t-field-options='{"widget": "monetary", "display_currency": "o.pricelist_id.currency_id"}' /> <span class="underline-body" t-field="o.full_settle"/> </span> <br/>
+                                    <span>Balance Payment: <strong t-field-options='{"widget": "monetary", "display_currency": "o.pricelist_id.currency_id"}' /> <span class="underline-body" t-field="o.balance_paym"/> </span> <br/>
                                 </div>
                                 <div class="col-xs-6">
-                                    <span>Date of Handover: <span style="text-align:center; display: inline-block; width: 50%; border-bottom: 1px dotted #888;" t-esc="time.strftime('%d %B %Y',time.strptime(o.handover_date,'%Y-%m-%d %H:%M:%S'))"/> </span><br/>
-                                    <span>Time: <span class="underline-body" t-esc="time.strftime('%I:%M:%S %p',time.strptime(o.handover_date,'%Y-%m-%d %H:%M:%S'))"/> </span> <br/>
+                                    <span t-if="o.handover_date">
+                                    	<span>Date of Handover: <span style="text-align:center; display: inline-block; width: 50%; border-bottom: 1px dotted #888;" t-esc="time.strftime('%d %B %Y',time.strptime(o.handover_date,'%Y-%m-%d %H:%M:%S'))"/> </span><br/>
+                                    	<span>Time: <span class="underline-body" t-esc="time.strftime('%I:%M:%S %p',time.strptime(o.handover_date,'%Y-%m-%d %H:%M:%S'))"/> </span> <br/>
+                                    </span>
+                                    <span t-if="not o.handover_date">
+                                        <span style="font-weight:bold; font-size: 18px;">No Handover Date Specified </span><br/>
+                                    </span>
                                 </div>
                             </div>
-                            <br/> </p>
+                            <br/>
+                        </p>
                     </div>
 
                     <div>
@@ -157,35 +165,23 @@
                             </ul>
                         <br/> </p>
                     </div>
-
+                    <br/>
                     <div class="row">
                         <div class="col-xs-6">
-                            <br/>
                             <p>_____________________________ <br/>
-                            Signature of Buyer: <br/>
-                            Name: <span t-field="o.picking_type_id.warehouse_id.company_id.name"></span> <br/>
-                            NRIC NO: <span t-field="o.picking_type_id.warehouse_id.company_id.vat"></span> <br/>
-                            Tel: <span t-field="o.picking_type_id.warehouse_id.company_id.phone"></span><br/> </p>
-
+                               Signature of Buyer: <br/>
+                               Name:  <br/>
+                               NRIC NO:  <br/>
+                               Tel:
+                            </p>
                         </div>
                         <div class="col-xs-6">
-                            <br/>
                             <p>_____________________________ <br/>
-                            Signature of Seller: <br/>
-                            <span t-if="o.partner_id.child_ids" >
-                                 Name: <span t-field="o.partner_id.child_ids[0].name"/> <br/>
-                             </span>
-                             <span t-if="o.partner_id.function" >
-                                 Name: <span t-field="o.partner_id.name"/> <br/>
-                             </span>
-                            NRIC NO: <span t-field="o.partner_id.nea_license"></span> <br/>
-                            <span t-if="o.partner_id.child_ids" >
-                                 Tel: <span t-field="o.partner_id.child_ids[0].mobile"/> <br/>
-                             </span>
-                             <span t-if="o.partner_id.function" >
-                                 Tel: <span t-field="o.partner_id.mobile"/> <br/>
-                             </span>
-                             </p>
+                               Signature of Seller: <br/>
+                               Name:  <br/>
+                               NRIC NO:  <br/>
+                               Tel:
+                            </p>
                         </div>
                     </div>
                 </tr>
@@ -194,10 +190,10 @@
     </t>
 </template>
 
-<template id="report_anl_agreement">
+<template id="report_purchase_anl_agreement">
     <t t-call="report.html_container">
       <t t-foreach="doc_ids" t-as="doc_id">
-        <t t-raw="translate_doc(doc_id, doc_model, 'partner_id.lang', 'report_purchase.report_anl_agreement_body')"/>
+        <t t-raw="translate_doc(doc_id, doc_model, 'partner_id.lang', 'report_purchase.report_purchase_anl_agreement_body')"/>
       </t>
     </t>
 </template>

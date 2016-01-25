@@ -28,11 +28,12 @@
     <div class="header">
         <div class="row">
             <div class="col-xs-12 text-center">
-            	<br/> <br/>
+            	<br/>
                 <span style="font-size: 23px;font-weight: bold;text-align:center;">A&amp;L AUTOMOBILE PTE LTD</span> <br/>
-                <p><span t-field="o.company_id.street"/> <span t-field="o.company_id.street2"/>
-                   TEL: <span t-field="o.company_id.phone"/> FAX: <span t-field="o.company_id.fax"/> <br/>
-                   UEN NO.: <span t-field="o.company_id.vat"/> </p>
+               	<p>
+                   	11 Mandai Estate #05-09 ELDIX Singapore 729908 Tel: 63627228 Fax: 63669708 <br/>
+                   	UEN NO.: 201026256R
+               	</p>
             </div>
         </div>
     </div>
@@ -54,7 +55,7 @@
             <div class="row">
                 <div class="col-xs-7">
                 	<div style="clear:both; overflow:hidden">
-                		<div style="width:100px; float:left; font-weight:bold;"> To </div>
+                		<div style="width:50px; float:left; font-weight:bold;"> To </div>
                 		<div style="width:300px; float:left">:
                 			<b><span t-field="o.partner_id.name" /></b> <br/>
                 			<span t-field="o.partner_id.street"/> <br/>
@@ -74,18 +75,18 @@
                 	</div>
                 	<br/>
                 	<div style="clear:both; overflow:hidden">
-                		<div style="width:100px; float:left;font-weight:bold;">Attn</div>
+                		<div style="width:50px; float:left;font-weight:bold;">Attn</div>
                 		<div style="width:300px; float:left">: ACCOUNTS DEPT</div>
                 	</div>
                 	<br/>
                 	<div style="clear:both; overflow:hidden">
-                		<div style="width:100px; float:left;font-weight:bold;">Tel</div>
+                		<div style="width:50px; float:left;font-weight:bold;">Tel</div>
                 		<div style="width:300px; float:left">:
                 			<span t-field="o.company_id.phone" />
                 		</div>
                 	</div>
                 	<div style="clear:both; overflow:hidden">
-                		<div style="width:100px; float:left;font-weight:bold;">Fax</div>
+                		<div style="width:50px; float:left;font-weight:bold;">Fax</div>
                 		<div style="width:300px; float:left">:
                 			<span t-field="o.company_id.fax"/>
                 		</div>

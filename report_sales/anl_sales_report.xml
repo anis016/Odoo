@@ -36,8 +36,8 @@
             name="report_sales.report_anl_delivery"
             file="report_sales.report_anl_delivery"
         />
-        
-        <record id="paperformat_lowmargin" model="report.paperformat">
+
+        <record id="paperformat_lowmargin_sales" model="report.paperformat">
         	<field name="name">Custom A4 Margin</field>
    		    <field name="default" eval="True" />
     		<field name="format">A4</field>
@@ -52,9 +52,9 @@
     		<field name="header_spacing">25</field> <!-- Controls the body starting from the top page -->
     		<field name="dpi">90</field>
 		</record>
-		
+
 		<record id="report_sales.anl_sales_agreement_report_id" model="ir.actions.report.xml">
-    		<field name="paperformat_id" ref="report_sales.paperformat_lowmargin" />
+    		<field name="paperformat_id" ref="report_sales.paperformat_lowmargin_sales" />
 		</record>
 
 

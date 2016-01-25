@@ -28,11 +28,12 @@
     <div class="header">
         <div class="row">
             <div class="col-xs-12 text-center">
-            	<br/> <br/>
+            	<br/>
                 <span style="font-size: 23px;font-weight: bold;text-align:center;">A&amp;L AUTOMOBILE PTE LTD</span> <br/>
-                <p><span t-field="o.company_id.street"/> <span t-field="o.company_id.street2"/>
-                   TEL: <span t-field="o.company_id.phone"/> FAX: <span t-field="o.company_id.fax"/> <br/>
-                   UEN NO.: <span t-field="o.company_id.vat"/> </p>
+               	<p>
+                   	11 Mandai Estate #05-09 ELDIX Singapore 729908 Tel: 63627228 Fax: 63669708 <br/>
+                   	UEN NO.: 201026256R
+               	</p>
             </div>
         </div>
     </div>
@@ -47,7 +48,7 @@
         <div class="page">
             <div class="oe_structure"/>
 
-            <div style="font-size: 19px;font-weight: bold;text-align: center;">
+            <div style="font-size: 19px;font-weight: bold;text-align: center; text-decoration:underline;">
             	<span>CREDIT NOTE</span>
             </div>
 			<br/>

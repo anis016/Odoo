@@ -11,7 +11,7 @@
     </style>
 </template>
 
-<template id="report_anl_quotation_header">
+<template id="report_purchase_anl_quotation_header">
     <div class="header">
         <div class="row">
         	<br/><br/><br/><br/>
@@ -28,8 +28,8 @@
     </div>
 </template>
 
-<template id="report_anl_quotation_body">
-    <t t-call="report_purchase.report_anl_quotation_header" />
+<template id="report_purchase_anl_quotation_body">
+    <t t-call="report_purchase.report_purchase_anl_quotation_header" />
 
     <t t-call="report.external_layout">
         <div class="page">
@@ -37,11 +37,13 @@
 
 			<div class="row">
 				<div class="col-xs-12">
-                	<span t-field="o.company_id.name"/>
-                	<div t-field="o.company_id.partner_id"
-                	     t-field-options='{"widget": "contact", "fields": ["address", "zip", "phone", "fax"], "no_marker": true}'/>
-                	<p>Website: <span t-field="o.company_id.website"/> Email: <span t-field="o.company_id.email"/> </p>
-        	    </div>
+                	<span>A&amp;L AUTOMOBILE</span> <br/>
+                	<p>
+                    	11 Mandai Estate #05-09 ELDIX Singapore 729908 <br/>
+                    	Tel: 63627228 Fax: 63669708 <br/>
+                    	Website: www.anl.sg Email: leasing@anl.sg
+                	</p>
+            	</div>
         	</div>
             <div class="row">
                 <div class="col-xs-6" style="border: 2px solid; width: 400px;">
@@ -53,7 +55,7 @@
                 	<div style="clear:both; overflow:hidden;">
 						<div style="width:120px; float:left;">Date</div>
                     	<div style="float:left;">:
-                    		 <span t-esc="time.strftime('%d/%m/%Y',time.strptime(o.date_order,'%Y-%m-%d %H:%M:%S'))"/>
+                    		 <span t-esc="time.strftime('%d/%m/%Y',time.strptime(o.date_approve,'%Y-%m-%d %H:%M:%S'))"/>
                         </div>
 					</div>
                     <div style="clear:both; overflow:hidden;">
@@ -141,10 +143,10 @@
     </t>
 </template>
 
-<template id="report_anl_quotation">
+<template id="report_purchase_anl_quotation">
     <t t-call="report.html_container">
       <t t-foreach="doc_ids" t-as="doc_id">
-        <t t-raw="translate_doc(doc_id, doc_model, 'partner_id.lang', 'report_purchase.report_anl_quotation_body')"/>
+        <t t-raw="translate_doc(doc_id, doc_model, 'partner_id.lang', 'report_purchase.report_purchase_anl_quotation_body')"/>
       </t>
     </t>
 </template>

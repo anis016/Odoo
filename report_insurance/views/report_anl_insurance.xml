@@ -21,11 +21,16 @@
 
 <template id="report_anl_insurance_header">
     <div class="header">
-            <div class="row text-center">
-                <p class="cush">A&amp;L AUTOMOBILE PTE LTD</p>
-                <div t-field="o.warehouse_id.partner_id"
-                     t-field-options='{"widget": "contact", "fields": ["address", "zip", "phone", "fax", "vat"], "no_marker": true}'/>
+        <div class="row">
+            <div class="col-xs-12 text-center">
+            	<br/>
+                <span style="font-size: 23px;font-weight: bold;text-align:center;">A&amp;L AUTOMOBILE PTE LTD</span> <br/>
+               	<p>
+                   	11 Mandai Estate #05-09 ELDIX Singapore 729908 Tel: 63627228 Fax: 63669708 <br/>
+                   	UEN NO.: 201026256R
+               	</p>
             </div>
+        </div>
     </div>
 
     <div class="footer">
@@ -143,13 +148,13 @@
                                 <span>1. </span>
                             </td>
                             <td class="text-left">
-                                <span>Vehicle No. : </span> <span t-field="o.reservation_id.vehicle_no"/> <br/>
-                                <span>Make : </span> <span t-field="o.reservation_id.vehicle_model"/> <br/>
-                                <span>YOR : </span> <span t-field="o.reservation_id.y_o_m"/> <br/>
+                                <span>Vehicle No. : </span> <span t-field="o.product_id.vehicle_no"/> <br/>
+                                <span>Make : </span> <span t-field="o.product_id.model"/> <br/>
+                                <span>YOR : </span> <span t-field="o.product_id.y_o_m"/> <br/>
                                 <span>C/I No. : </span> XXXXXXXXXXX <br/>
                                 <span>Coverage : </span> <span t-field="o.reservation_id.coverage"/> <br/>
                                 <span>Period : </span> <span t-esc="time.strftime('%d/%m/%Y',time.strptime(o.policy_start,'%Y-%m-%d'))"/> ~ <span t-esc="time.strftime('%d/%m/%Y',time.strptime(o.policy_end,'%Y-%m-%d'))"/> <br/>
-                                <span>NCD : </span> XXXXXXXXXXX <br/> <br/>
+                                <span>NCD : </span> XX% <br/> <br/>
                                 <span>LESS DISCOUNT</span>
                                 <span t-if="o.deposit > 0.0" >
                                  	<br/> <span>Deposit</span>

@@ -2,22 +2,42 @@
 <openerp>
     <data>
         <report
-            id="anl_sales_quotation_report_id"
+            id="anl_purchase_quotation_report_id"
             model="purchase.order"
             string="Anl Purchase Quotation"
             report_type="qweb-pdf"
-            name="report_purchase.report_anl_quotation"
-            file="report_purchase.report_anl_quotation"
+            name="report_purchase.report_purchase_anl_quotation"
+            file="report_purchase.report_purchase_anl_quotation"
         />
 
         <report
-            id="anl_sales_agreement_report_id"
+            id="anl_purchase_agreement_report_id"
             model="purchase.order"
             string="Anl Purchase Agreement"
             report_type="qweb-pdf"
-            name="report_purchase.report_anl_agreement"
-            file="report_purchase.report_anl_agreement"
+            name="report_purchase.report_purchase_anl_agreement"
+            file="report_purchase.report_purchase_anl_agreement"
         />
+        
+        <record id="paperformat_lowmargin_purchase" model="report.paperformat">
+        	<field name="name">Custom A4 Margin</field>
+   		    <field name="default" eval="True" />
+    		<field name="format">A4</field>
+    		<field name="page_height">0</field>
+    		<field name="page_width">0</field>
+    		<field name="orientation">Portrait</field>
+    		<field name="margin_top">30</field> <!-- Controls the header height -->
+    		<field name="margin_bottom">4</field> <!-- Controls the footer height -->
+    		<field name="margin_left">4</field>
+    		<field name="margin_right">4</field>
+    		<field name="header_line" eval="False" />
+    		<field name="header_spacing">25</field> <!-- Controls the body starting from the top page -->
+    		<field name="dpi">90</field>
+		</record>
+		
+		<record id="report_purchase.anl_purchase_agreement_report_id" model="ir.actions.report.xml">
+    		<field name="paperformat_id" ref="report_purchase.paperformat_lowmargin_purchase" />
+		</record>
 
     </data>
 </openerp>

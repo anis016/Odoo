@@ -55,7 +55,7 @@
             <div class="row">
                 <div class="col-xs-7">
                 	<div style="clear:both; overflow:hidden">
-                		<div style="width:100px; float:left; font-weight:bold;"> To </div>
+                		<div style="width:50px; float:left; font-weight:bold;"> To </div>
                 		<div style="width:300px; float:left">:
                 			<b><span t-field="o.partner_id.name" /></b> <br/>
                 			<span t-field="o.partner_id.street"/> <br/>
@@ -75,18 +75,18 @@
                 	</div>
                 	<br/>
                 	<div style="clear:both; overflow:hidden">
-                		<div style="width:100px; float:left;font-weight:bold;">Attn</div>
+                		<div style="width:50px; float:left;font-weight:bold;">Attn</div>
                 		<div style="width:300px; float:left">: ACCOUNTS DEPT</div>
                 	</div>
                 	<br/>
                 	<div style="clear:both; overflow:hidden">
-                		<div style="width:100px; float:left;font-weight:bold;">Tel</div>
+                		<div style="width:50px; float:left;font-weight:bold;">Tel</div>
                 		<div style="width:300px; float:left">:
                 			<span t-field="o.company_id.phone" />
                 		</div>
                 	</div>
                 	<div style="clear:both; overflow:hidden">
-                		<div style="width:100px; float:left;font-weight:bold;">Fax</div>
+                		<div style="width:50px; float:left;font-weight:bold;">Fax</div>
                 		<div style="width:300px; float:left">:
                 			<span t-field="o.company_id.fax"/>
                 		</div>
