@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <report
+            id="naz_sales_report_id"
+            model="sale.order"
+            string="nazdaq Sales Order"
+            report_type="qweb-pdf"
+            name="sale_report.report_naz_sales"
+            file="sale_report.report_naz_sales"
+        />
+
+        <report
+            id="naz_sales_report_terms_conditions_id"
+            model="sale.order"
+            string="nazdaq Sales Terms &amp; Conditions"
+            report_type="qweb-pdf"
+            name="sale_report.report_naz_sales_terms_conditions"
+            file="sale_report.report_naz_sales_terms_conditions"
+        />
+
+    </data>
+</openerp>

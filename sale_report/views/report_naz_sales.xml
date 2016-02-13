@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+
+<template id="report.style" name="style">
+
+        .table-striped > thead > tr >  th {
+           background-color:#642524;
+           color:#ffffff;
+           font-weight: bold;
+        }
+        .table-striped > tbody > tr:nth-child(odd) > td {
+            background-color:#f0f0f0;
+        }
+        .table-striped > tbody > tr:nth-child(even) > td {
+            background-color:#ffffff;
+        }
+        .table-bordered {
+            border-collapse: collapse;
+        }
+        .table-bordered > tbody > tr > td,
+        .table-bordered > thead > tr > td{
+            border: 1px solid #999;
+        }
+        .table-bordered > thead > tr > th,
+        .table > thead:first-child > tr:first-child > th,
+        .table > thead:first-child > tr:first-child > td {
+            border: 1px solid #999;
+            border-top-width: 1px;
+        }
+        .header-font {
+            font-size: 22px;
+            font-weight: bold;
+        }
+        .rowheader-color {
+            background-color: #f0f0f0;
+        }
+        <!-- More of CUSTOM CSS here -->
+</template>
+
+<template id="report_naz_sales_quo_header">
+    <div class="header">
+        <div class="row">
+            <div class="col-xs-3">
+                <img t-att-src="'data:image/png;base64,'+ o.company_id.logo" style="max-height: 50px;"/>
+            </div>
+            <div class="col-xs-9 text-right" style="margin-top:20px;">
+                <span t-if="o.state not in ['draft','sent']"><strong class="header-font">Sales Order</strong></span>
+                <span t-if="o.state in ['draft','sent']"><strong class="header-font">Sales Quotation</strong></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <div class="text-center" style="border-top: 1px solid black;">
+            <div>
+                <b><span t-field="o.company_id.name"/></b> <br/>
+                <span t-field="o.company_id.street"/> <span t-field="o.company_id.street2"/>, <span t-field="o.company_id.city"/>-<span t-field="o.company_id.zip"/> <br/>
+                <b><span t-field="o.company_id.country_id.name"/> </b>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template id="report_naz_sales_new">
+    <t t-call="sale_report.report_naz_sales_quo_header" />
+    <t t-call="report.external_layout">
+        <div class="page">
+            <div class="oe_structure"/>
+            <div class="row">
+                <div class="col-xs-6">
+                    <table class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Project ID</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td rowspan="2"><span t-field="o.x_project_id"/><![CDATA[&nbsp;]]></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-xs-6">
+                    <table class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th class="text-center">Date</th>
+                                <th class="text-center">Quote#</th>
+                                <th class="text-center">Terms</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td rowspan="2" class="text-center" width="30%"><span t-esc="time.strftime('%d %b %Y',time.strptime(o.date_order,'%Y-%m-%d %H:%M:%S'))"/></td>
+                                <td rowspan="2" class="text-center" ><span t-field="o.name" /></td>
+                                <td rowspan="2" class="text-center" ><span t-field="o.payment_term" /></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+             <div class="row">
+                 <div class="col-xs-6">
+                    <table class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Quote To</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="height:170px">
+                                    <span t-if="o.partner_id.parent_id.name" >
+                                        <span t-field="o.partner_id.parent_id.name"/>
+                                    </span>
+                                    <span t-field="o.partner_id.name"/>
+                                    <div t-field="o.partner_id"
+                                         t-field-options='{"widget": "contact", "fields": ["address", "zip", "phone", "fax"], "no_marker": true}'/>
+
+									<span t-if="o.partner_id.child_ids" >
+                                     	<span style="font-weight:bold;"> Attn: <span t-field="o.partner_id.child_ids[0].name"/><br/>
+                                    	<span t-field="o.partner_id.child_ids[0].function"/></span>
+									</span>
+
+                                    <span t-if="o.partner_id.function" >
+                                        <span style="font-weight:bold;"> Attn: <span t-field="o.partner_id.name"/><br/>
+                                            <span t-field="o.partner_id.function"/></span>
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-xs-6">
+                    <table class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Quote From</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="height:170px">
+                                    <span t-field="o.warehouse_id.name"/>
+                                    <div t-field="o.warehouse_id.partner_id"
+                                         t-field-options='{"widget": "contact", "fields": ["address", "zip", "phone", "fax"], "no_marker": true}'/>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-6">
+                    <table class="table table-striped table-bordered" style="height:170px;">
+                        <thead>
+                            <tr>
+                                <th>Reference/Notes</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><span t-field="o.note" /></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-xs-6">
+                    <table style="background-color:#f0f0f0; padding: 20px;height: 250px;border: 1px solid black;width: 100%;">
+                        <thead>
+                            <tr style="margin: 13px 25px 13px 13px;padding-bottom: 6px;display: block;">
+                                <th colspan="2">For queries please contact</th>
+                            </tr>
+                            <tr style="margin: 0px 25px 0px 13px;padding-bottom: 6px;display: block;">
+                                <th>Email: </th>
+                                <td><span t-field="o.warehouse_id.partner_id.email" /></td>
+                            </tr>
+                            <tr style="margin: 0px 25px 0px 13px;padding-bottom: 6px;display: block;">
+                                <th>Telephone: </th>
+                                <td><span t-field="o.warehouse_id.partner_id.phone" /></td>
+                            </tr>
+                            <tr style="margin: 0px 25px 39px 13px;padding-bottom: 6px;display: block;">
+                                <th>Sales Contacts: </th>
+                                <td><span t-field="o.warehouse_id.partner_id.mobile" /></td>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+
+            <br></br>
+
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th><strong>Description</strong></th>
+                        <th class="text-right" width="10%"><strong>Qty</strong></th>
+                        <th class="text-right" width="15%"><strong>Unit Cost</strong></th>
+                        <th class="text-right" width="115px"><strong>Ext. Cost</strong></th>
+                    </tr>
+                </thead>
+                <tbody class="sale_tbody">
+                    <tr t-foreach="o.order_line" t-as="l">
+                        <td>
+                            <span t-field="l.name"/>
+                        </td>
+                        <td class="text-right">
+                            <span t-field="l.product_uom_qty"/>
+                            <span groups="product.group_uom" t-field="l.product_uom"/>
+                        </td>
+                        <td class="text-right">
+                            <span t-field="l.price_unit"/>
+                        </td>
+                        <td class="text-right">
+                            <span t-field="l.price_subtotal"
+                                  t-field-options='{"widget": "monetary", "display_currency": "o.pricelist_id.currency_id"}'/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="row">
+                <div class="col-xs-5 pull-right">
+                    <table class="table table-striped table-bordered">
+                        <tr class="border-black">
+                            <td><strong>Sub Total</strong></td>
+                            <td class="text-right" width="115px">
+                                <span t-field="o.amount_untaxed"
+                                      t-field-options='{"widget": "monetary", "display_currency": "o.pricelist_id.currency_id"}'/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Vat &amp; Tax </td>
+                            <td class="text-right">
+                                <span t-field="o.amount_tax"
+                                      t-field-options='{"widget": "monetary", "display_currency": "o.pricelist_id.currency_id"}'/>
+                            </td>
+                        </tr>
+                        <tr class="border-black">
+                            <td><strong>Grand Total</strong></td>
+                            <td class="text-right">
+                                <span t-field="o.amount_total"
+                                      t-field-options='{"widget": "monetary", "display_currency": "o.pricelist_id.currency_id"}'/>
+                            </td>
+                        </tr>
+                         <tr>
+                            <td colspan="2">Price is included all VAT &amp; TAX</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </t>
+</template>
+
+<template id="report_naz_sales">
+    <t t-call="report.html_container">
+        <t t-foreach="doc_ids" t-as="doc_id">
+            <t t-raw="translate_doc(doc_id, doc_model, 'partner_id.lang', 'sale_report.report_naz_sales_new')" />
+        </t>
+    </t>
+</template>
+</data>
+</openerp>

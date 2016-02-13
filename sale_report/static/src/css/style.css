@@ -1,0 +1,9 @@
+.table-white > thead > tr > th,
+.table-white > tbody > tr > th,
+.table-white > tfoot > tr > th,
+.table-white > thead > tr > td,
+.table-white > tbody > tr > td,
+.table-white > tfoot > tr > td {
+  
+}
+

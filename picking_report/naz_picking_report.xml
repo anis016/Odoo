@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <report
+            id="naz_picking_report_id"
+            model="stock.picking"
+            string="nazdaq Challan"
+            report_type="qweb-pdf"
+            name="picking_report.report_naz_picking"
+            file="picking_report.report_naz_picking"
+        />
+    </data>
+</openerp>

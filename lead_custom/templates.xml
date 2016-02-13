@@ -1,0 +1,19 @@
+<openerp>
+    <data>
+        <record id="view_lead_custom_form" model="ir.ui.view">
+            <field name="name">crm.lead.custom.form.inherit</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="crm.crm_case_form_view_leads"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='user_id']" position="after">
+                    <field name="x_project_id" />
+                </xpath>
+                <!--
+                Earlier concept was wrong. Removed the user_id
+                <xpath expr="//field[@name='user_id']" position="replace">
+                    <field name="user_id" widget="selection"/>
+                </xpath> -->
+	        </field>
+	    </record>
+    </data>
+</openerp>

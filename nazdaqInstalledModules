@@ -1,0 +1,46 @@
+0. Delete all the .pyc files from the custom modules
+1. Connect to Cloud server via Filezilla
+2. Delete the addons from the directory which needs to be updated.
+3. Copy the custom modules to the addon path.
+4. start the terminal and connect to the cloud server root.
+ssh root@128.199.245.79 -p 22
+pass: P01@p@in0013
+5. Change the ownership of all the modules that is updated.
+sudo chown odoo:odoo folder_name/
+6. Restart the server
+sudo service odoo-server stop
+sudo service odoo-server start
+
+
+nazdaq_demo
+admin
+admin
+
+nazadmin@nazdaq.com
+nazadmin
+
+Base addons:
+1. sale
+2. warehouse
+3. purchase
+4. crm
+5. document
+
+Custom addons
+1. billing_report
+2. invoice_custom
+3. customer_custom
+4. lead_custom
+5. mail_thread
+6. partner_history
+7. sale_custom
+8. sale_report
+9. picking_report
+10. stock_custom
+11. product_brand
+12. sale_crm_custom
+13. purchase_custom
+14. purchase_report
+15. product_brand
+
+1. Need to give permission to add new users to the nazdaq admin. Not possible to give HR. Tried and not working. Have to remove the HR module.

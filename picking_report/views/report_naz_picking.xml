@@ -1,0 +1,362 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+
+<template id="report.style" name="style">
+
+        .table-striped > thead > tr >  th {
+           background-color:#642524;
+           color:#ffffff;
+           font-weight: bold;
+        }
+        .table-striped > tbody > tr:nth-child(odd) > td {
+            background-color:#f0f0f0;
+        }
+        .table-striped > tbody > tr:nth-child(even) > td {
+            background-color:#ffffff;
+        }
+        .table-bordered {
+            border-collapse: collapse;
+        }
+        .table-bordered > tbody > tr > td,
+        .table-bordered > thead > tr > td{
+            border: 1px solid #999;
+        }
+        .table-bordered > thead > tr > th,
+        .table > thead:first-child > tr:first-child > th,
+        .table > thead:first-child > tr:first-child > td {
+            border: 1px solid #999;
+            border-top-width: 1px;
+        }
+        .header-font {
+            font-size: 22px;
+            font-weight: bold;
+        }
+        .rowheader-color {
+            background-color: #f0f0f0;
+        }
+        <!-- More of CUSTOM CSS here -->
+</template>
+
+<template id="report_naz_picking_header">
+    <div class="header">
+        <div class="row">
+            <div class="col-xs-3">
+                <img t-att-src="'data:image/png;base64,'+ o.company_id.logo" style="max-height: 50px;"/>
+            </div>
+            <div class="col-xs-9 text-right" style="margin-top:20px;">
+                <p class="header-font">Challan Copy</p>
+            </div>
+        </div>
+    </div>
+    <div class="footer">
+        <div class="text-center" style="border-top: 1px solid black;">
+        </div>
+    </div>
+
+</template>
+
+<template id="report_picking_naz_new">
+    <t t-call="picking_report.report_naz_picking_header" />
+    <t t-call="report.html_container">
+        <t t-foreach="docs" t-as="o">
+            <t t-call="report.external_layout">
+                <div class="page">
+                    <div class="row">
+                        <div class="col-xs-7">
+                        </div>
+                        <div class="col-xs-5 pull-right">
+                            <table class="table table-striped table-bordered">
+                                <thead>
+                                    <tr>
+                                        <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', o.name, 600, 100)" style="width:300px;height:50px;"/>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <table class="table table-striped table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            <div t-if="o.picking_type_id.code=='incoming' and o.partner_id">
+                                                <span><strong>Supplier Address:</strong></span>
+                                            </div>
+                                            <div t-if="o.picking_type_id.code=='internal' and o.partner_id">
+                                                <span><strong>Warehouse Address:</strong></span>
+                                            </div>
+                                            <div t-if="o.picking_type_id.code=='outgoing' and o.partner_id">
+                                                <span><strong>Customer Address:</strong></span>
+                                            </div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td style="height:160px">
+                                            <div t-if="o.partner_id" name="partner_header">
+                                                <div t-field="o.partner_id"
+                                                     t-field-options='{"widget": "contact", "fields": ["address", "name", "phone", "fax"], "no_marker": true}'/>
+                                                <p t-if="o.partner_id.vat">VAT: <span t-field="o.partner_id.vat"/></p>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-xs-6">
+                            <table class="table table-striped table-bordered">
+                                <div t-if=" (o.move_lines and o.move_lines[0].partner_id and o.move_lines[0].partner_id.id != o.partner_id.id) or (o.picking_type_id.code != 'internal' and (not o.move_lines or not o.move_lines[0].partner_id) and o.picking_type_id.warehouse_id.partner_id) ">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            <div t-if="o.move_lines and o.move_lines[0].partner_id and o.move_lines[0].partner_id.id != o.partner_id.id">
+                                                <span><strong>Delivery Address:</strong></span>
+                                            </div>
+                                            <div t-if="o.picking_type_id.code != 'internal' and (not o.move_lines or not o.move_lines[0].partner_id) and o.picking_type_id.warehouse_id.partner_id">
+                                                <span><strong>Warehouse Address:</strong></span>
+                                            </div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td style="height:160px">
+                                            <div t-if="o.move_lines and o.move_lines[0].partner_id and o.move_lines[0].partner_id.id != o.partner_id.id">
+                                                <div t-field="o.move_lines[0].partner_id"
+                                                     t-field-options='{"widget": "contact", "fields": ["address", "name", "phone", "fax"], "no_marker": true}'/>
+                                            </div>
+                                            <div t-if="o.picking_type_id.code != 'internal' and (not o.move_lines or not o.move_lines[0].partner_id) and o.picking_type_id.warehouse_id.partner_id">
+                                                <div t-field="o.picking_type_id.warehouse_id.partner_id"
+                                                     t-field-options='{"widget": "contact", "fields": ["address", "name", "phone", "fax"], "no_marker": true}'/>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                </div>
+                            </table>
+                        </div>
+                    </div>
+                    <h3>
+                        <table class="table table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <span t-field="o.picking_type_id"/>:<span t-field="o.name"/>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th>
+                                    <span t-if="o.x_project_id">
+                                    	Project ID: <span t-field="o.x_project_id"/>
+                                    </span>
+                                    <span t-if="o.x_project_id == False">
+                                    	Project ID: NIL
+                                    </span>
+                                    </th>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </h3>
+
+                    <table class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th><strong>Order (Origin)</strong></th>
+                                <th><strong>State</strong></th>
+                                <th><strong>Commitment Date</strong></th>
+                                <th name="td_sched_date_h"><strong>Scheduled Date</strong></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <span t-field="o.origin"/>
+                                </td>
+                                <td>
+                                    <span t-field="o.state"/>
+                                </td>
+                                <td>
+                                    <span t-esc="time.strftime('%d/%m/%Y',time.strptime(o.date,'%Y-%m-%d %H:%M:%S'))"/>
+                                </td>
+                                <td name="td_sched_date">
+                                    <span t-esc="time.strftime('%d/%m/%Y',time.strptime(o.min_date,'%Y-%m-%d %H:%M:%S'))"/>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <table class="table table-striped table-bordered" t-if="not o.pack_operation_ids">
+                        <thead>
+                            <tr>
+                                <th width="5%"><strong>SL</strong></th>
+                                <th><strong>Items Name</strong></th>
+                                <th><strong>Brand</strong></th>
+                                <th class="text-right" width="10%"><strong>Qty</strong></th>
+                                <t t-if="o.picking_type_id.code != 'incoming'"><th><strong>Source</strong></th></t>
+                                <th><strong>S/N</strong></th>
+                                <t t-if="o.picking_type_id.code != 'outgoing'"><th><strong>Destination</strong></th></t>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="o.move_lines" t-as="move">
+                                <t t-if="(o.state != 'partially_available') or (move.reserved_availability > 0)">
+                                    <td><span t-esc="str(move_index+1)"/></td>
+                                    <td><span t-field="move.product_id"/></td>
+                                    <td><span t-field="move.product_id.product_tmpl_id.product_brand_id.name"/></td>
+                                    <td class="text-right">
+                                        <t t-if="o.state == 'partially_available'">
+                                            <span t-field="move.reserved_availability"/> <span t-field="move.product_id.uom_id" groups="product.group_uom"/>
+                                        </t>
+                                        <t t-if="o.state != 'partially_available'">
+                                            <span t-field="move.product_uom_qty"/> <span t-field="move.product_uom" groups="product.group_uom"/>
+                                        </t>
+                                    </td>
+                                    <t t-if="o.picking_type_id.code != 'incoming'"><td><span t-field="move.location_id"/></td></t>
+                                    <td>
+                                        <span t-if="move.product_id and move.product_id.ean13">
+                                            <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('EAN13', move.product_id.ean13, 600, 100)" style="width:300px;height:50px"/>
+                                        </span>
+                                    </td>
+                                    <t t-if="o.picking_type_id.code != 'outgoing'"><td><span t-field="move.location_dest_id"/></td></t>
+                                </t>
+                            </tr>
+                            <tr>
+                                <td colspan="6">Terms and Conditions: All Products delivered by <span t-field="o.company_id" /> tested and brand new.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <table class="table table-striped table-bordered" t-if="o.pack_operation_ids">
+                        <thead>
+                            <tr>
+                                <th><strong>SL</strong></th>
+                                <th><strong>Items Name</strong></th>
+                                <th><strong>Brand</strong></th>
+                                <th class="text-right"><strong>Quantity</strong></th>
+                                <t t-if="o.picking_type_id.code != 'incoming'"><th><strong>Source</strong></th></t>
+                                <th><strong>S/N</strong></th>
+                                <t t-if="o.picking_type_id.code != 'outgoing'"><th><strong>Destination</strong></th></t>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="o.pack_operation_ids" t-as="pack_operation">
+                                <td><span t-esc="str(pack_operation_index+1)"/></td>
+                                <td>
+                                    <span t-field="pack_operation.product_id"/>
+                                    <t t-if="not pack_operation.product_id and pack_operation.package_id">
+                                        <span  t-field="pack_operation.package_id"/>
+                                    </t>
+                                </td>
+                                <td>
+                                    <span t-field="pack_operation.product_id.product_tmpl_id.product_brand_id.name"/>
+                                </td>
+                                <td class="text-right">
+                                    <span t-field="pack_operation.product_qty"/>
+                                    <span t-field="pack_operation.product_uom_id" groups="product.group_uom"/>
+                                </td>
+                                <t t-if="o.picking_type_id.code != 'incoming'">
+                                    <td>
+                                        <span t-field="pack_operation.location_id"/>
+                                        <span t-if="pack_operation.package_id">:</span>
+                                        <span t-field="pack_operation.package_id"/>
+                                        <span t-if="pack_operation.lot_id">:</span>
+                                        <span t-field="pack_operation.lot_id"/>
+                                    </td>
+                                </t>
+                                <td>
+                                    <span t-if="pack_operation.lot_id">
+                                        <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', pack_operation.lot_id.name, 600, 100)" style="width:300px;height:50px"/>
+                                    </span>
+                                    <span t-if="pack_operation.product_id and not pack_operation.lot_id and pack_operation.product_id.ean13">
+                                        <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('EAN13', pack_operation.product_id.ean13, 600, 100)" style="width:300px;height:50px"/>
+                                    </span>
+                                    <span t-if="pack_operation.package_id and not pack_operation.product_id">
+                                        <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', pack_operation.package_id.name, 600, 100)" style="width:300px;height:50px"/>
+                                    </span>
+                                </td>
+                                <t t-if="o.picking_type_id.code != 'outgoing'">
+                                    <td>
+                                        <span t-field="pack_operation.location_dest_id"/>
+                                        <span t-if="pack_operation.result_package_id">:</span>
+                                        <span t-field="pack_operation.result_package_id"/>
+                                    </td>
+                                </t>
+                            </tr>
+                            <tr>
+                                <td colspan="6">Terms and Conditions: All Products delivered by <span t-field="o.company_id" /> tested and brand new.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div t-if="o.picking_type_id.code=='outgoing' and o.partner_id">
+                        <div class="row">
+                            <div class="col-xs-7">
+                                        <strong>Received By</strong>
+                                        <br/>
+                                        <br/>
+                                        <br/>
+                                        <div>
+                                        	<span t-if="o.partner_id.child_ids" >
+                                    		 	<span t-field="o.partner_id.child_ids[0].name"/><br/>
+                                    			<span t-field="o.partner_id.child_ids[0].function"/>
+                                    			<span t-field="o.partner_id.name" />
+											</span>
+
+                                    		<span t-if="o.partner_id.function" >
+                                        		<span t-field="o.partner_id.name"/><br/>
+                                            	<span t-field="o.partner_id.function"/>
+                                            	<span t-field="o.partner_id.parent_id.name" />
+                                    		</span>
+                                        </div>
+                            </div>
+                        </div>
+                        <br/>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <strong>Submitted By</strong>
+                            <br/>
+                            <br/>
+                            <br/>
+                            <div>
+                                <span t-field="o.x_submitted_by.name" /> <br/>
+                                <span t-field="o.x_submitted_by.job_id" /> <br/>
+                                <span t-field="o.x_submitted_by.company_id" /> <br/>
+                            </div>
+                        </div>
+                        <div class="col-xs-6">
+                            <strong>Authorized By</strong>
+                            <br/>
+                            <br/>
+                            <br/>
+                            <div>
+                                <span t-field="o.x_authorized_by.name" /> <br/>
+                                <span t-field="o.x_authorized_by.job_id" /> <br/>
+                                <span t-field="o.x_authorized_by.company_id" /> <br/>
+                            </div>
+                        </div>
+                    </div>
+                    <br/>
+                    <br/>
+                </div>
+            </t>
+        </t>
+    </t>
+</template>
+
+<template id="report_naz_picking">
+    <t t-call="report.html_container">
+        <t t-foreach="doc_ids" t-as="doc_id">
+            <t t-raw="translate_doc(doc_id, doc_model, 'partner_id.lang', 'picking_report.report_picking_naz_new')"/>
+        </t>
+    </t>
+</template>
+
+</data>
+</openerp>

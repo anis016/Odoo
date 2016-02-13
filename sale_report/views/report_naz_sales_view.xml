@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+
+<template id="report.style" name="style">
+
+        .table-striped > thead > tr >  th {
+           background-color:#642524;
+           color:#ffffff;
+            font-weight: bold;
+        }
+        .table-striped > tbody > tr:nth-child(odd) > td {
+            background-color:#f0f0f0;
+        }
+        .table-striped > tbody > tr:nth-child(even) > td {
+            background-color:#ffffff;
+        }
+        .table-bordered {
+            border-collapse: collapse;
+        }
+        .table-bordered > tbody > tr > td,
+        .table-bordered > thead > tr > td{
+            border: 1px solid black;
+        }
+        .table-bordered > thead > tr > th,
+        .table > thead:first-child > tr:first-child > th,
+        .table > thead:first-child > tr:first-child > td {
+            border: 1px solid black;
+            border-top-width: 1px;
+        }
+        .header-font {
+            font-size: 22px;
+            font-weight: bold;
+        }
+        <!-- More of CUSTOM CSS here -->
+</template>
+
+<template id="report_naz_sales_term_body_header">
+    <div class="header">
+        <div class="row">
+            <div class="col-xs-3">
+                <img t-att-src="'data:image/png;base64,'+ o.company_id.logo" style="max-height: 50px;"/>
+            </div>
+            <div class="col-xs-9 text-right" style="margin-top:20px;">
+                <span t-if="o.state not in ['draft','sent']"><strong class="header-font">Sales Order</strong></span>
+                <span t-if="o.state in ['draft','sent']"><strong class="header-font">Sales Quotation</strong></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <div class="text-center" style="border-top: 1px solid black;">
+            <div>
+                <b><span t-field="o.company_id.name"/></b> <br/>
+                <span t-field="o.company_id.street"/> <span t-field="o.company_id.street2"/>, <span t-field="o.company_id.city"/>-<span t-field="o.company_id.zip"/> <br/>
+                <b><span t-field="o.company_id.country_id.name"/> </b>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template id="report_naz_sales_term_body">
+    <t t-call="sales_report.report_naz_sales_term_body_header" />
+    <t t-call="report.external_layout">
+        <div class="page">
+            <div class="oe_structure"/>
+            <div>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th style="background-color:#f0f0f0; color:#000000; font-weight:bold;">WARRANTY:</th>
+                        </tr>
+                        <tr>
+                            <td>1. One (01) years full warranty with labor/parts/services. <br/>
+                                2. This warranty covers free repair of any supplied equipment as well as replacement of spares if required within the even
+                                warranty period. Furthermore, we also maintain sufficient stock of spares to ensure proper after sales technical service
+                                after the completion of warranty period.  However, this warranty does not cover any damages done due to mishandling,
+                                burn or improper use and natural disaster.</td>
+                        </tr>
+                        <tr>
+                            <th style="background-color:#f0f0f0; color:#000000; font-weight:bold;">DELIVERY:</th>
+                        </tr>
+                        <tr>
+                            <td>3. Depending on the PO &amp; stock availability.</td>
+                        </tr>
+                        <tr>
+                            <th style="background-color:#f0f0f0; color:#000000; font-weight:bold;">INSTALLATION:</th>
+                        </tr>
+                        <tr>
+                            <td>4. Site: On-site. <br/>
+                                5. Cost: Free within Dhaka MP City. <br/>
+                                6. Electrical Pre-Condition: Before installation the site must be prepared with proper electric cabling with earthing,
+                                stable and required power supply equipment, required data cabling if applicable and required furniture.  IT center is
+                                expected to be cleaned, made dust free and organized in a way not to hinder access to the work area by nazdaq's
+                                employees.</td>
+                        </tr>
+                        <tr>
+                            <th style="background-color:#f0f0f0; color:#000000; font-weight:bold;">SUPPORT &amp; SERVICES:</th>
+                        </tr>
+                        <tr>
+                            <td>7. Support through certified engineer 24x7x365 or within working hours.</td>
+                        </tr>
+                        <tr>
+                            <th style="background-color:#f0f0f0; color:#000000; font-weight:bold;">MODE OF PAYMENT:</th>
+                        </tr>
+                        <tr>
+                            <td>8. 100% with PO by Cheque/Cash in the name of “nazdaqTechnologies" Address: Building 15/A, 3rd Floor, Block F,Road# 5, Banani, Dhaka-1213. <br/>
+                                9. If payment is not settled within the due date/Schedule, daily 0.5% penalty will be charged on the due amount.</td>
+                        </tr>
+                        <tr>
+                            <th style="background-color:#f0f0f0; color:#000000; font-weight:bold;">OFFER VALIDITY:</th>
+                        </tr>
+                        <tr>
+                            <td>10. VAT/TAX excluded.</td>
+                        </tr>
+                        <tr>
+                            <th style="background-color:#f0f0f0; color:#000000; font-weight:bold;">VAT/TAX:</th>
+                        </tr>
+                        <tr>
+                            <td>11. Offer valid for 15 days from the date of submission.</td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight:bold;"> nazdaqTechnologies Inc. - All Rights Reserved</td>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+
+            <div class="oe_structure"/>
+        </div>
+    </t>
+</template>
+
+<template id="report_naz_sales_terms_conditions">
+    <t t-call="report.html_container">
+        <t t-foreach="doc_ids" t-as="doc_id">
+            <t t-raw="translate_doc(doc_id, doc_model, 'partner_id.lang', 'sale_report.report_naz_sales_term_body')" />
+        </t>
+    </t>
+</template>
+</data>
+</openerp>

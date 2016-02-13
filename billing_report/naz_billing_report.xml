@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <report
+            id="naz_billing_report_id"
+            model="account.invoice"
+            string="nazdaq Billing"
+            report_type="qweb-pdf"
+            name="billing_report.report_naz_billing"
+            file="billing_report.report_naz_billing"
+        />
+    </data>
+</openerp>
